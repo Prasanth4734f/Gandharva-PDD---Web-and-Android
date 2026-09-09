@@ -428,8 +428,12 @@ const StoryToAlbumScreen = ({ navigation }) => {
       setJobProgress(currentPct);
       setJobStepText(`[Scene ${idx + 1}/${totalTracks}] Synthesizing Soundtrack Score: "${t.title}"...`);
 
-      const baseFallback1 = `${CONFIG.BASE_URL}/fallback/fallback_0${(idx % 6) + 1}.mp3`;
-      const baseFallback2 = `${CONFIG.BASE_URL}/fallback/fallback_0${((idx + 1) % 6) + 1}.mp3`;
+      const baseFallback1 = Platform.OS === 'web'
+        ? `/fallback/fallback_0${(idx % 6) + 1}.mp3`
+        : `${CONFIG.BASE_URL}/fallback/fallback_0${(idx % 6) + 1}.mp3`;
+      const baseFallback2 = Platform.OS === 'web'
+        ? `/fallback/fallback_0${((idx + 1) % 6) + 1}.mp3`
+        : `${CONFIG.BASE_URL}/fallback/fallback_0${((idx + 1) % 6) + 1}.mp3`;
 
       // Try GPU generation if available with fast 4.5s timeout per track
       if (isGpuLive && targetGpuUrl && !targetGpuUrl.includes('your-url-here')) {
@@ -544,7 +548,10 @@ const StoryToAlbumScreen = ({ navigation }) => {
     setJobStepText('Connecting to Dual-Brain GPU for Cover Art & Soundtrack scores...');
 
     try {
-      const res = await createAlbumJob(blueprint);
+      const res = await Promise.race([
+        createAlbumJob(blueprint),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Backend timeout, switching to fast client synthesis')), 2500))
+      ]);
       if (res && res.success && res.job_id) {
         pollJobStatus(res.job_id, res.album_id);
       } else {
@@ -644,7 +651,11 @@ const StoryToAlbumScreen = ({ navigation }) => {
       // Ensure localhost / IP is correctly replaced with current host if on web
       if (rawUrl.includes('/fallback/')) {
         const filename = rawUrl.split('/fallback/')[1]?.split('?')[0] || 'track1.mp3';
-        rawUrl = `${CONFIG.BASE_URL}/fallback/${filename}`;
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+          rawUrl = `/fallback/${filename}`;
+        } else {
+          rawUrl = `${CONFIG.BASE_URL}/fallback/${filename}`;
+        }
       }
 
       if (playingTrackId === playId) {

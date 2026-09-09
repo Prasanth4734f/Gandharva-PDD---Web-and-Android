@@ -27,32 +27,68 @@ const MODELS = [
   { key: 'ollama', label: 'Ollama AI' },
 ];
 
-const formatCleanSingingGuide = (rawText, genre = 'Pop', mood = 'Melancholic') => {
+const formatCleanSingingGuide = (rawText, genre = 'Pop', mood = 'Melancholic', variationIndex = 0) => {
   if (!rawText) return '';
   
   const gLower = (genre || '').toLowerCase();
   const mLower = (mood || '').toLowerCase();
+  const isVariationB = Number(variationIndex) === 1;
 
-  let verseCues = ['(Warm Chest Voice 🎵)', '(Soft Breath Pause)', '(Subtle Vocal Run)', '(Intimate Phrasing)'];
-  let chorusCues = ['(Full Vocal Dynamic 🎶)', '(Sustained Vowel Elongation ~~~)', '(High Octave Lift ↑)', '(Layered Vocal Harmony)'];
-  let bridgeCues = ['(Falsetto Shift 📈)', '(Emotional Crescendo)', '(Melodic Vocal Run)'];
-  let outroCues = ['(Gentle Vibrato Fade)', '(Quiet Breath Release)', '(Fading Resonance ~~~)'];
+  let verseCues = isVariationB
+    ? ['(Rhythmic Cadence ⚡)', '(Crisp Articulation)', '(Driving Vocal Attack)', '(Upbeat Chest Voice)']
+    : ['(Warm Chest Voice 🎵)', '(Soft Breath Pause)', '(Subtle Vocal Run)', '(Intimate Phrasing)'];
+
+  let chorusCues = isVariationB
+    ? ['(Full Power Belt 🔥)', '(High Energy Octave Lift ↑)', '(Punchy Syncopation)', '(Dynamic Vocal Surge)']
+    : ['(Full Vocal Dynamic 🎶)', '(Sustained Vowel Elongation ~~~)', '(Emotional Falsetto Lift ↑)', '(Layered Vocal Harmony)'];
+
+  let bridgeCues = isVariationB
+    ? ['(Driving Staccato 📈)', '(High Octave Sustain)', '(Bold Harmonic Shift)']
+    : ['(Falsetto Shift 📈)', '(Emotional Crescendo)', '(Melodic Vocal Run)'];
+
+  let outroCues = isVariationB
+    ? ['(Punchy Final Cut-off)', '(Resonant Power Fade)', '(Crisp Exhale Release)']
+    : ['(Gentle Vibrato Fade)', '(Quiet Breath Release)', '(Fading Resonance ~~~)'];
 
   if (gLower.includes('rock') || gLower.includes('metal') || gLower.includes('action') || gLower.includes('heavy') || gLower.includes('epic')) {
-    verseCues = ['(Power Chest Voice ⚡)', '(Gritty Phrasing)', '(Driven Vocal Attack)', '(Rhythmic Punch)'];
-    chorusCues = ['(Full Power Belt 🔥)', '(High Octave Peak ↑)', '(Explosive Vocal Surge)', '(Sustained Power Hold ~~~)'];
-    bridgeCues = ['(Aggressive Crescendo 📈)', '(High Octave Sustain)', '(Dynamic Vocal Shift)'];
-    outroCues = ['(Fading Distortion)', '(Final Resonant Hold)', '(Exhale Release)'];
+    verseCues = isVariationB
+      ? ['(Aggressive Drive ⚡)', '(Fast Staccato Edge)', '(Gritty High Attack)', '(Heavy Punch)']
+      : ['(Power Chest Voice ⚡)', '(Gritty Phrasing)', '(Driven Vocal Attack)', '(Rhythmic Punch)'];
+    chorusCues = isVariationB
+      ? ['(Explosive Scream-Belt 🔥)', '(Maximum Volume Surge ↑)', '(Rapid Power Hold)', '(Dual Harmony Screamer)']
+      : ['(Full Power Belt 🔥)', '(High Octave Peak ↑)', '(Explosive Vocal Surge)', '(Sustained Power Hold ~~~)'];
+    bridgeCues = isVariationB
+      ? ['(Thunderous Crescendo 📈)', '(High Octave Peak Screech)', '(Fast Dynamic Shift)']
+      : ['(Aggressive Crescendo 📈)', '(High Octave Sustain)', '(Dynamic Vocal Shift)'];
+    outroCues = isVariationB
+      ? ['(Feedback Fadeout)', '(Abrupt Distortion Cut)', '(Heavy Exhale Breath)']
+      : ['(Fading Distortion)', '(Final Resonant Hold)', '(Exhale Release)'];
   } else if (gLower.includes('lofi') || gLower.includes('acoustic') || gLower.includes('chill') || mLower.includes('sad')) {
-    verseCues = ['(Soft Whisper Voice 🌸)', '(Feathery Breath Pause)', '(Gentle Vocal Slide)', '(Warm Intimate Tone)'];
-    chorusCues = ['(Airy Vocal Falsetto 🎶)', '(Subtle Vibrato Decay ~~~)', '(Layered Soft Harmony)', '(Sustained Sweet Hold)'];
-    bridgeCues = ['(Quiet Breath Pause)', '(Soft Melodic Lift)', '(Intimate Phrasing)'];
-    outroCues = ['(Whisper Fade Out)', '(Soft Exhale Breath)', '(Quiet Hum ~~~)'];
+    verseCues = isVariationB
+      ? ['(Warm Acoustic Flow 🍂)', '(Gentle Rhythmic Bounce)', '(Light Air Release)', '(Mellow Chest Tone)']
+      : ['(Soft Whisper Voice 🌸)', '(Feathery Breath Pause)', '(Gentle Vocal Slide)', '(Warm Intimate Tone)'];
+    chorusCues = isVariationB
+      ? ['(Bright Melodic Resonance 🎶)', '(Sustained Warm Note ~~~)', '(Rich Dual Tone)', '(Smooth Glissando Lift)']
+      : ['(Airy Vocal Falsetto 🎶)', '(Subtle Vibrato Decay ~~~)', '(Layered Soft Harmony)', '(Sustained Sweet Hold)'];
+    bridgeCues = isVariationB
+      ? ['(Step-up Key Glide)', '(Harmonic Resonance Lift)', '(Warm Breathing Rhythm)']
+      : ['(Quiet Breath Pause)', '(Soft Melodic Lift)', '(Intimate Phrasing)'];
+    outroCues = isVariationB
+      ? ['(Soft Lo-fi Filter Fade)', '(Gentle Finger-click Decel)', '(Warm Final Hum ~~~)']
+      : ['(Whisper Fade Out)', '(Soft Exhale Breath)', '(Quiet Hum ~~~)'];
   } else if (gLower.includes('patriot') || gLower.includes('anthem') || gLower.includes('devotional') || mLower.includes('heroic')) {
-    verseCues = ['(Solemn Deep Resonance 🚩)', '(Heroic Phrasing)', '(Proud Chest Voice)', '(Steadfast Vocal Rhythm)'];
-    chorusCues = ['(Triumphant Choir Peak 🎶)', '(Heroic Sustained Hold ~~~)', '(Full Resonant Surge)', '(Majestic Vocal Belt)'];
-    bridgeCues = ['(Solemn Crescendo)', '(High Octave Salute Pitch ↑)', '(Deep Emotional Resonance)'];
-    outroCues = ['(Resonant Echo Fade)', '(Honorary Sustained Hold)', '(Final Salute Exhale)'];
+    verseCues = isVariationB
+      ? ['(Rousing March Cadence 🚩)', '(Sharp Declarative Tone)', '(Resolute Vocal Rhythm)', '(Steadfast Projection)']
+      : ['(Solemn Deep Resonance 🚩)', '(Heroic Phrasing)', '(Proud Chest Voice)', '(Steadfast Vocal Rhythm)'];
+    chorusCues = isVariationB
+      ? ['(Grand Mass-Choir Climax 🎶)', '(Thunderous High Octave Belt)', '(Victorious Sustained Note ~~~)', '(Majestic Crescendo)']
+      : ['(Triumphant Choir Peak 🎶)', '(Heroic Sustained Hold ~~~)', '(Full Resonant Surge)', '(Majestic Vocal Belt)'];
+    bridgeCues = isVariationB
+      ? ['(Urgent Rising Cadence)', '(High Octave Battle Call ↑)', '(Unbroken Vocal Drive)']
+      : ['(Solemn Crescendo)', '(High Octave Salute Pitch ↑)', '(Deep Emotional Resonance)'];
+    outroCues = isVariationB
+      ? ['(Triumphant Cymbal Crash Hold)', '(Final Victorious Shout Fade)', '(Grand Sustained Choral Chords)']
+      : ['(Resonant Echo Fade)', '(Honorary Sustained Hold)', '(Final Salute Exhale)'];
   }
 
   const lines = rawText.split('\n');
@@ -345,7 +381,7 @@ const LyricsGeneratorScreen = ({ navigation, route }) => {
 
   const currentDraft = getSafeCurrentDraft();
   const activeSingingDraft = lyricsResult?.variations?.[singingGuideTab] || currentDraft;
-  const activeSingingGuideText = activeSingingDraft ? formatCleanSingingGuide(activeSingingDraft.lyrics_text, selectedGenre, selectedMood) : '';
+  const activeSingingGuideText = activeSingingDraft ? formatCleanSingingGuide(activeSingingDraft.lyrics_text, selectedGenre, selectedMood, singingGuideTab) : '';
 
   const handleCopySingingGuide = async () => {
     if (!activeSingingGuideText) return;
