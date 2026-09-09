@@ -703,3 +703,69 @@ export function playSynthWave(freqOrNote, oscType = 'sawtooth', cutoff = 2000, d
   osc.start(now);
   osc.stop(now + duration);
 }
+
+/**
+ * 10. REALTIME NAMED CHORD PLAYBACK ENGINE (For Lyrics Studio & Guitar/Piano tabs)
+ * Maps chord names (e.g., 'Em', 'C Major', 'G', 'Am7', 'F#m') to authentic multi-note acoustic strums.
+ */
+const CHORD_NOTES_MAP = {
+  'C': ['C3', 'E3', 'G3', 'C4', 'E4'],
+  'C Major': ['C3', 'E3', 'G3', 'C4', 'E4'],
+  'Cm': ['C3', 'D#3', 'G3', 'C4', 'D#4'],
+  'C Minor': ['C3', 'D#3', 'G3', 'C4', 'D#4'],
+  'C#': ['C#3', 'F3', 'G#3', 'C#4'],
+  'C#m': ['C#3', 'E3', 'G#3', 'C#4'],
+  'D': ['D3', 'F#3', 'A3', 'D4', 'F#4'],
+  'D Major': ['D3', 'F#3', 'A3', 'D4', 'F#4'],
+  'Dm': ['D3', 'F3', 'A3', 'D4', 'F4'],
+  'D Minor': ['D3', 'F3', 'A3', 'D4', 'F4'],
+  'D#': ['D#3', 'G3', 'A#3', 'D#4'],
+  'D#m': ['D#3', 'F#3', 'A#3', 'D#4'],
+  'E': ['E2', 'B2', 'E3', 'G#3', 'B3', 'E4'],
+  'E Major': ['E2', 'B2', 'E3', 'G#3', 'B3', 'E4'],
+  'Em': ['E2', 'B2', 'E3', 'G3', 'B3', 'E4'],
+  'E Minor': ['E2', 'B2', 'E3', 'G3', 'B3', 'E4'],
+  'F': ['F2', 'C3', 'F3', 'A3', 'C4', 'F4'],
+  'F Major': ['F2', 'C3', 'F3', 'A3', 'C4', 'F4'],
+  'Fm': ['F2', 'C3', 'F3', 'G#3', 'C4', 'F4'],
+  'F#': ['F#2', 'C#3', 'F#3', 'A#3', 'C#4', 'F#4'],
+  'F#m': ['F#2', 'C#3', 'F#3', 'A3', 'C#4', 'F#4'],
+  'G': ['G2', 'B2', 'D3', 'G3', 'B3', 'G4'],
+  'G Major': ['G2', 'B2', 'D3', 'G3', 'B3', 'G4'],
+  'Gm': ['G2', 'A#2', 'D3', 'G3', 'A#3', 'G4'],
+  'G Minor': ['G2', 'A#2', 'D3', 'G3', 'A#3', 'G4'],
+  'G#': ['G#2', 'C3', 'D#3', 'G#3'],
+  'G#m': ['G#2', 'B2', 'D#3', 'G#3'],
+  'A': ['A2', 'E3', 'A3', 'C#4', 'E4'],
+  'A Major': ['A2', 'E3', 'A3', 'C#4', 'E4'],
+  'Am': ['A2', 'E3', 'A3', 'C4', 'E4'],
+  'A Minor': ['A2', 'E3', 'A3', 'C4', 'E4'],
+  'A#': ['A#2', 'F3', 'A#3', 'D4', 'F4'],
+  'A#m': ['A#2', 'F3', 'A#3', 'C#4', 'F4'],
+  'B': ['B2', 'F#3', 'B3', 'D#4', 'F#4'],
+  'B Major': ['B2', 'F#3', 'B3', 'D#4', 'F#4'],
+  'Bm': ['B2', 'F#3', 'B3', 'D4', 'F#4'],
+  'B Minor': ['B2', 'F#3', 'B3', 'D4', 'F#4'],
+  'Am7': ['A2', 'E3', 'G3', 'C4', 'E4'],
+  'Em7': ['E2', 'B2', 'D3', 'G3', 'B3', 'E4'],
+  'Dm7': ['D3', 'F3', 'A3', 'C4'],
+  'C7': ['C3', 'E3', 'G3', 'A#3', 'E4'],
+  'G7': ['G2', 'B2', 'D3', 'F3', 'B3']
+};
+
+export function playNamedChord(rawChord, instrument = 'piano', duration = 2.4) {
+  if (!rawChord) return;
+  const clean = rawChord.replace(/\[|\]/g, '').trim();
+  const notes = CHORD_NOTES_MAP[clean] || CHORD_NOTES_MAP[clean.split('/')[0]] || ['C3', 'E3', 'G3', 'C4'];
+
+  notes.forEach((note, idx) => {
+    // 25ms strum delay between strings for natural acoustic presence
+    setTimeout(() => {
+      if (instrument === 'guitar') {
+        playGuitarNote(note, 0.75, false, duration);
+      } else {
+        playPianoNote(note, 0.8, true, duration);
+      }
+    }, idx * 28);
+  });
+}

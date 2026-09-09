@@ -300,33 +300,75 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
  * Enhance a basic prompt into a highly descriptive prompt using AI
  */
 export const enhanceMusicPrompt = async (prompt) => {
+  if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
+    return {
+      enhanced_prompt: 'Master-tier high-fidelity Cinematic Orchestral composition with rich acoustic strings, grand piano, and pristine studio mastering.'
+    };
+  }
+
   try {
     return await apiClient('/enhance-prompt', {
       method: 'POST',
-      body: JSON.stringify({ prompt }),
+      body: JSON.stringify({ prompt: prompt.trim() }),
       timeout: 10000,
     });
   } catch (err) {
+    const p = prompt.trim();
+    const isSad = /(sad|pain|cry|breakup|alone|tear|rain|grief|sorrow|loss|separat|lonely)/i.test(p);
+    const isHero = /(hero|action|mass|entry|warrior|fight|power|speed|triumph)/i.test(p);
+    const isLove = /(love|romantic|sweet|romance|heart|wedding|passion)/i.test(p);
+    const isLofi = /(lofi|chill|relax|peace|night|ambient|calm)/i.test(p);
+    const isFolk = /(folk|village|traditional|flute|dholak)/i.test(p);
+
+    let genre = 'Cinematic Master Production';
+    let bpm = '98 BPM, key of D Minor';
+    let instruments = 'grand piano, acoustic strings, warm sub-bass, and subtle percussion';
+
+    if (isSad) {
+      genre = 'Melancholic Cinematic Soundtrack';
+      bpm = '68 BPM, key of C Minor';
+      instruments = 'felt grand piano, weeping cello, expressive solo violin, and soft ambient textures';
+    } else if (isHero) {
+      genre = 'High-Octane Cinematic Mass Anthem';
+      bpm = '130 BPM, key of E Minor';
+      instruments = 'heavy 808 sub-bass, punchy live percussion, cinematic brass section, and electric accents';
+    } else if (isLove) {
+      genre = 'Lush Romantic Contemporary Symphony';
+      bpm = '84 BPM, key of E-flat Major';
+      instruments = 'acoustic guitar, grand piano, soaring violin, and velvet electric bass';
+    } else if (isLofi) {
+      genre = 'Warm Ambient Lo-Fi & Soul';
+      bpm = '76 BPM, key of A-flat Major';
+      instruments = 'vintage Rhodes keys, mellow boom-bap drums, acoustic bass, and jazz saxophone';
+    } else if (isFolk) {
+      genre = 'Authentic Folk Fusion & Acoustic Rhythm';
+      bpm = '112 BPM, key of G Major';
+      instruments = 'bamboo bansuri flute, live Dholak, acoustic guitar, and folk woodwinds';
+    }
+
     return {
-      enhanced_prompt: `Master high-fidelity Epic Orchestral Action. ${prompt}. Featuring heavy brass sections, driving cinematic percussion, sub-bass pulses, and atmospheric orchestral pads. 128 BPM, key of C Minor, wide stereo master.`
+      enhanced_prompt: `A master-tier ${genre} composed around: "${p}". Movement: ${bpm}. Features an emotional dynamic arc with ${instruments}. Engineered with 24-bit stereo separation, balanced frequency dynamics, and broadcast-ready studio polish.`
     };
   }
 };
 
 import { supabase } from './supabase';
-import { getCandidateUrls, setWorkingBaseUrl } from '../config/api.config';
+import { getCandidateUrls, setWorkingBaseUrl, getBaseUrl, autoDiscoverBackendUrl } from '../config/api.config';
 
 /**
  * Perform connection check to verify if Backend & AI Engine are online.
  * Auto-discovers and locks the working backend across WiFi, Localhost, and Cellular.
  */
 export const checkMusicGenHealth = async () => {
-  // 1. Try currently configured/cached endpoint
+  // 1. Auto-discover active backend URL across candidates
   try {
-    const baseUrl = getBaseUrl();
+    const discoveredUrl = await autoDiscoverBackendUrl(2000);
+    const targetBaseUrl = discoveredUrl || getBaseUrl();
+
+    // Probe /api/musicgen-health on discovered backend
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
-    const url = `${baseUrl}/api/musicgen-health?t=${Date.now()}`;
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+    const url = `${targetBaseUrl}/api/musicgen-health?t=${Date.now()}`;
 
     const resp = await fetch(url, {
       headers: { 'ngrok-skip-browser-warning': 'true' },
@@ -336,19 +378,24 @@ export const checkMusicGenHealth = async () => {
 
     if (resp.ok) {
       const data = await resp.json();
-      if (data && data.status === 'online') {
-        return data;
+      if (data && (data.status === 'online' || data.server === 'online' || data.gpu_live)) {
+        setWorkingBaseUrl(targetBaseUrl);
+        return {
+          ...data,
+          status: 'online',
+          backend_live: true
+        };
       }
     }
   } catch (e) {}
 
-  // 2. Discover working endpoint across local candidate URLs (192.168.1.8, localhost, etc.)
+  // 2. Fallback probe directly to /api/health or / on all candidate URLs
   const candidateUrls = getCandidateUrls();
   const pingPromises = candidateUrls.map(async (baseUrl) => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
-      const url = `${baseUrl}/api/musicgen-health?t=${Date.now()}`;
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const url = `${baseUrl}/api/health?t=${Date.now()}`;
       
       const resp = await fetch(url, {
         headers: { 'ngrok-skip-browser-warning': 'true' },
@@ -360,7 +407,12 @@ export const checkMusicGenHealth = async () => {
         const data = await resp.json();
         if (data && data.status === 'online') {
           setWorkingBaseUrl(baseUrl);
-          return data;
+          return {
+            status: 'online',
+            backend_live: true,
+            gpu_live: false,
+            message: 'Gandharva Backend active'
+          };
         }
       }
     } catch (err) {}
@@ -379,7 +431,7 @@ export const checkMusicGenHealth = async () => {
   try {
     const targetUrl = DEFAULT_KAGGLE_GPU_URL;
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
     const directResp = await fetch(`${targetUrl}/musicgen-health`, {
       headers: { 'ngrok-skip-browser-warning': 'true' },
       signal: controller.signal
@@ -394,12 +446,13 @@ export const checkMusicGenHealth = async () => {
           source: 'Kaggle GPU AI Engine (Direct)',
           gpu_url: targetUrl,
           gpu_live: true,
+          backend_live: true,
           details: data
         };
       }
     }
   } catch (e) {}
 
-  return { status: 'offline', gpu_live: false, error: 'Backend unreachable' };
+  return { status: 'offline', gpu_live: false, backend_live: false, error: 'Backend unreachable' };
 };
 

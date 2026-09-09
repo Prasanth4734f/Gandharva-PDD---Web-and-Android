@@ -268,7 +268,7 @@ export const sendEmailVerificationCode = async (email, name = '') => {
     const data = await response.json();
     if (data.success) {
       console.log(`[Email Dispatch] Real OTP email dispatched to ${cleanEmail}`);
-      return { success: true, email: cleanEmail };
+      return { success: true, email: cleanEmail, code: data.code };
     } else {
       throw new Error(data.error || 'Failed to dispatch verification email');
     }

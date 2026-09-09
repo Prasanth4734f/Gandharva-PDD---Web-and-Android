@@ -104,31 +104,46 @@ print("✨ Dual-Brains Ready in Half Precision (OOM Safe)!")
 def apply_ace_step_conditioning(raw_prompt: str, style_tags: str = "") -> str:
     """
     ACE-Step 8.0 Dataset Conditioning Pipeline.
-    Transforms raw or story prompts into structured high-fidelity BGM tags.
+    Transforms raw user concepts & composer styles into 100% ORIGINAL studio acoustic blueprints.
+    Strictly forbids copying existing melodies or songs.
     """
     if "[ACE-Step" in raw_prompt:
         return raw_prompt # Already structured
         
     lower = raw_prompt.lower()
     
-    # Genre Inference
-    genre = "Cinematic Score"
-    if "rock" in lower: genre = "Alternative Rock"
-    elif "pop" in lower: genre = "Acoustic Pop"
-    elif "lofi" in lower or "lo-fi" in lower: genre = "Lo-Fi Chillhop"
-    elif "edm" in lower or "dance" in lower: genre = "Melodic EDM"
-    elif "synth" in lower or "cyber" in lower: genre = "Cyberpunk Synthwave"
-    elif "devotional" in lower or "spiritual" in lower: genre = "Spiritual Indian Fusion"
-    elif "piano" in lower: genre = "Romantic Piano Solo"
-    elif "hero" in lower or "war" in lower: genre = "Epic Orchestral Action"
-    elif "jazz" in lower: genre = "Smooth Jazz Lounge"
+    # 1. Composer Acoustic DNA Extraction (Production Philosophy ONLY, Zero Melodic Mimicry)
+    composer_dna = ""
+    if any(k in lower for k in ["anirudh", "rockstar", "mass anthem", "heavy bass", "hype drop"]):
+        composer_dna = "[Production DNA: 100% Original Modern Mass, Deep 808 Sub-Bass, High-Transient Claps, 128 BPM, Dynamic Tension Drops] "
+    elif any(k in lower for k in ["a.r. rahman", "ar rahman", "rahman", "sufi", "soulful"]):
+        composer_dna = "[Production DNA: 100% Original Soulful World Fusion, Acoustic Bansuri Woodwinds, Modal Harmonies, 82 BPM] "
+    elif any(k in lower for k in ["hans zimmer", "zimmer", "interstellar", "trailer"]):
+        composer_dna = "[Production DNA: 100% Original Epic Cinematic Architecture, Low-End Brass Braams, Ticking Ostinatos, Spatial Reverb] "
+    elif any(k in lower for k in ["thaman", "dsp", "devi sri prasad", "teenmaar"]):
+        composer_dna = "[Production DNA: 100% Original High-Voltage Celebration, Dholak Syncopation, Brass Fanfares, 134 BPM] "
+    elif any(k in lower for k in ["keeravani", "baahubali", "rrr", "mythological"]):
+        composer_dna = "[Production DNA: 100% Original Grand Symphony, Indian Veena, Classical Strings, Taiko Percussion, 112 BPM] "
+
+    # 2. Genre Inference
+    genre = "Original Cinematic Score"
+    if "rock" in lower: genre = "Original Alternative Rock"
+    elif "pop" in lower: genre = "Original Acoustic Pop"
+    elif "lofi" in lower or "lo-fi" in lower: genre = "Original Lo-Fi Chillhop"
+    elif "edm" in lower or "dance" in lower: genre = "Original Melodic EDM"
+    elif "synth" in lower or "cyber" in lower: genre = "Original Cyberpunk Synthwave"
+    elif "devotional" in lower or "spiritual" in lower: genre = "Original Spiritual Indian Fusion"
+    elif "piano" in lower: genre = "Original Romantic Piano Solo"
+    elif "hero" in lower or "war" in lower: genre = "Original Epic Orchestral Action"
+    elif "jazz" in lower: genre = "Original Smooth Jazz Lounge"
 
     ace_formatted_prompt = (
-        f"[ACE-Step 8.0 Master BGM] "
+        f"[ACE-Step 8.0 Master Studio Audio] "
         f"[Genre: {genre}] "
-        f"[Style: {style_tags if style_tags else 'Professional Composition'}] "
-        f"[Acoustics: Deep Stereo Resonance, Balanced Harmonics] "
-        f"[Production: Multi-Platinum Studio Master Quality] "
+        f"{composer_dna}"
+        f"[Originality: Strict 100% Fresh Composition, Zero Melodic Borrowing] "
+        f"[Style: {style_tags if style_tags else 'Pristine Multi-Track Composition'}] "
+        f"[Acoustics: Deep Stereo Resonance, Balanced 32kHz Harmonics, 0.98 Peak Headroom] "
         f"[Prompt: {raw_prompt}]"
     )
     return ace_formatted_prompt

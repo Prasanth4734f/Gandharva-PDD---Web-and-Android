@@ -106,7 +106,8 @@ const SignupScreen = ({ navigation }) => {
       setLoading(false);
 
       if (res.success) {
-        setSentCode(res.code);
+        setSentCode(res.code || '');
+        setOtp('');
         setOtpSent(true);
         setCountdown(60);
       }

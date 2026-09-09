@@ -14,13 +14,12 @@ function getTransporter() {
   const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD || 'pdzghmxvgbpwhexf';
 
   transporter = nodemailer.createTransport({
-    service: 'gmail',
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // SSL for fastest handshake
-    pool: true,   // Keep connection open for instant sub-second dispatch
-    maxConnections: 5,
-    maxMessages: 100,
+    port: 587,
+    secure: false, // STARTTLS
+    connectionTimeout: 4000,
+    greetingTimeout: 4000,
+    socketTimeout: 4000,
     auth: {
       user: smtpUser.trim(),
       pass: smtpPass.trim()

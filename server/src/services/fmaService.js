@@ -15,7 +15,7 @@ const searchFMA = async (tags) => {
     // For this version, we provide the structure for future API key integration.
     logger.info(`[FMA] Fallback search initiated for tags: ${tags.join(', ')}`);
     
-    // Simulating no results found to trigger final response if Jamendo fails
+    // Simulating no results found to trigger standard local fallback
     return null; 
   } catch (error) {
     logger.error('[FMA] Service Error', error.message);

@@ -1,6 +1,6 @@
-# Gandharva Music Retrieval Backend
+# Gandharva Music Generation Backend
 
-A high-quality, retrieval-based music engine designed for Anti Gravity AI projects. It understands natural language prompts and retrieves the best-matching royalty-free tracks from professional music libraries.
+A high-performance AI music generation and local asset fallback engine designed for Anti Gravity AI projects. It processes natural language prompts via primary MusicGen AI generation, and provides an API-free local fallback music library containing pre-approved audio assets if AI GPUs are temporarily offline.
 
 ## 🚀 Quick Start
 
@@ -14,7 +14,6 @@ A high-quality, retrieval-based music engine designed for Anti Gravity AI projec
    Ensure you have a `.env` file in the `server` directory with the following content:
    ```env
    PORT=3000
-   JAMENDO_CLIENT_ID=56d30c11
    DEBUG=true
    ```
 
@@ -30,30 +29,36 @@ A high-quality, retrieval-based music engine designed for Anti Gravity AI projec
 **Request Body**:
 ```json
 {
-  "prompt": "Chill lofi calm music at forest"
+  "prompt": "Chill lofi calm music at forest",
+  "duration": 10
 }
 ```
 
-**Successful Response**:
+**Successful Response (Primary AI)**:
 ```json
 {
   "success": true,
-  "title": "Forest Breezes",
-  "audioUrl": "https://...",
-  "source": "Jamendo",
-  "tags": ["lofi", "ambient", "nature"]
+  "title": "AI: Chill lofi calm music...",
+  "audioUrl": "https://.../public/generated/gen_12345.wav",
+  "source": "Kaggle AI (MusicGen Medium)",
+  "isFallback": false
 }
 ```
 
-## 🛠️ Testing with Postman
-
-1. Create a new **POST** request.
-2. URL: `http://localhost:3000/api/generate-music`
-3. Headers: `Content-Type: application/json`
-4. Body: Select `raw` and `JSON`, then paste the request body example above.
+**Fallback Response (When AI GPU is Offline)**:
+```json
+{
+  "success": true,
+  "title": "Fallback: Forest Breeze",
+  "audioUrl": "https://.../fallback/fallback_01.mp3",
+  "source": "local_fallback",
+  "isFallback": true
+}
+```
 
 ## 📁 Architecture
 - `src/controllers`: Request handling and orchestration.
-- `src/services`: Integration with external music APIs (Jamendo, FMA).
+- `src/services`: Primary AI generators, prompt enhancers, and audio helpers.
+- `assets/fallback_music`: API-free local fallback music library containing pre-approved audio assets.
 - `src/utils`: Logging and helper utilities.
 - `src/routes`: API endpoint definitions.

@@ -256,56 +256,37 @@ function generateDynamicLyrics(prompt, genre, mood, language, variationIndex, re
   }
 }
 
-const GEMINI_API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY || process.env.GEMINI_API_KEY || '';
-
-const CLIENT_CANDIDATE_MODELS = [
-  'gemini-3.5-flash',
-  'gemini-flash-latest',
-  'gemini-flash-lite-latest',
-  'gemini-2.5-flash'
-];
+const HF_OMNI_API_URL = 'https://prasanthm4734f-gandharva-omni-model.hf.space/api/generate_lyrics';
 
 async function callClientGeminiLyrics(systemPrompt, userPrompt, temperature = 0.9) {
-  if (!GEMINI_API_KEY) throw new Error('No API key');
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-  const payload = JSON.stringify({
-    contents: [
-      {
-        role: 'user',
-        parts: [{ text: `${systemPrompt}\n\nUser Request: ${userPrompt}` }]
-      }
-    ],
-    generationConfig: {
-      temperature: temperature,
-      topP: 0.95,
-      maxOutputTokens: 2500,
-    }
-  });
+    const payload = JSON.stringify({
+      data: [userPrompt, "Telugu", "Motivation & Energy", "Mass Anthem"]
+    });
 
-  for (const model of CLIENT_CANDIDATE_MODELS) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 12000);
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload,
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
+    const response = await fetch(HF_OMNI_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
 
-      if (response.ok) {
-        const data = await response.json();
-        let text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.data && data.data[0]) {
+        let text = data.data[0];
         text = text.replace(/^```[a-z]*\n?/i, '').replace(/```$/i, '').trim();
         if (text.length > 50) return text;
       }
-    } catch (e) {
-      // Try next candidate model
     }
+  } catch (err) {
+    // Fallback gracefully
   }
-  throw new Error('All Gemini client models unavailable');
+  return null;
 }
 
 /**

@@ -26,7 +26,7 @@
 
 ## 🌌 Architectural Overview
 
-**GANDHARVA** is a state-of-the-art mobile music creation studio built for artists, producers, and songwriters. Powered by **Google Gemini 2.5 Flash**, **Jamendo & MusicGen Engines**, **WebAudio Signal Processors**, and an **Expo 54 Native Suite**, Gandharva converts raw human imagination into polished, release-ready tracks.
+**GANDHARVA** is a state-of-the-art mobile music creation studio built for artists, producers, and songwriters. Powered by **Google Gemini 2.5 Flash**, **MusicGen AI Engine & Local Asset Fallback**, **WebAudio Signal Processors**, and an **Expo 54 Native Suite**, Gandharva converts raw human imagination into polished, release-ready tracks.
 
 ```
  ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -95,7 +95,7 @@ flowchart TD
     subgraph Server ["2️⃣ Express AI Bridge (Port 3000)"]
         C["🔍 Prompt Enhancer & Tag Extractor"]
         D["📊 BPM & Mood Mapping Engine"]
-        E["📡 Jamendo & MusicGen API Resolver"]
+        E["📡 MusicGen AI & Local Fallback Library"]
     end
 
     subgraph Audio_Processing ["3️⃣ Waveform & Stream Processor"]
@@ -274,9 +274,9 @@ flowchart TD
  💻 FRONTEND          : React Native, Expo SDK 54, React Navigation v7, Lucide Icons, Expo AV
  🟢 NODE BACKEND      : Express.js, Axios, Dotenv, Ngrok Tunneling
  🐍 PYTHON BACKEND    : FastAPI, PyTorch, Uvicorn, SQLModel, Transformers
- 🔮 AI MODELS         : Google Gemini 2.5 Flash, Jamendo Semantic Index, Demucs V4
+ 🔮 AI MODELS         : Google Gemini 2.5 Flash, MusicGen Medium, Demucs V4
  ⚡ DATABASE & CLOUD  : Supabase REST API, SQLite Local Storage, PostgreSQL
- 🔊 AUDIO ENGINE      : WebAudio DSP, Pitch Shifter Engine, Custom Samplers
+ 🔊 AUDIO ENGINE      : WebAudio DSP, Local Fallback Library, Custom Samplers
 ```
 
 ---
@@ -308,7 +308,6 @@ PORT=3000
 GEMINI_API_KEY=your_google_gemini_api_key_here
 SUPABASE_URL=https://your-supabase-url.supabase.co
 SUPABASE_KEY=your_supabase_anon_key
-JAMENDO_CLIENT_ID=56d30c11
 ```
 
 ### 3️⃣ Start the Application

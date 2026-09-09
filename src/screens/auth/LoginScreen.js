@@ -213,11 +213,10 @@ const LoginScreen = ({ navigation }) => {
       setLoading(false);
 
       if (res.success) {
-        setSentCode(res.code);
+        setSentCode(res.code || '');
+        setOtp('');
         setOtpSent(true);
         setCountdown(60);
-        setShowOtpToast(true);
-        setTimeout(() => setShowOtpToast(false), 2000);
       }
     } catch (err) {
       setLoading(false);
@@ -511,33 +510,6 @@ const LoginScreen = ({ navigation }) => {
                     </LinearGradient>
                   </TouchableOpacity>
                 )}
-
-                {/* Divider */}
-                <View style={styles.dividerRow}>
-                  <View style={styles.dividerLine} />
-                  <Text style={styles.dividerText}>or</Text>
-                  <View style={styles.dividerLine} />
-                </View>
-
-                {/* Google Sign In Button */}
-                <TouchableOpacity 
-                  style={styles.googleBtn} 
-                  onPress={handleGoogleSignIn}
-                  activeOpacity={0.85}
-                >
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-                    <GoogleLogo size={20} />
-                    <Text style={styles.googleBtnText}>Continue with Google</Text>
-                  </View>
-                </TouchableOpacity>
-
-                {/* Switch Link */}
-                <View style={styles.switchRow}>
-                  <Text style={styles.switchMuted}>Don't have an account?</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-                    <Text style={styles.switchLink}>Sign Up</Text>
-                  </TouchableOpacity>
-                </View>
 
               </View>
             </View>

@@ -77,9 +77,30 @@ const invalidateGpuUrlCache = () => {
   _cachedGpuUrlTimestamp = 0;
 };
 
+const probeGpuHealth = async (url) => {
+  try {
+    const probe = await axios.get(`${url}/musicgen-health`, {
+      timeout: 2500,
+      headers: { 'ngrok-skip-browser-warning': 'true' }
+    });
+    return probe.status === 200;
+  } catch (e) {
+    try {
+      const probe2 = await axios.get(`${url}/`, {
+        timeout: 2500,
+        headers: { 'ngrok-skip-browser-warning': 'true' }
+      });
+      return probe2.status < 400;
+    } catch (e2) {
+      return false;
+    }
+  }
+};
+
 /**
  * AI Generation Service - Standard Prompt to Music (MusicGen Medium)
  * Connects the "Prompt to Music" tab to the standard MusicGen /generate endpoint.
+ * Preserves 100% studio master quality while preventing dead connection hangs.
  */
 const generateCinematicMusic = async (userPrompt, duration = 10) => {
   const AI_ENGINE_URL = await getActiveGpuUrl();
@@ -88,8 +109,15 @@ const generateCinematicMusic = async (userPrompt, duration = 10) => {
     throw new Error('AI GPU server URL is not available. Kaggle GPU may be offline.');
   }
 
+  // Pre-flight instant probe: Check if tunnel is alive in < 2.5s
+  const isGpuAlive = await probeGpuHealth(AI_ENGINE_URL);
+  if (!isGpuAlive) {
+    invalidateGpuUrlCache();
+    throw new Error(`GPU at ${AI_ENGINE_URL} is unreachable or disconnected.`);
+  }
+
   try {
-    const creativeModifiers = ['high fidelity', 'atmospheric', 'cinematic', 'detailed', 'stereo', 'studio master'];
+    const creativeModifiers = ['high fidelity', 'atmospheric', 'cinematic', 'detailed', 'stereo', 'studio master quality'];
     const salt = creativeModifiers[Math.floor(Math.random() * creativeModifiers.length)];
     const enhancedPrompt = `${userPrompt}, ${salt}`;
     
@@ -103,18 +131,18 @@ const generateCinematicMusic = async (userPrompt, duration = 10) => {
     
     const localPath = path.join(localDir, filename);
 
-    logger.info(`[Prompt to Music] Requesting MusicGen Medium track: "${enhancedPrompt}"`);
-    logger.info(`[Prompt to Music] Engine: ${AI_ENGINE_URL}/generate`);
+    logger.info(`[Prompt to Music] Requesting High-Fidelity MusicGen Track: "${enhancedPrompt}" (duration=${duration}s)`);
+    logger.info(`[Prompt to Music] Target Engine: ${AI_ENGINE_URL}/generate`);
     
     let response;
     try {
-      // Standard Prompt to Music calls MusicGen Medium (/generate endpoint)
+      // 45s is the optimal sweet spot for full 32kHz master generation without timeout
       response = await axios.post(`${AI_ENGINE_URL}/generate`, {
         prompt: enhancedPrompt,
         duration: duration,
         seed: randomSeed
       }, {
-        timeout: 180000,
+        timeout: 45000,
         responseType: 'arraybuffer',
         headers: {
           'ngrok-skip-browser-warning': '69420',
@@ -123,14 +151,14 @@ const generateCinematicMusic = async (userPrompt, duration = 10) => {
       });
     } catch (firstErr) {
       if (firstErr.response && (firstErr.response.status === 503 || firstErr.response.status === 502 || firstErr.response.status === 504)) {
-        logger.warn(`[Prompt to Music] Kaggle GPU returned status ${firstErr.response.status}. Retrying generation in 2.5 seconds...`);
-        await new Promise(r => setTimeout(r, 2500));
+        logger.warn(`[Prompt to Music] Kaggle GPU returned ${firstErr.response.status}. Retrying generation in 2 seconds...`);
+        await new Promise(r => setTimeout(r, 2000));
         response = await axios.post(`${AI_ENGINE_URL}/generate`, {
           prompt: enhancedPrompt,
           duration: duration,
           seed: randomSeed
         }, {
-          timeout: 180000,
+          timeout: 45000,
           responseType: 'arraybuffer',
           headers: {
             'ngrok-skip-browser-warning': '69420',
@@ -138,7 +166,6 @@ const generateCinematicMusic = async (userPrompt, duration = 10) => {
           }
         });
       } else {
-        // Connection failed — invalidate cache so next call re-queries Supabase
         invalidateGpuUrlCache();
         throw firstErr;
       }
@@ -146,8 +173,18 @@ const generateCinematicMusic = async (userPrompt, duration = 10) => {
 
     recordGpuSuccess();
 
+    const audioBuffer = Buffer.from(response.data);
+    // Audio Payload Validation Gate: Verify non-empty size and header signature
+    if (!audioBuffer || audioBuffer.length < 10240) {
+      throw new Error(`GPU returned invalid/truncated audio payload (${audioBuffer ? audioBuffer.length : 0} bytes).`);
+    }
+    const header = audioBuffer.slice(0, 4).toString('ascii');
+    if (header !== 'RIFF' && !header.startsWith('ID3') && audioBuffer[0] !== 0xFF) {
+      throw new Error(`GPU response is not a valid audio stream (Header: "${header}").`);
+    }
+
     // Save audio buffer to local WAV file
-    fs.writeFileSync(localPath, response.data);
+    fs.writeFileSync(localPath, audioBuffer);
     
     // Upload to Supabase Storage (Optional background sync)
     let finalAudioUrl = null;
@@ -261,8 +298,17 @@ const generateAceStepMusic = async (acePrompt, duration = 10) => {
 
     recordGpuSuccess();
 
+    const audioBuffer = Buffer.from(response.data);
+    if (!audioBuffer || audioBuffer.length < 10240) {
+      throw new Error(`ACE-Step returned invalid/truncated audio payload (${audioBuffer ? audioBuffer.length : 0} bytes).`);
+    }
+    const header = audioBuffer.slice(0, 4).toString('ascii');
+    if (header !== 'RIFF' && !header.startsWith('ID3') && audioBuffer[0] !== 0xFF) {
+      throw new Error(`ACE-Step response is not a valid audio stream (Header: "${header}").`);
+    }
+
     // Save audio buffer to local WAV file
-    fs.writeFileSync(localPath, response.data);
+    fs.writeFileSync(localPath, audioBuffer);
 
     logger.info(`[ACE-Step Engine] Success! Saved Story BGM to: ${filename}`);
 

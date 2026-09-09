@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, TextInput, Modal, Alert, Platform, Image, ActivityIndicator } from 'react-native';
-import { User, Bell, Shield, LogOut, ChevronRight, Sparkles, HelpCircle, Music, FileText, Award, HardDrive, Cloud, Volume2, Edit3, X, Check, Globe, Mic, Lock, Disc, BookOpen, Sliders, ExternalLink, Camera, Image as ImageIcon, Trash2, Bug, FileQuestion, Upload, RefreshCw } from 'lucide-react-native';
+import { User, Bell, Shield, LogOut, ChevronRight, Sparkles, HelpCircle, Music, FileText, Award, HardDrive, Cloud, Volume2, Edit3, X, Check, Globe, Mic, Lock, Disc, BookOpen, Sliders, ExternalLink, Camera, Image as ImageIcon, Trash2, Bug, FileQuestion, Upload, RefreshCw, ArrowLeft, ChevronLeft, Home } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { COLORS, SIZES, SPACING } from '../../constants/theme';
 import ToastNotification from '../../components/ToastNotification';
@@ -398,7 +398,7 @@ const ProfileScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#FAF5EE', paddingTop: Platform.OS === 'web' ? 24 : 50 }}>
+    <View style={{ flex: 1, backgroundColor: '#FAF5EE', paddingTop: Platform.OS === 'web' ? 16 : 50 }}>
       {/* Toast Notification */}
       <ToastNotification
         visible={toast.visible}
@@ -406,6 +406,38 @@ const ProfileScreen = ({ navigation }) => {
         type={toast.type}
         onDismiss={() => setToast({ ...toast, visible: false })}
       />
+
+      {/* TOP NAVIGATION BAR WITH BACK BUTTON */}
+      <View style={styles.topNavBar}>
+        <TouchableOpacity 
+          style={styles.backButton} 
+          onPress={() => {
+            if (navigation && navigation.canGoBack && navigation.canGoBack()) {
+              navigation.goBack();
+            } else if (navigation && navigation.navigate) {
+              navigation.navigate('HomeTab');
+            }
+          }}
+          activeOpacity={0.7}
+        >
+          <ArrowLeft color="#581827" size={20} />
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.topNavTitle}>Studio Profile</Text>
+
+        <TouchableOpacity 
+          style={styles.homeIconButton} 
+          onPress={() => {
+            if (navigation && navigation.navigate) {
+              navigation.navigate('HomeTab');
+            }
+          }}
+          activeOpacity={0.7}
+        >
+          <Home color="#581827" size={18} />
+        </TouchableOpacity>
+      </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         
@@ -1487,6 +1519,49 @@ const styles = StyleSheet.create({
     color: '#FFF8F0',
     fontSize: 14,
     fontWeight: '700',
+  },
+  topNavBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(226, 206, 191, 0.6)',
+    backgroundColor: '#FAF5EE',
+    zIndex: 10,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(88, 24, 39, 0.08)',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(88, 24, 39, 0.15)',
+  },
+  backButtonText: {
+    color: '#581827',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  topNavTitle: {
+    color: '#581827',
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+  },
+  homeIconButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(88, 24, 39, 0.08)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(88, 24, 39, 0.15)',
   },
 });
 

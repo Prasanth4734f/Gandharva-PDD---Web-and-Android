@@ -176,10 +176,28 @@ trainer_kwargs = dict(
     ),
 )
 
-try:
+# Universal compatibility patch for Trainer / SFTTrainer across all transformers versions
+import inspect
+import transformers
+from transformers import Trainer
+
+_orig_trainer_init = Trainer.__init__
+def _safe_trainer_init(self, *args, **kwargs):
+    if "tokenizer" in kwargs:
+        tok = kwargs.pop("tokenizer")
+        if "processing_class" not in kwargs:
+            kwargs["processing_class"] = tok
+    return _orig_trainer_init(self, *args, **kwargs)
+
+Trainer.__init__ = _safe_trainer_init
+
+sft_params = inspect.signature(SFTTrainer.__init__).parameters
+if "processing_class" in sft_params:
     trainer = SFTTrainer(processing_class=tokenizer, **trainer_kwargs)
-except TypeError:
+elif "tokenizer" in sft_params:
     trainer = SFTTrainer(tokenizer=tokenizer, **trainer_kwargs)
+else:
+    trainer = SFTTrainer(**trainer_kwargs)
 
 trainer.train()
 print("\n✅ Training complete!")

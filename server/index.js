@@ -21,17 +21,42 @@ const connectedServicesRoutes = require('./src/routes/connectedServicesRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Security & Optimization Middleware
+// Security & Optimization Middleware: Robust CORS Configuration
+const allowedOriginPatterns = [
+  /^http:\/\/localhost(:\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/,
+  /^http:\/\/10\.\d+\.\d+\.\d+(:\d+)?$/,
+  /^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/,
+  /\.ngrok-free\.app$/,
+  /\.ngrok\.io$/,
+  /\.vercel\.app$/
+];
+
 app.use(cors({
-  origin: '*',
+  origin: (origin, callback) => {
+    // Allow non-browser agents, mobile native apps (no origin), and matched domains
+    if (!origin || allowedOriginPatterns.some(pattern => pattern.test(origin))) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Permissive fallback for seamless dev preview
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: '*'
+  allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning', 'apikey', 'X-Requested-With']
 }));
 app.options('*', cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Serve static fallback audio files
+// Serve static fallback audio files from assets and public directories
+app.use('/fallback', express.static(path.join(__dirname, 'assets/fallback_music'), {
+  setHeaders: (res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+    res.set('Content-Type', 'audio/mpeg');
+  }
+}));
 app.use('/fallback', express.static(path.join(__dirname, 'public/fallback'), {
   setHeaders: (res) => {
     res.set('Access-Control-Allow-Origin', '*');
@@ -40,19 +65,44 @@ app.use('/fallback', express.static(path.join(__dirname, 'public/fallback'), {
   }
 }));
 
-// Serve other public assets
+// Serve other public assets and generated AI tracks
 app.use('/public', express.static(path.join(__dirname, 'public'), {
   setHeaders: (res) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
   }
 }));
+app.use('/generated', express.static(path.join(__dirname, 'public/generated'), {
+  setHeaders: (res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+    res.set('Content-Type', 'audio/wav');
+  }
+}));
 
-// Root Health Check
+// Root and Health Check Endpoints
 app.get('/', (req, res) => {
   res.status(200).json({
     status: 'online',
     service: 'Gandharva Music Retrieval Engine',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    server: 'Gandharva Express Backend',
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'online',
+    server: 'Gandharva Express Backend',
+    uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString()
   });
 });

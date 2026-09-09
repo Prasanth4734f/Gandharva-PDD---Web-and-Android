@@ -53,7 +53,14 @@ export const saveProjectToLibrary = async (project) => {
     genre: project.genre || 'Ambient',
     mood: project.mood || 'Creative',
     prompt: project.prompt || '',
-    music: project.music || (project.audio_url ? [{ audio_url: project.audio_url, variation_name: 'Main Track' }] : []),
+    source: project.source || (project.isFallback ? 'local_fallback' : 'musicgen'),
+    isFallback: project.isFallback !== undefined ? project.isFallback : false,
+    music: project.music || (project.audio_url ? [{ 
+      audio_url: project.audio_url, 
+      variation_name: 'Main Track',
+      source: project.source || (project.isFallback ? 'local_fallback' : 'musicgen'),
+      isFallback: project.isFallback !== undefined ? project.isFallback : false
+    }] : []),
     lyrics: project.lyrics || (project.lyrics_text ? [{ lyrics_text: project.lyrics_text, title: project.name }] : []),
     recordings: project.recordings || [],
     created_at: project.created_at || new Date().toISOString(),
@@ -103,3 +110,34 @@ export const deleteProjectFromLibrary = async (projectId) => {
     console.log('[LibraryStorage] Supabase delete skipped');
   }
 };
+
+/**
+ * 1-Tap Auto-Cache for Newly Generated Audio Tracks
+ */
+export const autoCacheGeneratedTrack = async (track) => {
+  return await saveProjectToLibrary({
+    id: `track-${Date.now()}`,
+    name: track.title || track.name || 'AI Master Composition',
+    genre: track.genre || 'Cinematic',
+    mood: track.mood || 'Atmospheric',
+    prompt: track.prompt || '',
+    audio_url: track.audio_url || track.audioUrl,
+    duration: track.duration || 10,
+    created_at: new Date().toISOString()
+  });
+};
+
+/**
+ * 1-Tap Auto-Cache for Newly Generated Lyrics & Chords
+ */
+export const autoCacheLyrics = async (lyricsData) => {
+  return await saveProjectToLibrary({
+    id: `lyric-${Date.now()}`,
+    name: lyricsData.title || 'Original Lyrics & Chords',
+    genre: lyricsData.genre || 'Melody',
+    mood: lyricsData.mood || 'Poetic',
+    lyrics_text: lyricsData.lyrics_text || lyricsData.content || lyricsData.text,
+    created_at: new Date().toISOString()
+  });
+};
+

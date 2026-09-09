@@ -1,186 +1,220 @@
 import os
+import random
 import httpx
 import logging
-import shutil
 import uuid
 import time
 from typing import Optional
 
 logger = logging.getLogger(__name__)
 
+SUPPORTED_AUDIO_EXTENSIONS = ('.mp3', '.wav', '.ogg', '.flac', '.m4a')
+
 class MusicGenClient:
     """
-    Handles async communication with the MusicGen API and provides local fallback
-    templates if the GPU service is unavailable.
+    Handles async communication with the MusicGen API and provides an offline,
+    API-free local fallback music library when the GPU service is unavailable.
     """
 
-    def __init__(self, api_url: str, fallback_dir: str, output_dir: str):
-        self.api_url = api_url.rstrip("/")
-        self.fallback_dir = fallback_dir
-        self.output_dir = output_dir
+    def __init__(self, api_url: str = "", fallback_dir: str = "", output_dir: str = ""):
+        self.api_url = (api_url or "").rstrip("/")
+        
+        # Resolve fallback directory: prefer assets/fallback_music, then public/fallback
+        if not fallback_dir or not os.path.exists(fallback_dir):
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            candidate_assets = os.path.join(base_dir, "assets", "fallback_music")
+            candidate_public = os.path.join(base_dir, "public", "fallback")
+            if os.path.exists(candidate_assets):
+                self.fallback_dir = candidate_assets
+            elif os.path.exists(candidate_public):
+                self.fallback_dir = candidate_public
+            else:
+                self.fallback_dir = candidate_assets
+        else:
+            self.fallback_dir = fallback_dir
+
+        self.output_dir = output_dir or os.path.join(os.path.dirname(os.path.abspath(__file__)), "generated")
         os.makedirs(self.output_dir, exist_ok=True)
 
-    async def generate_bgm(self, prompt: str, duration: int, genre: Optional[str] = None, analysis: dict = None, vocal_path: Optional[str] = None) -> str:
+        self.last_source: Optional[str] = None
+        self._last_fallback_file: Optional[str] = None
+
+    async def generate_bgm(
+        self,
+        prompt: str,
+        duration: int,
+        genre: Optional[str] = None,
+        analysis: dict = None,
+        vocal_path: Optional[str] = None
+    ) -> str:
         """
-        Attempts to generate music via API. Falls back to local templates if it fails.
-        Returns the absolute local path to the generated/fallback WAV file.
+        Attempts to generate music via primary AI API (MusicGen / Hugging Face).
+        If unavailable, falls back to the local fallback music library.
+        Returns the absolute local path to the generated WAV file.
         """
         seed = int(time.time() * 1000) % 1000000
         output_filename = f"bgm_{uuid.uuid4().hex}.wav"
         output_path = os.path.join(self.output_dir, output_filename)
 
-        try:
-            logger.info(f"[MusicGenClient] Requesting BGM generation from {self.api_url}")
-            logger.info(f"[MusicGenClient] Prompt: '{prompt}', Duration: {duration}s")
-            
-            async with httpx.AsyncClient() as client:
-                # Fast fail check
-                await client.get(self.api_url, timeout=5.0, headers={"ngrok-skip-browser-warning": "1"})
-                
-                # Actual generation
-                if vocal_path and os.path.exists(vocal_path):
-                    logger.info(f"[MusicGenClient] Uploading vocal for Magic Box conditioning...")
-                    
-                    # Read the dedicated Magic Box URL from .env
-                    magic_box_url = os.getenv("MAGIC_BOX_API_URL", self.api_url).rstrip("/")
-                    
-                    with open(vocal_path, "rb") as f:
-                        files = {'vocal_file': (os.path.basename(vocal_path), f, 'audio/wav')}
-                        data = {'prompt': prompt, 'duration': str(duration), 'seed': str(seed)}
-                        
+        # ============================================================
+        # 1. Primary AI Generation Pipeline (MusicGen / Hugging Face)
+        # ============================================================
+        if self.api_url and not self.api_url.startswith("http://offline"):
+            try:
+                logger.info(f"[MusicGenClient] Requesting primary AI generation from {self.api_url}")
+                logger.info(f"[MusicGenClient] Prompt: '{prompt}', Duration: {duration}s")
+
+                async with httpx.AsyncClient() as client:
+                    # Fast-fail connectivity check
+                    await client.get(self.api_url, timeout=5.0, headers={"ngrok-skip-browser-warning": "1"})
+
+                    if vocal_path and os.path.exists(vocal_path):
+                        logger.info("[MusicGenClient] Uploading vocal for conditioning...")
+                        magic_box_url = os.getenv("MAGIC_BOX_API_URL", self.api_url).rstrip("/")
+                        with open(vocal_path, "rb") as f:
+                            files = {'vocal_file': (os.path.basename(vocal_path), f, 'audio/wav')}
+                            data = {'prompt': prompt, 'duration': str(duration), 'seed': str(seed)}
+                            resp = await client.post(
+                                f"{magic_box_url}/generate_vocal",
+                                data=data,
+                                files=files,
+                                headers={"ngrok-skip-browser-warning": "1"},
+                                timeout=600.0
+                            )
+                    else:
                         resp = await client.post(
-                            f"{magic_box_url}/generate_vocal",
-                            data=data,
-                            files=files,
+                            f"{self.api_url}/generate",
+                            json={"prompt": prompt, "duration": duration, "seed": seed},
                             headers={"ngrok-skip-browser-warning": "1"},
                             timeout=600.0
                         )
-                else:
-                    resp = await client.post(
-                        f"{self.api_url}/generate",
-                        json={"prompt": prompt, "duration": duration, "seed": seed},
-                        headers={"ngrok-skip-browser-warning": "1"},
-                        timeout=600.0
-                    )
-                
-                if resp.status_code == 200:
-                    content_type = resp.headers.get("content-type", "")
-                    
-                    # If the API returns raw binary audio data
-                    if "audio/" in content_type or resp.content.startswith(b"RIFF"):
-                        with open(output_path, "wb") as f:
-                            f.write(resp.content)
-                        logger.info(f"[MusicGenClient] Successfully received raw audio from API and saved to {output_path}")
-                        return output_path
-                        
-                    # If the API returns JSON with an audio_url
-                    try:
-                        data = resp.json()
-                        audio_url = data.get("audio_url")
-                        if audio_url:
-                            logger.info(f"[MusicGenClient] API returned audio_url: {audio_url}. Downloading...")
-                            audio_resp = await client.get(audio_url, timeout=30.0)
-                            if audio_resp.status_code == 200:
-                                with open(output_path, "wb") as f:
-                                    f.write(audio_resp.content)
-                                logger.info(f"[MusicGenClient] Downloaded generated track to {output_path}")
-                                return output_path
-                    except Exception as json_err:
-                        logger.warning(f"[MusicGenClient] Failed to parse API response as JSON: {json_err}. Using fallback template.")
-                else:
-                    logger.warning(f"[MusicGenClient] API returned status code {resp.status_code}. Using fallback.")
-                    
-        except Exception as e:
-            logger.warning(f"[MusicGenClient] Remote API Generation failed or offline: {e}. Attempting Local GPU Generation...")
 
-        # If we reach here, we try Jamendo fallback first for speed
+                    if resp.status_code == 200:
+                        content_type = resp.headers.get("content-type", "")
+                        # Raw binary audio
+                        if "audio/" in content_type or resp.content.startswith(b"RIFF"):
+                            with open(output_path, "wb") as f:
+                                f.write(resp.content)
+                            self.last_source = "musicgen"
+                            logger.info(f"[MusicGenClient] Primary AI success. Output saved to {output_path}")
+                            return output_path
+
+                        # JSON payload containing audio_url
+                        try:
+                            data = resp.json()
+                            audio_url = data.get("audio_url")
+                            if audio_url:
+                                audio_resp = await client.get(audio_url, timeout=30.0)
+                                if audio_resp.status_code == 200:
+                                    with open(output_path, "wb") as f:
+                                        f.write(audio_resp.content)
+                                    self.last_source = "musicgen"
+                                    logger.info(f"[MusicGenClient] Primary AI success (downloaded). Output saved to {output_path}")
+                                    return output_path
+                        except Exception as json_err:
+                            logger.warning(f"[MusicGenClient] JSON parse warning: {json_err}")
+                    else:
+                        logger.warning(f"[MusicGenClient] API returned status code {resp.status_code}")
+
+            except Exception as e:
+                logger.warning(f"[MusicGenClient] Primary AI generation unavailable: {e}. Switching to local fallback library...")
+
+        # ============================================================
+        # 2. Local Fallback Music Library (Offline, Zero External Calls)
+        # ============================================================
         try:
-            success = await self._fetch_jamendo_fallback(genre, output_path, analysis)
+            success = self._load_local_fallback(output_path)
             if success:
+                self.last_source = "local_fallback"
+                logger.info("[MusicGenClient] Successfully generated track from local fallback library.")
                 return output_path
-            else:
-                fallback_file = self._get_fallback_file(genre)
-                if fallback_file and os.path.exists(fallback_file):
-                    shutil.copy(fallback_file, output_path)
-                    logger.info(f"[MusicGenClient] Used local fallback file: {fallback_file}")
-                    return output_path
         except Exception as fallback_err:
-            logger.error(f"[MusicGenClient] Fallback failed: {fallback_err}")
-            
-        raise Exception("AI model generation failed. Remote API offline and fallbacks failed.")
+            logger.error(f"[MusicGenClient] Local fallback processing error: {fallback_err}")
+            raise
 
-    async def _fetch_jamendo_fallback(self, genre: Optional[str], output_path: str, analysis: dict = None) -> bool:
-        """
-        Downloads a curated, studio-quality track from Jamendo based on genre and mood 
-        to guarantee variety when the GPU generation API is offline.
-        """
-        import random
-        # Target tag based on genre
-        target_genre = genre if genre and genre != "undefined" else (analysis.get("classified_genre") if analysis else "pop")
-        tag = target_genre.lower().split()[0]
-        
-        # Use a fallback working public jamendo ID if the env one is invalid
-        client_id = os.getenv("JAMENDO_CLIENT_ID", "b6747d04")
-        if client_id == "56d30c11": # Handle known-invalid env client_id
-            client_id = "b6747d04"
+        raise RuntimeError("Music generation is temporarily unavailable and no local fallback track is available.")
 
-        jamendo_api = f"https://api.jamendo.com/v3.0/tracks/?client_id={client_id}&format=json&limit=20&tags={tag}"
-        
+    def _validate_audio_file(self, file_path: str) -> bool:
+        """
+        Validates that a local audio file exists, has content (>1KB), and is readable.
+        """
+        if not os.path.exists(file_path):
+            return False
         try:
-            logger.info(f"[MusicGenClient] GPU offline. Fetching track from Jamendo for tag: {tag}...")
-            async with httpx.AsyncClient() as client:
-                resp = await client.get(jamendo_api, timeout=10.0)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    if data.get("results"):
-                        track = random.choice(data["results"])
-                        audio_url = track.get("audio")
-                        if audio_url:
-                            logger.info(f"[MusicGenClient] Selected Jamendo track: {track.get('name')}")
-                            audio_resp = await client.get(audio_url, timeout=30.0)
-                            if audio_resp.status_code == 200:
-                                temp_mp3 = output_path.replace(".wav", "_premium.mp3")
-                                with open(temp_mp3, "wb") as f:
-                                    f.write(audio_resp.content)
-                                    
-                                import av
-                                import numpy as np
-                                import soundfile as sf
-                                
-                                container = av.open(temp_mp3)
-                                stream = container.streams.audio[0]
-                                frames = [frame.to_ndarray() for frame in container.decode(stream)]
-                                if frames:
-                                    audio_data = np.concatenate(frames, axis=1).T
-                                    sf.write(output_path, audio_data, stream.rate)
-                                    
-                                try:
-                                    os.remove(temp_mp3)
-                                except: pass
-                                
-                                logger.info("[MusicGenClient] Successfully prepared Jamendo fallback BGM.")
-                                return True
-        except Exception as e:
-            logger.warning(f"[MusicGenClient] Jamendo fallback failed: {e}")
-            
-        return False
+            if os.path.getsize(file_path) < 1024:
+                return False
+            # Verify file container readability using PyAV
+            import av
+            container = av.open(file_path)
+            has_audio = any(stream.type == 'audio' for stream in container.streams)
+            container.close()
+            return has_audio
+        except Exception as val_err:
+            logger.warning(f"[MusicGenClient] Audio validation failed for {file_path}: {val_err}")
+            return False
 
-    def _get_fallback_file(self, genre: Optional[str]) -> str:
+    def _load_local_fallback(self, output_path: str) -> bool:
         """
-        Selects a random fallback track to ensure variety when generation/APIs fail.
+        Selects a random validated audio track from the local fallback library,
+        decodes it, and renders a clean WAV output for downstream audio pipelines.
         """
-        import random
-        # We know we have track1.mp3 through track5.mp3. Pick completely randomly to ensure
-        # that the user gets different BGM every single time they generate.
-        # The beat-matching engine will warp this random track to perfectly fit their vocal anyway!
-        available_tracks = ["track1.mp3", "track2.mp3", "track3.mp3", "track4.mp3", "track5.mp3"]
-        
-        # If the fallback directory has actual files, we can just pick from them
-        if os.path.exists(self.fallback_dir):
-            # Only pick .mp3 files. The 16KB .wav files in this directory are corrupted headers
-            # that cause the time-stretching engine to create a continuous "toooooot" noise!
-            files = [f for f in os.listdir(self.fallback_dir) if f.endswith(".mp3")]
-            if files:
-                return random.choice(files)
-                
-        return random.choice(available_tracks)
+        if not os.path.exists(self.fallback_dir):
+            logger.error(f"[MusicGenClient] Fallback directory does not exist: {self.fallback_dir}")
+            raise RuntimeError("Music generation is temporarily unavailable and no local fallback track is available.")
+
+        all_files = [
+            f for f in os.listdir(self.fallback_dir)
+            if f.lower().endswith(SUPPORTED_AUDIO_EXTENSIONS)
+        ]
+
+        if not all_files:
+            logger.error(f"[MusicGenClient] Fallback directory is empty: {self.fallback_dir}")
+            raise RuntimeError("Music generation is temporarily unavailable and no local fallback track is available.")
+
+        # Avoid repeating the immediate previous track if multiple files are available
+        available_candidates = [f for f in all_files if f != self._last_fallback_file]
+        if not available_candidates:
+            available_candidates = all_files
+
+        # Shuffle candidates to attempt valid selection
+        random.shuffle(available_candidates)
+
+        selected_file = None
+        for candidate in available_candidates:
+            cand_path = os.path.join(self.fallback_dir, candidate)
+            if self._validate_audio_file(cand_path):
+                selected_file = candidate
+                break
+
+        if not selected_file:
+            # Try any file if non-repeated ones failed validation
+            for candidate in all_files:
+                cand_path = os.path.join(self.fallback_dir, candidate)
+                if self._validate_audio_file(cand_path):
+                    selected_file = candidate
+                    break
+
+        if not selected_file:
+            logger.error("[MusicGenClient] No valid readable audio tracks found in local fallback library.")
+            raise RuntimeError("Music generation is temporarily unavailable and no local fallback track is available.")
+
+        self._last_fallback_file = selected_file
+        source_path = os.path.join(self.fallback_dir, selected_file)
+        logger.info(f"[MusicGenClient] Selected local fallback track: {selected_file}")
+
+        # Decode using PyAV and write standard WAV format for the audio mixer pipeline
+        import av
+        import numpy as np
+        import soundfile as sf
+
+        container = av.open(source_path)
+        stream = container.streams.audio[0]
+        frames = [frame.to_ndarray() for frame in container.decode(stream)]
+        container.close()
+
+        if not frames:
+            raise RuntimeError(f"Could not decode audio frames from fallback track: {selected_file}")
+
+        audio_data = np.concatenate(frames, axis=1).T
+        sf.write(output_path, audio_data, stream.rate)
+        return True

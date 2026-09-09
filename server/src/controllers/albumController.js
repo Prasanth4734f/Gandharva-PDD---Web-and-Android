@@ -48,97 +48,21 @@ function loadDiskCache() {
 }
 
 loadDiskCache();
+const GandharvaModelClient = require('../services/gandharvaModelClient');
+const { extractStoryBlueprint } = require('../services/storyNarrativeEngine');
 
 /**
- * Gemini API Multi-Model Resilient Helper
+ * Gandharva-Omni AI & Resilient Multi-Tier Story Intelligence Helper
  */
-async function callGemini(promptText) {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return null;
-
-  const models = [
-    'gemini-3.5-flash',
-    'gemini-3.7-flash',
-    'gemini-flash-latest',
-    'gemini-flash-lite-latest',
-    'gemini-2.5-flash'
-  ];
-  for (const modelName of models) {
-    try {
-      const textResult = await new Promise((resolve) => {
-        let resolved = false;
-        const timer = setTimeout(() => {
-          if (!resolved) {
-            resolved = true;
-            resolve(null);
-          }
-        }, 6000);
-
-        const data = JSON.stringify({
-          contents: [{ parts: [{ text: promptText }] }]
-        });
-
-        const options = {
-          hostname: 'generativelanguage.googleapis.com',
-          port: 443,
-          path: `/v1beta/models/${modelName}:generateContent?key=${apiKey}`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(data)
-          },
-          timeout: 6000
-        };
-
-        const req = https.request(options, (res) => {
-          let body = '';
-          res.on('data', chunk => body += chunk);
-          res.on('end', () => {
-            if (!resolved) {
-              resolved = true;
-              clearTimeout(timer);
-              if (res.statusCode === 200) {
-                try {
-                  const parsed = JSON.parse(body);
-                  const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
-                  resolve(text || null);
-                } catch (e) {
-                  resolve(null);
-                }
-              } else {
-                resolve(null);
-              }
-            }
-          });
-        });
-
-        req.on('error', () => {
-          if (!resolved) {
-            resolved = true;
-            clearTimeout(timer);
-            resolve(null);
-          }
-        });
-
-        req.on('timeout', () => {
-          req.destroy();
-          if (!resolved) {
-            resolved = true;
-            clearTimeout(timer);
-            resolve(null);
-          }
-        });
-
-        req.write(data);
-        req.end();
-      });
-
-      if (textResult) return textResult;
-    } catch (err) {
-      console.warn(`[Gemini Model Fallback] ${modelName} failed:`, err.message);
+async function callGandharvaOmni(mode, promptText, options = {}) {
+  try {
+    const omniResult = await GandharvaModelClient.generate(mode, promptText, options);
+    if (omniResult) {
+      return typeof omniResult === 'string' ? omniResult : JSON.stringify(omniResult);
     }
+  } catch (e) {
+    console.warn(`[Gandharva-Omni ${mode}] note:`, e.message);
   }
-
   return null;
 }
 
@@ -152,21 +76,9 @@ async function generateVisualCoverPrompt(blueprint) {
   const coverStyle = blueprint.cover_style || 'Digital Painting';
   const title = blueprint.title || 'Album Cover';
 
-  const geminiPrompt = `You are an art director for cinematic album covers.
-Create a vivid, photographic, 1-sentence visual description of an album cover based on this story:
-Title: "${title}"
-Story: "${storyText}"
-Genre: ${genre}
-Style: ${coverStyle}
-
-CRITICAL RULES:
-- Focus on the central character, setting, instruments, or artistic subject described in the story.
-- Describe lighting (e.g. golden hour, dramatic stage lighting, neon rim light), atmosphere, and rich visual details.
-- DO NOT use words like "album cover", "text", or "story".
-- Keep under 30 words.`;
-
-  const visualDesc = await callGemini(geminiPrompt);
-  if (visualDesc && visualDesc.length > 10) {
+  const omniPrompt = `Album cover visual description for album titled "${title}". Story: "${storyText}". Genre: ${genre}. Visual Style: ${coverStyle}.`;
+  const visualDesc = await callGandharvaOmni('PROMPT_DIRECTOR', omniPrompt);
+  if (visualDesc && visualDesc.length > 10 && !visualDesc.includes('planned_tracks') && !visualDesc.includes('{') && !visualDesc.includes('dominant_instruments')) {
     const cleanDesc = visualDesc.replace(/[^\w\s,.-]/g, '').trim();
     return `${cleanDesc}, Hasselblad 35mm photography, 8k resolution, cinematic lighting, volumetric atmosphere, hyperrealistic details, masterpiece composition, highly detailed textures, no text, no watermark, no logos`;
   }
@@ -310,193 +222,65 @@ const handleAnalyzeStory = async (req, res) => {
     const targetLyricsCount = Math.max(5, Math.min(8, parseInt(numLyrics) || 5));
     const targetBgmsCount = Math.min(9, Math.max(4, parseInt(numBgms) || 5));
 
-    // 1. Try Gemini AI Story Blueprint Analysis
-    const geminiPrompt = `You are the Narrative Intelligence Engine for Gandharva AI Music Studio.
-Analyze the following story and create a ${targetLyricsCount}-track album blueprint in valid JSON format ONLY (no markdown code blocks, no explanation text).
-
-Story: "${cleanStory}"
-Target Language for Lyrics: ${language}
-Preferred Genre: ${preferredGenre || 'Auto-detect'}
-
-Return JSON matching this exact structure:
-{
-  "title": "Album Title (2-4 words)",
-  "genre": "Main Music Genre",
-  "subgenre": "Specific Subgenre/Style",
-  "cover_style": "Visual art style description for album cover",
-  "color_palette": ["#Hex1", "#Hex2", "#Hex3", "#Hex4"],
-  "dominant_instruments": ["Instrument1", "Instrument2", "Instrument3", "Instrument4"],
-  "planned_tracks": [
-    {
-      "track_number": 1,
-      "title": "Track 1 Title",
-      "scene_description": "Brief scene summary",
-      "emotion": "Dominant emotion",
-      "suggested_bpm": 95,
-      "key_signature": "C Major"
-    },
-    ... (${targetLyricsCount} tracks total)
-  ]
-}`;
-
-    const geminiResult = await callGemini(geminiPrompt);
+    // 1. Try Gandharva-Omni AI Story Blueprint Analysis
+    const omniPrompt = `Analyze story into album blueprint: Story: "${cleanStory}" | Language: ${language} | Preferred Genre: ${preferredGenre || 'Auto-detect'} | Track Count: ${targetLyricsCount}`;
+    const omniResult = await callGandharvaOmni('NIE_BLUEPRINT', omniPrompt, {
+      language,
+      genre: preferredGenre,
+      track_count: targetLyricsCount
+    });
     let blueprint = null;
 
-    if (geminiResult) {
+    if (omniResult) {
       try {
-        const jsonMatch = geminiResult.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0]);
-          if (parsed && parsed.title && Array.isArray(parsed.planned_tracks)) {
-            blueprint = {
-              title: parsed.title,
-              genre: parsed.genre || preferredGenre || 'Cinematic',
-              subgenre: parsed.subgenre || 'Concept Score',
-              language,
-              story: cleanStory,
-              num_lyrics: targetLyricsCount,
-              num_bgms: targetBgmsCount,
-              timeline: `${targetLyricsCount}-Scene Story Arc`,
-              cover_style: parsed.cover_style || 'Cinematic Artwork',
-              color_palette: parsed.color_palette || ['#FF758C', '#FF7EB3', '#F76B1C', '#4A00E0'],
-              dominant_instruments: parsed.dominant_instruments || ['Grand Piano', 'Acoustic Guitar', 'Violin Strings', 'Synth Pad'],
-              planned_tracks: parsed.planned_tracks.slice(0, targetLyricsCount),
-              estimated_duration_mins: Math.ceil(targetLyricsCount * 2.5)
-            };
+        const parsed = typeof omniResult === 'object' ? omniResult : (typeof omniResult === 'string' && omniResult.startsWith('{') ? JSON.parse(omniResult) : null);
+        if (parsed && parsed.title && Array.isArray(parsed.planned_tracks)) {
+          blueprint = {
+            title: parsed.title,
+            genre: parsed.genre || preferredGenre || 'Cinematic',
+            subgenre: parsed.subgenre || 'Concept Score',
+            language,
+            story: cleanStory,
+            num_lyrics: targetLyricsCount,
+            num_bgms: targetBgmsCount,
+            timeline: `${targetLyricsCount}-Scene Story Arc`,
+            cover_style: parsed.cover_style || 'Cinematic Artwork',
+            color_palette: parsed.color_palette || ['#FF758C', '#FF7EB3', '#F76B1C', '#4A00E0'],
+            dominant_instruments: parsed.dominant_instruments || ['Grand Piano', 'Acoustic Guitar', 'Violin Strings', 'Synth Pad'],
+            planned_tracks: parsed.planned_tracks.slice(0, targetLyricsCount),
+            estimated_duration_mins: Math.ceil(targetLyricsCount * 2.5)
+          };
+        } else if (typeof omniResult === 'string') {
+          const jsonMatch = omniResult.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            const parsedMatch = JSON.parse(jsonMatch[0]);
+            if (parsedMatch && parsedMatch.title) {
+              blueprint = {
+                title: parsedMatch.title,
+                genre: parsedMatch.genre || preferredGenre || 'Cinematic',
+                subgenre: parsedMatch.subgenre || 'Concept Score',
+                language,
+                story: cleanStory,
+                num_lyrics: targetLyricsCount,
+                num_bgms: targetBgmsCount,
+                timeline: `${targetLyricsCount}-Scene Story Arc`,
+                cover_style: parsedMatch.cover_style || 'Cinematic Artwork',
+                color_palette: parsedMatch.color_palette || ['#FF758C', '#FF7EB3', '#F76B1C', '#4A00E0'],
+                dominant_instruments: parsedMatch.dominant_instruments || ['Grand Piano', 'Acoustic Guitar', 'Violin Strings', 'Synth Pad'],
+                planned_tracks: parsedMatch.planned_tracks ? parsedMatch.planned_tracks.slice(0, targetLyricsCount) : [],
+                estimated_duration_mins: Math.ceil(targetLyricsCount * 2.5)
+              };
+            }
           }
         }
       } catch (e) {
-        console.log('[NIE Gemini Parse Fallback]', e.message);
+        console.log('[NIE Gandharva-Omni Parse note]', e.message);
       }
     }
 
-function generateDynamicStoryTracks(cleanStory, genre, title, targetCount) {
-  // Extract key themes directly from user story to form a coherent 5-act narrative arc
-  const words = cleanStory.split(/\s+/);
-  const storySummary = cleanStory.slice(0, 100);
-
-  const narrativeArc = [
-    {
-      title: `The Genesis & The Dream`,
-      scene_description: `The beginning of the pursuit: dedicating relentless effort, study, and sacrifice toward an ambitious dream.`,
-      emotion: 'Dedication & Hope',
-      suggested_bpm: 82,
-      key_signature: 'E Minor'
-    },
-    {
-      title: `Winds of Breakthrough`,
-      scene_description: `The turning point where initial struggles give way to miraculous breakthroughs and rising momentum.`,
-      emotion: 'Euphoria & Momentum',
-      suggested_bpm: 118,
-      key_signature: 'G Major'
-    },
-    {
-      title: `The Zenith of Glory`,
-      scene_description: `Reaching the absolute peak of success, experiencing abundance, celebration, and grand achievement.`,
-      emotion: 'Triumph & Grandeur',
-      suggested_bpm: 125,
-      key_signature: 'D Major'
-    },
-    {
-      title: `Soul of the Calling`,
-      scene_description: `A profound inner realization that true fulfillment comes from authentic creative artistry and purpose.`,
-      emotion: 'Deep Reflection',
-      suggested_bpm: 90,
-      key_signature: 'A Minor'
-    },
-    {
-      title: `The Masterpiece Symphony`,
-      scene_description: `The grand culmination as a revered master, uniting all life experiences into a timeless musical legacy.`,
-      emotion: 'Universal Fulfillment',
-      suggested_bpm: 115,
-      key_signature: 'C Major'
-    },
-    {
-      title: `Echoes of the Odyssey`,
-      scene_description: `Looking back over the decades of evolution with deep gratitude and inner peace.`,
-      emotion: 'Nostalgic Peace',
-      suggested_bpm: 96,
-      key_signature: 'F Major'
-    },
-    {
-      title: `Infinite Harmony`,
-      scene_description: `Passing the torch and inspiring the next generation of dreamers.`,
-      emotion: 'Inspiration',
-      suggested_bpm: 104,
-      key_signature: 'A Major'
-    },
-    {
-      title: `Eternal Opus`,
-      scene_description: `The everlasting resonance of a life dedicated to artistic greatness.`,
-      emotion: 'Transcendence',
-      suggested_bpm: 110,
-      key_signature: 'E Major'
-    }
-  ];
-
-  return narrativeArc.slice(0, targetCount).map((t, idx) => ({ ...t, track_number: idx + 1 }));
-}
-
-    // Heuristic Fallback if Gemini unavailable or failed parsing
+    // Heuristic Story Narrative Intelligence Engine Fallback
     if (!blueprint) {
-      let genre = preferredGenre || 'Emotional Drama Score';
-      let subgenre = 'Orchestral Drama & Story Score';
-      let coverStyle = 'Cinematic Soft Focus Canvas';
-      let colorPalette = ['#FF758C', '#FF7EB3', '#F76B1C', '#4A00E0'];
-      let dominantInstruments = ['Grand Piano', 'Acoustic Guitar', 'Lush Violin Strings', 'Ambient Synth Pad'];
-
-      const lowerStory = cleanStory.toLowerCase();
-      if (lowerStory.includes('family') || lowerStory.includes('money') || lowerStory.includes('earn') || lowerStory.includes('state') || lowerStory.includes('years') || lowerStory.includes('wealth')) {
-        genre = 'Cinematic Drama';
-        subgenre = 'Emotional Family & Sacrifice Score';
-        coverStyle = 'Warm Golden Sunset Horizon Canvas';
-        colorPalette = ['#F59E0B', '#D97706', '#B45309', '#7C3AED'];
-        dominantInstruments = ['Solo Grand Piano', 'Warm Cello', 'Acoustic Guitar', 'Symphonic Strings'];
-      } else if (lowerStory.includes('cyber') || lowerStory.includes('space') || lowerStory.includes('future') || lowerStory.includes('sci-fi')) {
-        genre = 'Sci-Fi Synth';
-        subgenre = 'Cyberpunk Neon Journey';
-        coverStyle = 'Neon Cyberpunk Digital Art';
-        colorPalette = ['#00F2FE', '#4FACFE', '#7F00FF', '#E100FF'];
-        dominantInstruments = ['Analogue Synth Lead', 'Sub Bass', 'Arpeggiator', 'Cyber Percussion'];
-      } else if (lowerStory.includes('god') || lowerStory.includes('temple') || lowerStory.includes('spiritual') || lowerStory.includes('devot')) {
-        genre = 'Devotional Fusion';
-        subgenre = 'Spiritual Acoustic Classical';
-        coverStyle = 'Golden Temple Sacred Canvas';
-        colorPalette = ['#F7971E', '#FFD200', '#D4AF37', '#8E2DE2'];
-        dominantInstruments = ['Indian Flute (Bansuri)', 'Acoustic Sitar', 'Tabla Beats', 'Warm Strings'];
-      } else if (lowerStory.includes('war') || lowerStory.includes('battle') || lowerStory.includes('hero') || lowerStory.includes('fight')) {
-        genre = 'Epic Cinematic';
-        subgenre = 'Orchestral Action Score';
-        coverStyle = 'Dark Heroic Matte Painting';
-        colorPalette = ['#141E30', '#243B55', '#E52D27', '#B31217'];
-        dominantInstruments = ['Full Symphony Strings', 'Brass Ensemble', 'War Drums', 'Electric Guitar'];
-      }
-
-      let title = `${genre} Story Anthem`;
-      if (cleanStory.length > 5) {
-        const words = cleanStory.split(/\s+/).slice(0, 4).join(' ');
-        title = words.replace(/[^\w\s]/g, '').trim();
-        title = title.charAt(0).toUpperCase() + title.slice(1);
-        if (title.length < 4) title = `${subgenre} Chronicles`;
-      }
-
-      const dynamicTracks = generateDynamicStoryTracks(cleanStory, genre, title, targetLyricsCount);
-
-      blueprint = {
-        title,
-        genre,
-        subgenre,
-        language,
-        story: cleanStory,
-        num_lyrics: targetLyricsCount,
-        num_bgms: targetBgmsCount,
-        timeline: `${targetLyricsCount}-Scene Story Arc`,
-        cover_style: coverStyle,
-        color_palette: colorPalette,
-        dominant_instruments: dominantInstruments,
-        planned_tracks: dynamicTracks,
-        estimated_duration_mins: Math.ceil(targetLyricsCount * 2.5)
-      };
+      blueprint = extractStoryBlueprint(cleanStory, language, targetLyricsCount, preferredGenre);
     }
 
     // Generate visual cover prompt matching exact story subject
@@ -629,16 +413,18 @@ async function runAlbumWorkers(jobId, albumId, blueprint, baseUrl = 'http://loca
     job.progress = 45;
 
     const lyricsPromises = blueprint.planned_tracks.map(async (pt, index) => {
-      const geminiLyricPrompt = `Write unique song lyrics in ${lang} for scene ${index + 1} titled "${pt.title}".
-Story summary: "${blueprint.story}"
-Scene description: "${pt.scene_description || pt.title}"
-Emotion: ${pt.emotion}
-Format: Include [Intro / Hook], [Verse 1], [Chorus], [Verse 2], [Chorus], and [Outro].
-${isTelugu ? 'CRITICAL: Output must be written strictly in native Telugu script (తెలుగు).' : ''}
-${isHindi ? 'CRITICAL: Output must be written strictly in native Hindi Devanagari script (हिन्दी).' : ''}`;
-
       try {
-        let lyricsText = await callGemini(geminiLyricPrompt);
+        let lyricsText = await callGandharvaOmni('LYRICS_STUDIO', {
+          topic: `${pt.title} (${pt.scene_description || pt.title})`,
+          mood: pt.emotion,
+          genre: blueprint.genre,
+          language: lang
+        }, {
+          language: lang,
+          mood: pt.emotion,
+          genre: blueprint.genre
+        });
+
         if (!lyricsText || lyricsText.length < 50) {
           lyricsText = generateUniqueFallbackLyric(index, pt.title, pt.emotion, lang);
         }
@@ -674,6 +460,9 @@ ${isHindi ? 'CRITICAL: Output must be written strictly in native Hindi Devanagar
       let altBgmUrl = null;
 
       // 1. Synthesize real AI audio using Kaggle GPU ACE-Step / MusicGen model for EVERY track
+      let source = 'local_fallback';
+      let isFallback = true;
+
       if (process.env.AI_ENGINE_URL && !process.env.AI_ENGINE_URL.includes('your-url-here')) {
         try {
           console.log(`[AGE Real GPU Pipeline] Synthesizing Scene Track ${index + 1}/${totalTracks}: "${pt.title}" on Kaggle GPU...`);
@@ -683,6 +472,8 @@ ${isHindi ? 'CRITICAL: Output must be written strictly in native Hindi Devanagar
           ]);
           if (genResult && genResult.filename) {
             bgmUrl = `${baseUrl}/public/generated/${genResult.filename}`;
+            source = 'ace_step';
+            isFallback = false;
             console.log(`[AGE Real GPU Pipeline] Track ${index + 1} generated successfully: ${bgmUrl}`);
           }
         } catch (gpuErr) {
@@ -690,37 +481,46 @@ ${isHindi ? 'CRITICAL: Output must be written strictly in native Hindi Devanagar
         }
       }
 
-      // If GPU took too long or was unavailable for this specific track, use curated distinct high-quality audio
+      // If GPU took too long or was unavailable for this specific track, use local fallback library
+      const fallbackTracks = [
+        'fallback_01.mp3',
+        'fallback_02.mp3',
+        'fallback_03.mp3',
+        'fallback_04.mp3',
+        'fallback_05.mp3',
+        'fallback_06.mp3'
+      ];
+
       if (!bgmUrl) {
-        const fallbackStreams = [
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3'
-        ];
-        bgmUrl = fallbackStreams[index % fallbackStreams.length];
+        bgmUrl = `${baseUrl}/fallback/${fallbackTracks[index % fallbackTracks.length]}`;
+        source = 'local_fallback';
+        isFallback = true;
       }
 
-      const altStreams = [
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
-      ];
-      altBgmUrl = altStreams[index % altStreams.length];
+      altBgmUrl = `${baseUrl}/fallback/${fallbackTracks[(index + 1) % fallbackTracks.length]}`;
 
       const bgmVariations = [
         {
-          id: 'v1',
+          id: `ace-${index + 1}`,
+          sceneId: `scene_${index + 1}`,
           name: '1. ACE-Step Master Score (Dual-Brain GPU)',
+          source: isFallback ? 'local_fallback' : 'ace_step',
+          status: 'completed',
+          audioUrl: bgmUrl,
+          duration: 10,
+          isFallback: isFallback,
           url: bgmUrl,
           prompt: bgmPrompt
         },
         {
-          id: 'v2',
+          id: `mgen-${index + 1}`,
+          sceneId: `scene_${index + 1}`,
           name: '2. MusicGen Neural Score (Live AI)',
+          source: isFallback ? 'local_fallback' : 'musicgen',
+          status: 'completed',
+          audioUrl: altBgmUrl,
+          duration: 10,
+          isFallback: isFallback,
           url: altBgmUrl,
           prompt: `${bgmPrompt}, Neural live score`
         }
@@ -728,19 +528,22 @@ ${isHindi ? 'CRITICAL: Output must be written strictly in native Hindi Devanagar
 
       tracks.push({
         id: `track-${albumId}-${index + 1}`,
-        track_number: pt.track_number || index + 1,
+        sceneId: `scene_${index + 1}`,
+        track_number: index + 1,
         title: pt.title,
-        scene_description: pt.scene_description,
+        scene_description: pt.scene_description || pt.title,
         emotion: pt.emotion,
-        bpm: pt.suggested_bpm || 100,
-        key_signature: pt.key_signature || 'C Major',
+        suggested_bpm: pt.suggested_bpm,
+        bpm: pt.suggested_bpm,
+        key_signature: pt.key_signature,
         lyrics_text: lyricsText,
-        lyrics: lyricsText,
-        bgm_prompt: bgmPrompt,
+        audioUrl: bgmUrl,
         bgm_url: bgmUrl,
-        bgm_url_alt: altBgmUrl,
-        bgm_variations: bgmVariations,
-        duration: 180
+        duration: 10,
+        source: source,
+        status: 'completed',
+        isFallback: isFallback,
+        bgm_variations: bgmVariations
       });
     }
 
@@ -813,11 +616,17 @@ const handleRegenerateTrack = async (req, res) => {
 
     const targetTrack = album.tracks[trackIndex];
 
-    // Try Gemini regeneration for fresh lyrics
-    const geminiPrompt = `Re-imagine lyrics in ${album.language} for the track "${targetTrack.title}".
-Story context: "${album.story}"
-Emotion: ${targetTrack.emotion}`;
-    const newLyrics = await callGemini(geminiPrompt);
+    // Gandharva-Omni regeneration for fresh lyrics
+    const newLyrics = await callGandharvaOmni('LYRICS_STUDIO', {
+      topic: `${targetTrack.title} (Re-imagined Edition)`,
+      mood: targetTrack.emotion || 'Cinematic',
+      genre: album.genre,
+      language: album.language
+    }, {
+      language: album.language,
+      mood: targetTrack.emotion,
+      genre: album.genre
+    });
 
     if (newLyrics) {
       targetTrack.lyrics_text = newLyrics;

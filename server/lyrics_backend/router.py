@@ -1064,7 +1064,10 @@ async def process_vocal_studio_job(job_id: str, vocal_path: str, mode: str, genr
                 candidates_data[cand_key] = {
                     "url": bgm_url,
                     "style": style_name,
-                    "instruments": [sub_desc]
+                    "instruments": [sub_desc],
+                    "source": getattr(musicgen_client, "last_source", "musicgen") or "musicgen",
+                    "isFallback": (getattr(musicgen_client, "last_source", "") == "local_fallback"),
+                    "is_fallback": (getattr(musicgen_client, "last_source", "") == "local_fallback")
                 }
             except Exception as e:
                 logger.warning(f"Failed to generate {cand_key}: {e}")

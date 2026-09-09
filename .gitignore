@@ -58,4 +58,9 @@ scratch_*.js
 scratch_*.py
 server/scratch_*.js
 server/lyrics_backend/data/
+pdd_repo/
+*.pdf
+fast_copy_pdd.py
+clean_pdd_large.py
+copy_pdd_files.py
 gandharva_lyrics_v1/

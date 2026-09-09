@@ -1,8 +1,9 @@
-import React from 'react';
-import { Platform, LogBox } from 'react-native';
+import React, { useState } from 'react';
+import { Platform, LogBox, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
+import FastSplashScreen from './src/components/FastSplashScreen';
 
 // Ignore routine health ping / network timeout warnings in dev LogBox
 LogBox.ignoreLogs([
@@ -31,10 +32,15 @@ if (Platform.OS === 'web' && typeof document !== 'undefined') {
 }
 
 export default function App() {
+  const [isSplashDone, setIsSplashDone] = useState(false);
+
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <AppNavigator />
+        {!isSplashDone && (
+          <FastSplashScreen onFinish={() => setIsSplashDone(true)} minDurationMs={850} />
+        )}
       </AuthProvider>
     </SafeAreaProvider>
   );

@@ -1,9 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const { sendOtpEmail, verifyOtpCode } = require('../services/emailService');
+const { createRateLimiter } = require('../utils/rateLimiter');
+
+// Rate Limiter: Max 5 OTP requests per 10 minutes per IP
+const otpLimiter = createRateLimiter({
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+  message: 'Too many OTP requests from this device. Please wait 10 minutes before requesting again.'
+});
 
 // POST /api/auth/send-otp
-router.post('/auth/send-otp', async (req, res) => {
+router.post('/auth/send-otp', otpLimiter, async (req, res) => {
   try {
     const { email, name } = req.body;
     if (!email) {
