@@ -1006,97 +1006,6 @@ def _make_contextual_lines_malayalam(kws: List[str], mood_k: str, var_seed: int)
         lines.append(t.format(k1=k1, k2=k2))
     return "\n".join(lines)
 
-async def _generate_with_gemini(system_instruction: str, user_prompt: str, api_key: str, attempt: int = 1):
-    import httpx
-    import json
-    
-    DIAGNOSTICS_DASHBOARD["total_api_calls_in_session"] += 1
-    
-    payload = {
-        "contents": [{"parts": [{"text": f"{system_instruction}\n\nUser Request: {user_prompt}"}]}],
-        "generationConfig": {
-            "responseMimeType": "application/json",
-            "temperature": 0.8,
-            "topP": 0.9,
-            "responseSchema": {
-                "type": "OBJECT",
-                "properties": {
-                    "story_blueprint": {
-                        "type": "OBJECT",
-                        "properties": {
-                            "beginning": {"type": "STRING"},
-                            "trigger": {"type": "STRING"},
-                            "rising_emotion": {"type": "STRING"},
-                            "climax": {"type": "STRING"},
-                            "resolution": {"type": "STRING"}
-                        }
-                    },
-                    "scenes": {
-                        "type": "ARRAY",
-                        "items": {"type": "STRING"}
-                    },
-                    "variations": {
-                        "type": "ARRAY",
-                        "items": {
-                            "type": "OBJECT",
-                            "properties": {
-                                "title": { "type": "STRING" },
-                                "lyrics_text": { "type": "STRING" }
-                            },
-                            "required": ["title", "lyrics_text"]
-                        }
-                    }
-                },
-                "required": ["story_blueprint", "scenes", "variations"]
-            }
-        }
-    }
-    
-    models_to_try = ["gemini-2.5-flash", "gemini-3.6-flash"]
-    last_err = None
-    
-    for model_name in models_to_try:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-        print(f"[GEMINI] Model={model_name}, Attempt={attempt}")
-        try:
-            async with httpx.AsyncClient(timeout=25.0) as client:
-                response = await client.post(url, json=payload)
-                if response.status_code == 429:
-                    print(f"[GEMINI] Error=RATE_LIMIT_429 on {model_name}")
-                    DIAGNOSTICS_DASHBOARD["rate_limits_429"] += 1
-                    DIAGNOSTICS_DASHBOARD["api_failures"] += 1
-                    last_err = "RATE_LIMIT_429"
-                    continue
-                elif response.status_code != 200:
-                    print(f"[GEMINI] Status {response.status_code} on {model_name}, trying fallback model if available...")
-                    last_err = "MODEL_UNAVAILABLE"
-                    continue
-                    
-                resp_data = response.json()
-                text = resp_data["candidates"][0]["content"]["parts"][0]["text"].strip()
-                if text.startswith("```json"): text = text[7:]
-                elif text.startswith("```"): text = text[3:]
-                if text.endswith("```"): text = text[:-3]
-                result = json.loads(text.strip())
-                print(f"[GEMINI] Success using {model_name}")
-                DIAGNOSTICS_DASHBOARD["api_successes"] += 1
-                return result
-        except httpx.TimeoutException:
-            print(f"[GEMINI] Timeout on {model_name}")
-            last_err = "TIMEOUT"
-            continue
-        except json.JSONDecodeError:
-            print(f"[GEMINI] JSON parse error on {model_name}")
-            last_err = "JSON_PARSE_ERROR"
-            continue
-        except Exception as e:
-            print(f"[GEMINI] Error on {model_name}: {str(e)}")
-            last_err = str(e)
-            continue
-            
-    DIAGNOSTICS_DASHBOARD["api_failures"] += 1
-    raise Exception(last_err if last_err in ["RATE_LIMIT_429", "TIMEOUT", "JSON_PARSE_ERROR"] else "MODEL_UNAVAILABLE")
-
 async def _generate_with_openai(system_instruction: str, user_prompt: str, api_key: str, attempt: int = 1):
     import httpx
     import json
@@ -1745,29 +1654,23 @@ async def generate_lyrics_variations(prompt: str, genre: str = "Pop", mood: str 
         return None
 
     api_keys = {
-        "gemini": get_key("GEMINI_API_KEY"),
         "openai": get_key("OPENAI_API_KEY"),
         "anthropic": get_key("ANTHROPIC_API_KEY")
     }
     
     health = {
         "trained_local": 0,
-        "gemini": 0,
         "g4f": 0,
         "openai": 0,
         "anthropic": 0,
         "local": 0
     }
     
-    priority_config = ["gemini", "trained_local", "local"]
+    priority_config = ["trained_local", "local"]
     if model_preference == "local":
-        priority_config = ["local", "gemini", "trained_local"]
-    elif model_preference == "trained_local":
-        priority_config = ["trained_local", "gemini", "local"]
-    elif model_preference == "gemini":
-        priority_config = ["gemini", "trained_local", "local"]
-    elif model_preference == "auto":
-        priority_config = ["gemini", "trained_local", "local"]
+        priority_config = ["local", "trained_local"]
+    elif model_preference == "trained_local" or model_preference == "omni" or model_preference == "auto":
+        priority_config = ["trained_local", "local"]
     
     system_instruction = (
         "You are a master songwriter and storyteller.\n"
@@ -1816,13 +1719,11 @@ async def generate_lyrics_variations(prompt: str, genre: str = "Pop", mood: str 
                 print("STEP 1: Planner/Writer (Single pass in baseline)")
                 if provider == "trained_local":
                     result_obj = await _generate_with_trained_local(system_instruction, user_prompt, attempt=attempt+1)
-                elif provider == "gemini" and api_keys["gemini"]:
-                    result_obj = await _generate_with_gemini(system_instruction, user_prompt, api_keys["gemini"], attempt=attempt+1)
                 elif provider == "g4f":
                     result_obj = await _generate_with_g4f(system_instruction, user_prompt, attempt=attempt+1)
-                elif provider == "openai" and api_keys["openai"]:
+                elif provider == "openai" and api_keys.get("openai"):
                     result_obj = await _generate_with_openai(system_instruction, user_prompt, api_keys["openai"], attempt=attempt+1)
-                elif provider == "anthropic" and api_keys["anthropic"]:
+                elif provider == "anthropic" and api_keys.get("anthropic"):
                     result_obj = await _generate_with_anthropic(system_instruction, user_prompt, api_keys["anthropic"], attempt=attempt+1)
                 elif provider == "local":
                     result_obj = await _generate_with_local_ai(system_instruction, user_prompt, attempt=attempt+1)
@@ -1864,7 +1765,7 @@ async def generate_lyrics_variations(prompt: str, genre: str = "Pop", mood: str 
                 health[provider] = 0
                 processed = []
                 version_names = ["Variation A", "Variation B", "Variation C"]
-                engine_name = "Gandharva AI Engine" if provider == "trained_local" else ("Gemini 3.6 Flash" if provider == "gemini" else f"Local AI ({provider})")
+                engine_name = "Gandharva AI Engine" if provider == "trained_local" else f"Local AI ({provider})"
                 for i, var in enumerate(variations[:3]):
                     name = version_names[i] if i < len(version_names) else f"Variation {i+1}"
                     processed.append({

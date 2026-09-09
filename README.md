@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="#-end-to-end-feature-generation-pipelines"><img src="https://img.shields.io/badge/PIPELINES-5_CORE_MODULES-00E5FF?style=for-the-badge&logo=rocket&logoColor=black" alt="Pipelines"></a>
-  <a href="#-ai-engine"><img src="https://img.shields.io/badge/AI_ENGINE-GEMINI_2.5_FLASH-886FBF?style=for-the-badge&logo=googlegemini&logoColor=white" alt="AI Engine"></a>
+  <a href="#-ai-engine"><img src="https://img.shields.io/badge/AI_ENGINE-GANDHARVA_OMNI_7B-886FBF?style=for-the-badge&logo=huggingface&logoColor=white" alt="AI Engine"></a>
   <a href="#-tech-stack"><img src="https://img.shields.io/badge/MOBILE-EXPO_SDK_54-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="Mobile"></a>
   <a href="#-tech-stack"><img src="https://img.shields.io/badge/BACKEND-NODE.JS_%2B_FASTAPI-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Backend"></a>
   <a href="#-tech-stack"><img src="https://img.shields.io/badge/DATABASE-SUPABASE_CLOUD-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Database"></a>
@@ -26,7 +26,7 @@
 
 ## 🌌 Architectural Overview
 
-**GANDHARVA** is a state-of-the-art mobile music creation studio built for artists, producers, and songwriters. Powered by **Google Gemini 2.5 Flash**, **MusicGen AI Engine & Local Asset Fallback**, **WebAudio Signal Processors**, and an **Expo 54 Native Suite**, Gandharva converts raw human imagination into polished, release-ready tracks.
+**GANDHARVA** is a state-of-the-art mobile music creation studio built for artists, producers, and songwriters. Powered by **Gandharva-Omni-7B AI**, **MusicGen AI Engine & Local Asset Fallback**, **WebAudio Signal Processors**, and an **Expo 54 Native Suite**, Gandharva converts raw human imagination into polished, release-ready tracks.
 
 ```
  ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -46,9 +46,9 @@
 
 | Module | Pipeline Description | Tech Stack | Status |
 | :--- | :--- | :--- | :---: |
-| **📖 Story to Album** | NIE narrative analysis to full 3-scene concept album with Dual-Brain GPU scores | Gemini 2.0 + Dual-Brain GPU (MusicGen + ACE-Step) | `LIVE & READY ✅` |
+| **📖 Story to Album** | NIE narrative analysis to full 3-scene concept album with Dual-Brain GPU scores | Gandharva NIE + Dual-Brain GPU (MusicGen + ACE-Step) | `LIVE & READY ✅` |
 | **🎼 Prompt-to-Music** | Natural language prompt to high-fidelity audio composition | MusicGen 3.3B + ACE-Step 8.0 | `LIVE & READY ✅` |
-| **🔮 AI Lyrics Studio** | Multilingual generation in pure Telugu (తెలుగు), Hindi (हिन्दी), English | Google Gemini 2.5 Flash | `LIVE & READY ✅` |
+| **🔮 AI Lyrics Studio** | Multilingual generation in pure Telugu (తెలుగు), Hindi (हिन्दी), English | Gandharva-Omni-7B + Procedural Engine | `LIVE & READY ✅` |
 | **🎛️ Music Editor** | Multi-track audio trimmer, tempo adjustment, pitch shifter & exporter | Expo AV + WebAudio | `LIVE & READY ✅` |
 | **🎤 AI Vocal Studio** | Live Auto-Tune, Pitch Correction, Vocal Demixing & AI Narration | Demucs + DSP Pitch Engine | `IN DEVELOPMENT 🚧` |
 | **🎹 Playground Instruments**| 10 Racks: Piano, Drums, Bansuri Flute, Synth Lead, Slap Bass, Organ, Guitar, Violin, Sax, Sitar | WebAudio Sampler + Loop DSP | `LIVE & READY ✅` |
@@ -274,7 +274,7 @@ flowchart TD
  💻 FRONTEND          : React Native, Expo SDK 54, React Navigation v7, Lucide Icons, Expo AV
  🟢 NODE BACKEND      : Express.js, Axios, Dotenv, Ngrok Tunneling
  🐍 PYTHON BACKEND    : FastAPI, PyTorch, Uvicorn, SQLModel, Transformers
- 🔮 AI MODELS         : Google Gemini 2.5 Flash, MusicGen Medium, Demucs V4
+ 🔮 AI MODELS         : Gandharva-Omni-7B, MusicGen Medium, Demucs V4
  ⚡ DATABASE & CLOUD  : Supabase REST API, SQLite Local Storage, PostgreSQL
  🔊 AUDIO ENGINE      : WebAudio DSP, Local Fallback Library, Custom Samplers
 ```
@@ -305,7 +305,6 @@ Create `.env` in root directory (`c:\nusic_gen\.env`) and `server/.env`:
 
 ```env
 PORT=3000
-GEMINI_API_KEY=your_google_gemini_api_key_here
 SUPABASE_URL=https://your-supabase-url.supabase.co
 SUPABASE_KEY=your_supabase_anon_key
 ```

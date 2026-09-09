@@ -23,7 +23,7 @@ const LANGUAGES = [
 
 const MODELS = [
   { key: 'trained_local', label: 'Gandharva Own Model' },
-  { key: 'gemini', label: 'Gemini 2.5 Flash AI' },
+  { key: 'omni', label: 'Gandharva-Omni-7B AI' },
   { key: 'ollama', label: 'Ollama AI' },
 ];
 

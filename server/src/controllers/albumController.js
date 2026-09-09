@@ -1,7 +1,7 @@
 /**
  * albumController.js
  * Narrative Intelligence Engine (NIE) & Album Generation Engine (AGE) Backend Controller
- * Powered by Google Gemini 2.5 Flash API for multi-lingual AI concept albums.
+ * Powered by Gandharva-Omni AI Engine for multilingual AI concept albums.
  */
 const axios = require('axios');
 const path = require('path');

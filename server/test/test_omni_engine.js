@@ -35,7 +35,7 @@ async function testOmniEngine() {
   // Test 3: Story-to-Album Blueprint (NIE)
   console.log('3. Testing NIE Story Blueprint JSON...');
   const blueprintResult = await GandharvaModelClient.generate('NIE_BLUEPRINT', 'A musician travels with a violin to the grand stage.', { temperature: 0.7 });
-  const parsed = JSON.parse(blueprintResult);
+  const parsed = typeof blueprintResult === 'string' ? JSON.parse(blueprintResult) : blueprintResult;
   console.log(`✅ NIE Blueprint Output:`);
   console.log(`   Album Title: "${parsed.title}"`);
   console.log(`   Genre: ${parsed.genre}`);
@@ -47,8 +47,8 @@ async function testOmniEngine() {
   // Test 4: Music Director
   console.log('\n4. Testing Music Director Engine...');
   const mdResult = await GandharvaModelClient.generate('MUSIC_DIRECTOR', 'Tollywood interval fight', { temperature: 0.7 });
-  const parsedMd = JSON.parse(mdResult);
-  console.log(`✅ Music Director Output: ${parsedMd.bpm} BPM | Key: ${parsedMd.key_signature} | Mode: ${parsedMd.musical_mode}`);
+  const parsedMd = typeof mdResult === 'string' ? JSON.parse(mdResult) : mdResult;
+  console.log(`✅ Music Director Output: ${parsedMd.bpm} BPM | Key: ${parsedMd.key_signature} | Mode: ${parsedMd.musical_mode || parsedMd.energy_level}`);
 
   // Test 5: Vocal Coach
   console.log('\n5. Testing AI Vocal Coach...');

@@ -258,7 +258,7 @@ function generateDynamicLyrics(prompt, genre, mood, language, variationIndex, re
 
 const HF_OMNI_API_URL = 'https://prasanthm4734f-gandharva-omni-model.hf.space/api/generate_lyrics';
 
-async function callClientGeminiLyrics(systemPrompt, userPrompt, temperature = 0.9) {
+async function callClientOmniLyrics(systemPrompt, userPrompt, temperature = 0.9) {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -311,10 +311,10 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
       return result;
     }
   } catch (backendErr) {
-    console.warn('[Lyrics Service] Primary backend offline, activating direct Gemini AI lyrics pipeline...');
+    console.warn('[Lyrics Service] Primary backend offline, activating direct Gandharva-Omni AI pipeline...');
   }
 
-  // 2. Direct Device-to-Gemini AI Songwriting Pipeline
+  // 2. Direct Gandharva-Omni AI Songwriting Pipeline
   try {
     const cleanTopic = (prompt || 'Love and Life').trim();
     const langLower = (language || 'english').toLowerCase();
@@ -358,8 +358,8 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
     const sysPromptB = `You are an award-winning modern rhythm & melody songwriter in ${language}. Write Variation B (Catchy, rhythmic, uplifting dynamic hook, 25-35 lines, 100% DIFFERENT words, rhythm, and lyrical flow from standard slow songs) based specifically on the user's prompt idea. Genre: ${genre}, Mood: ${mood}.\n\nSong Structure:\n${tagGuide}\n\nCRITICAL: Return ONLY the song lyrics with section headings. No conversational intro, no markdown code blocks, no English translation if writing in an Indian language.`;
 
     const [lyricsA, lyricsB] = await Promise.all([
-      callClientGeminiLyrics(sysPromptA, cleanTopic, 0.85),
-      callClientGeminiLyrics(sysPromptB, cleanTopic, 0.95)
+      callClientOmniLyrics(sysPromptA, cleanTopic, 0.85),
+      callClientOmniLyrics(sysPromptB, cleanTopic, 0.95)
     ]);
 
     let cleanLyricsA = lyricsA;
@@ -373,7 +373,7 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
     const bgmPrompt = `High-quality ${genre} ${mood} instrumental arrangement. Key of C Major, 124 BPM. Layered instruments, pads, and driving rhythm. Perfect backing track for singing: "${cleanTopic}".`;
 
     return {
-      project_id: 'gemini-direct-' + Date.now(),
+      project_id: 'omni-direct-' + Date.now(),
       title: baseTitle,
       variations: [
         {
@@ -381,7 +381,7 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
           version_name: 'Variation A (Soulful Classic)',
           title: `${cleanTopic} - Variation A`,
           lyrics_text: cleanLyricsA,
-          engine: 'Google Gemini Flash AI Engine',
+          engine: 'Gandharva-Omni AI Engine',
           fallback_used: false
         },
         {
@@ -389,7 +389,7 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
           version_name: 'Variation B (Rhythmic Dynamic)',
           title: `${cleanTopic} - Variation B`,
           lyrics_text: cleanLyricsB,
-          engine: 'Google Gemini Flash AI Engine',
+          engine: 'Gandharva-Omni AI Engine',
           fallback_used: false
         },
         {
@@ -402,10 +402,10 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
         }
       ],
       success: true,
-      source: 'Gandharva Gemini AI Engine (Direct)'
+      source: 'Gandharva-Omni AI Engine (Direct)'
     };
-  } catch (geminiErr) {
-    console.warn('[Direct Gemini Lyrics Warning]', geminiErr.message);
+  } catch (omniErr) {
+    console.warn('[Direct Omni Lyrics Warning]', omniErr.message);
   }
 
   // 3. Fallback Dynamic Generator

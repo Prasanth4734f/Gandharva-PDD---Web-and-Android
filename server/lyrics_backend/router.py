@@ -1642,7 +1642,7 @@ async def custom_blueprints(request: CustomBlueprintsRequest):
         
     analysis = jobs_db[job_id].get("analysis", {})
     
-    # Send user choices to MusicDirector (mocking the complex Gemini prompt update for now)
+    # Send user choices to MusicDirector
     from music_director import MusicDirector
     
     base_blueprint = MusicDirector.create_blueprint(analysis, {"emotions": analysis.get("emotions", {})}, genre=request.genre[0] if request.genre else None)

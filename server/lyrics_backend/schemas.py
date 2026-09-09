@@ -39,7 +39,7 @@ class LyricRequest(BaseModel):
     genre: Optional[str] = Field(default="Pop", description="Music genre, e.g. Lofi, Rock, Pop.")
     mood: Optional[str] = Field(default="Melancholic", description="Desired lyric emotion, e.g. Happy, Sad.")
     language: Optional[str] = Field(default="English", description="Language of lyrics.")
-    model_preference: Optional[str] = Field(default="auto", description="AI routing model preference (auto, gemini, openai, anthropic, local).")
+    model_preference: Optional[str] = Field(default="auto", description="AI routing model preference (auto, trained_local, omni, local).")
 
     model_config = {"protected_namespaces": ()}
 
