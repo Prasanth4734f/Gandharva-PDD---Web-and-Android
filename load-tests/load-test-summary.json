@@ -1,0 +1,26 @@
+{
+  "testName": "Gandharva Studio Baseline Concurrent Load Test",
+  "concurrency": 25,
+  "durationSeconds": "5.1",
+  "totalRequests": 4590,
+  "successfulRequests": 1870,
+  "failedRequests": 2720,
+  "requestsPerSecond": "904.3 req/sec",
+  "rpsNumeric": 904.3,
+  "errorRate": "59.26%",
+  "responseTimes": {
+    "min": "48ms",
+    "avg": "8ms",
+    "max": "5000ms",
+    "p50": "2ms",
+    "p90": "5ms",
+    "p95": "6ms",
+    "p99": "15ms"
+  },
+  "statusCodes": {
+    "200": 1870,
+    "404": 1781,
+    "408": 2,
+    "429": 937
+  }
+}
