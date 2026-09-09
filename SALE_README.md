@@ -1,73 +1,73 @@
 # ⚡ GANDHARVA — Integrated AI Music Studio & Production Suite
-### Commercial Project Sale Document & Technical Specification
+### Turnkey Commercial Software & Intellectual Property Prospectus
 
 ---
 
-## 🌟 1. What is Gandharva?
+## 💎 1. Executive Product Overview
 
-**Gandharva** is an advanced, full-stack, cross-platform AI music creation and production studio built for mobile (**Android APK / iOS**) and desktop **Web browsers**. 
+**Gandharva** is an enterprise-grade, cross-platform Digital Audio Workstation (DAW) and AI music creation suite built for **Web (Desktop/Mobile)**, **Android (Standalone APK)**, and **iOS**. 
 
-It enables music producers, songwriters, content creators, and independent artists to convert natural language prompts and narrative stories into release-ready musical compositions, multilingual lyrics, and multi-track audio arrangements in seconds.
+The platform enables music producers, songwriters, video creators, and indie artists to generate studio-grade compositions, multilingual song lyrics, and multi-track audio arrangements from natural language prompts and narrative scripts.
 
-The project is built with **zero external dependency on paid third-party APIs (no OpenAI or Gemini API keys needed)**, featuring a completely self-contained cascading AI model architecture with zero downtime guarantees.
+Engineered with a **self-contained AI cascading engine**, Gandharva operates with **zero external dependency on recurring paid third-party LLM APIs**, ensuring 100% uptime and eliminating third-party subscription costs.
 
 ---
 
-## 🚀 2. Core Features & Capabilities
+## 🎛️ 2. Comprehensive Feature Suite
 
-### 🎼 1. Prompt-to-Music Composition Engine
-- Transforms natural language prompts (e.g., *"Cyberpunk synthwave with driving bass and analog arpeggios"*) into high-fidelity stereo audio tracks.
-- Selectable genres (Pop, Lofi, EDM, Rock, Cinematic, Classical, Phonk) and emotional mood filters.
-- Real-time audio waveform visualizer and direct WAV/MP3 export.
+### 🎼 Prompt-to-Music Composition Engine
+- Transforms text prompts (e.g., *"Cinematic Cyberpunk Synthwave with analog arpeggios"*) into master-quality stereo tracks.
+- Dynamic genre mapping (Pop, Lofi, EDM, Rock, Cinematic, Classical, Phonk) and mood filters.
+- Real-time interactive audio visualizer with direct lossless WAV and MP3 export.
 
-### 📖 2. Story-to-Album Engine (Narrative Intelligence - NIE)
-- Analyzes complete user stories or screenplays and decomposes them into a cohesive 3-scene concept album.
-- Generates scene-by-scene soundtracks with Dual-Brain GPU scores (Track 1: ACE-Step Master Score, Track 2: Neural MusicGen Score).
+### 📖 Narrative Concept Album Engine (NIE)
+- Narrative Intelligence Engine that transforms full story concepts into 3-scene concept albums.
+- Generates parallel soundtrack scores per scene using Dual-Brain GPU algorithms (ACE-Step Master Score + MusicGen Neural Score).
 
-### 🔮 3. Multilingual AI Lyrics Studio
-- Real-time native script songwriting in **Telugu (తెలుగు)**, **Hindi (हिन्दी)**, and **English**.
-- Automatic rhyme scheme verification and syllable meter analysis (8–10 syllables per line).
-- Generates 2 distinct song variations (Soulful Poetic vs. Rhythmic High-Energy) plus a producer BGM master prompt.
+### 🔮 Multilingual AI Lyrics Studio
+- Script-validated lyric generation in **Telugu (తెలుగు)**, **Hindi (हिन्दी)**, and **English**.
+- Automatic rhyme scheme verification and meter structure analysis (8–10 syllables per line).
+- Generates two distinct structural arrangements (Soulful Poetic vs. High-Energy Rhythmic) plus a synchronized BGM production prompt.
 
-### 🎛️ 4. Multi-Track Digital Audio Workstation (DAW)
-- Interactive audio workstation with visual waveform trimming.
-- Real-time pitch shifter (-12 to +12 semitones) and tempo scaler (0.5x to 2.0x speed).
-- Multi-band Equalizer, studio reverb rack, and track bounce mixdown.
+### 🎛️ Multi-Track Audio Workstation (DAW)
+- Multi-track timeline editor with non-destructive waveform slicing and trimming.
+- Real-time pitch shifting (-12 to +12 semitones) and tempo scaling (0.5x to 2.0x speed).
+- Integrated multi-band Equalizer, studio reverb rack, and master track bouncing.
 
-### 🎹 5. 10 Playground Virtual Instruments (<10ms Latency)
-- Touch-responsive virtual instrument racks running on a high-speed WebAudio DSP sampler:
-  - 🎹 **88-Key Synthesizer Piano** (Octave switching & sustain pedal)
+### 🎹 10 Virtual Instrument Playgrounds (<10ms Latency)
+- Ultra-low latency touch synthesizers powered by a WebAudio sample-accurate DSP engine:
+  - 🎹 **88-Key Synthesizer Piano** (Octave shifts, sustain pedal simulation)
   - 🥁 **8-Pad Studio Drum Machine** (Kick, Snare, Hi-Hat, Toms, Clap)
   - 🎸 **Acoustic & Electric Guitar Chord Strummer**
   - 🪈 **Bansuri Flute Studio**
   - 🎻 **Violin**, 🎷 **Saxophone**, 🪕 **Sitar**, 🎸 **Slap Bass**, 🎹 **Organ** & 🎛️ **Synth Lead**
 
-### 🎤 6. AI Vocal Studio & Stem Demixing
-- Vocal stem separation using Demucs V4 (separates Vocals, Drums, Bass, and Other).
-- Spectral subtraction noise gate for clean microphone recording.
-- Real-time pitch tracking and key scale detection.
+### 🎤 AI Vocal Demixing & Isolation
+- Deep-learning source separation powered by Demucs V4 (Vocals, Drums, Bass, and Other).
+- Spectral subtraction noise gate for studio-clean microphone input.
+- Real-time pitch tracking and key scale alignment.
 
-### 🛡️ 7. Master Admin Portal & Telemetry Dashboard
-- Security PIN-protected admin portal (`PIN: 240899`).
-- Live server CPU/memory telemetry, AI engine switching, cache purge, and maintenance controls.
+### 🛡️ Administrative Telemetry & Management Portal
+- Security PIN-protected dashboard (`PIN: 240899`).
+- Real-time telemetry monitoring (CPU, memory, active sessions), live AI engine switching, and cache controls.
 
 ---
 
-## 🏛️ 3. Full System Architecture
+## 🏛️ 3. System Architecture & Technical Flow
 
 ```
                                   GANDHARVA ECOSYSTEM
                                   
   ┌────────────────────────────────────────────────────────────────────────┐
   │                 📱 CLIENT TIER (React Native / Expo 54)                 │
-  │   - Story-to-Album Screen    - Multilingual Lyrics Studio              │
+  │   - Story-to-Album Studio    - Multilingual Lyrics Studio              │
   │   - Multi-Track DAW Editor   - 10 Virtual Instrument Playgrounds       │
   │   - Expo AV Native Player    - Low-Latency WebAudio Sampler (<10ms)    │
   └───────────────────────────────────┬────────────────────────────────────┘
                                       │ REST API / WebSocket
   ┌───────────────────────────────────▼────────────────────────────────────┐
   │                 🟢 API GATEWAY (Node.js / Express.js)                  │
-  │   - Unified Route Controller  - Fail-Safe Asset Fallback Engine        │
+  │   - Unified Route Controller  - Fail-Safe Audio Fallback Sound Bank    │
   │   - Auth & Session Validation - Static WAV/MP3 Streaming Engine        │
   └──────────────────┬─────────────────────────────────┬───────────────────┘
                      │                                 │
@@ -87,104 +87,103 @@ The project is built with **zero external dependency on paid third-party APIs (n
 
 ---
 
-## 🤖 4. AI Models & Audio Engines Used
+## 🤖 4. AI Models & Neural Audio Engines
 
-| AI Engine / Model | Purpose | Execution Mode |
+| Engine / Component | Technical Role | Runtime Environment |
 | :--- | :--- | :--- |
-| **Gandharva-Omni-7B** | Multilingual Lyrics, Story Blueprints (NIE), Prompt Enhancer | Hugging Face ZeroGPU / Local Ollama / Procedural |
-| **Meta MusicGen 3.3B** | Text-to-Music Generation & Neural Audio Composition | PyTorch / GPU Cloud / Local LoRA weights |
-| **ACE-Step 8.0** | Cinematic Concept Album Soundtrack Generation | PyTorch Dual-Brain GPU |
-| **Demucs V4 (Meta)** | AI Source Separation (Vocal, Bass, Drums demixing) | Python DSP Engine |
-| **WebAudio Sampler DSP** | Sub-10ms virtual instrument soundfont synthesizer | Client-side Native Browser / Mobile Audio |
+| **Gandharva-Omni-7B** | Multilingual Lyrics, Narrative Blueprints, Prompt Director | Hugging Face ZeroGPU / Local Ollama / Procedural Engine |
+| **Meta MusicGen 3.3B** | Text-to-Music Synthesis & Neural Audio Composition | PyTorch GPU / Local LoRA Fine-Tuning |
+| **ACE-Step 8.0** | Concept Album Multi-Scene Orchestration | PyTorch Dual-Brain GPU |
+| **Demucs V4 (Meta)** | AI Audio Source Separation (Vocals, Bass, Drums) | Python DSP Engine |
+| **WebAudio Sampler DSP** | Sub-10ms virtual instrument soundfont playback | Client-Side Audio Context |
 
 ---
 
-## 💻 5. How to Run Locally
+## 💻 5. Local Setup & Execution Guide
 
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
-- Python 3.10+ (optional, for local GPU server)
+- Python 3.10+ (optional, for standalone GPU workers)
 
-### Quick Start in 3 Steps:
+### Installation Steps
 
 ```bash
-# 1. Clone the repository and install root dependencies
+# 1. Clone repository and install client dependencies
 git clone https://github.com/Prasanth4734f/Gandharva-PDD---Web-and-Android.git
 cd Gandharva-PDD---Web-and-Android
 npm install
 
-# 2. Install server dependencies
+# 2. Install backend gateway dependencies
 cd server
 npm install
 cd ..
 
-# 3. Launch the application
-# Terminal 1: Start Node.js API Server (Port 3000)
+# 3. Launch the applications
+# Terminal 1: Start Node.js API Gateway (Port 3000)
 node server/index.js
 
-# Terminal 2: Start Expo Web / Mobile Frontend (Port 8081)
+# Terminal 2: Start Expo Web & Mobile Preview (Port 8081)
 npx expo start --web
 ```
 
-> Open **`http://localhost:8081`** in your browser to start creating music!
-
 ---
 
-## 🚀 6. How to Deploy to Production
+## 🚀 6. Production Deployment Matrix
 
-### 🌐 A. Web Frontend (Vercel / Netlify)
-1. Import repository into [Vercel](https://vercel.com) or [Netlify](https://netlify.com).
-2. Set Build Command: `npx expo export --platform web` (or `npm run vercel-build`).
-3. Set Output Directory: `dist`.
-4. Deploy — live with instant global CDN!
+### 🌐 Web Deployment (Vercel / Netlify)
+- **Framework Preset**: Other / Static Export
+- **Build Command**: `npx expo export --platform web` (or `npm run vercel-build`)
+- **Output Directory**: `dist`
+- Pre-configured `vercel.json` and `netlify.toml` included.
 
-### ⚙️ B. Backend API (Render / Railway / Cloud Run)
-1. Create a Web Service on [Render](https://render.com) or [Railway](https://railway.app).
-2. Set Build Command: `npm install`.
-3. Set Start Command: `node server/index.js`.
-4. Add environment variables (`PORT=3000`, `SUPABASE_URL`, `SUPABASE_KEY`).
+### ⚙️ Backend API Deployment (Render / Railway / Docker)
+- **Environment**: Node.js 18+
+- **Build Command**: `npm install`
+- **Start Command**: `node server/index.js`
+- Ready-to-deploy `render.yaml` and `Dockerfile` included.
 
-### 📱 C. Standalone Android APK (EAS Cloud Build)
+### 📱 Android Application Packaging (EAS Build)
 ```bash
 npm install -g eas-cli
 eas login
 eas build -p android --profile preview
 ```
-*Generates an installable `.apk` file for any Android device in under 5 minutes.*
+*Generates installable standalone `.apk` binaries for Android devices.*
 
 ---
 
-## 📦 7. What is Included in the Sale
+## 📦 7. Commercial Deliverables & Asset Inventory
 
-Upon purchase, the buyer receives 100% full, exclusive ownership of:
+The purchase transfers 100% full, exclusive ownership of:
 
-1. **Complete Frontend Source Code**: Full React Native / Expo SDK 54 mobile and web DAW application.
-2. **Complete Backend Source Code**: Node.js / Express API gateway + Python FastAPI DSP audio engine.
-3. **AI Weights & Model Configurations**: Fine-tuned LoRA weights (`adapter_model.safetensors`), dataset JSONs, and tokenizer configurations.
-4. **Complete Sample Soundfont Library**: High-fidelity sound banks for all 10 virtual instruments (Piano, Drums, Flute, Guitar, Strings, etc.).
-5. **Database Schemas & SQL Scripts**: Production PostgreSQL schemas with RBAC and GPU registry tables.
-6. **Master QA & Test Suite**: Complete E2E automated test reports (Appium Mobile, Selenium Web, Load Testing, Security & Vulnerability reports).
-7. **Production Deployment Configurations**: Pre-configured `vercel.json`, `eas.json`, `render.yaml`, `Dockerfile`, and `netlify.toml`.
-
----
-
-## ⚠️ 8. Known Limitations & Specifications
-
-1. **Heavy Audio GPU Generation**: Real-time neural audio synthesis via 3.3B parameter models requires connection to a GPU instance (Hugging Face ZeroGPU, Kaggle, RunPod, or local NVIDIA GPU). In offline mode, the app seamlessly uses its internal sound bank and procedural engines.
-2. **Web Audio Autoplay Policies**: In web browsers, audio playback requires at least one initial user interaction (click/touch) in accordance with standard browser security policies.
+1. **Frontend Source Code**: Complete React Native / Expo SDK 54 codebase (Web, Android, iOS).
+2. **Backend Gateway Code**: Node.js / Express API gateway with fail-safe asset streaming.
+3. **AI Backend Server**: Python FastAPI GPU orchestration server with Demucs DSP.
+4. **Proprietary Model Weights**: Fine-tuned LoRA adapter weights (`adapter_model.safetensors`), dataset JSONs, and tokenizers.
+5. **Soundfont Audio Library**: High-fidelity multi-octave sample sound banks for all 10 virtual instruments.
+6. **Database Schemas & Migrations**: PostgreSQL DDL files for user authentication, RBAC, track history, and GPU node registries.
+7. **Quality Assurance Documentation**: Complete automated E2E test suites (Appium, Selenium, Load testing, Security audits).
+8. **Deployment Infrastructure**: Pre-configured `vercel.json`, `eas.json`, `render.yaml`, and `Dockerfile`.
 
 ---
 
-## 📜 9. License & Commercial Ownership Transfer
+## ⚙️ 8. Technical Specifications & Operating Considerations
 
-- **100% Commercial IP Ownership**: Full intellectual property rights, copyright, and commercial licensing are transferred to the buyer upon completion of the sale.
-- **Royalty-Free**: Zero recurring license fees, royalties, or required attribution.
-- **Self-Contained**: No required external subscriptions or ongoing API billing dependencies.
+1. **Neural Audio Generation Hardware**: Real-time 3.3B neural music synthesis benefits from a GPU environment (Hugging Face ZeroGPU, Kaggle, or local NVIDIA GPU). In offline or unaccelerated environments, the platform automatically switches to high-fidelity procedural and soundfont engines.
+2. **Browser Audio Policies**: Web browser audio playback requires standard initial user gesture activation per W3C Autoplay security policies.
+
+---
+
+## 📜 9. Intellectual Property & Commercial License Terms
+
+- **Complete IP Transfer**: Full ownership, source code copyright, and commercial exploitation rights are transferred exclusively to the buyer upon completion of the transaction.
+- **Royalty-Free Commercial License**: Zero recurring license fees, royalties, or mandatory attribution requirements.
+- **Zero API Dependency**: Completely self-sufficient codebase with zero external subscription costs.
 
 ---
 
 <div align="center">
   <b>GANDHARVA AI MUSIC STUDIO</b><br/>
-  <i>The Ultimate Turnkey AI Music Creation Suite</i>
+  <i>Enterprise Turnkey Music Creation Software & IP Package</i>
 </div>
