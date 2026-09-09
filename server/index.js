@@ -80,6 +80,8 @@ app.use('/generated', express.static(path.join(__dirname, 'public/generated'), {
   }
 }));
 
+const { handleHealthCheck } = require('./src/controllers/musicController');
+
 // Root and Health Check Endpoints
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -89,23 +91,8 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    status: 'online',
-    server: 'Gandharva Express Backend',
-    uptime: Math.floor(process.uptime()),
-    timestamp: new Date().toISOString()
-  });
-});
-
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'online',
-    server: 'Gandharva Express Backend',
-    uptime: Math.floor(process.uptime()),
-    timestamp: new Date().toISOString()
-  });
-});
+app.get('/health', handleHealthCheck);
+app.get('/api/health', handleHealthCheck);
 
 // Primary API Routes
 app.use('/api', authRoutes);
@@ -130,20 +117,17 @@ async function startServer() {
     console.log('\n===========================================');
     console.log(`🚀 LOCAL SERVER ACTIVE ON PORT ${PORT}`);
     
-    // START NGROK TUNNEL FOR SERVER
-    try {
-      const url = await ngrok.connect({
+    // Attempt Ngrok tunnel in background without blocking server startup
+    if (process.env.ENABLE_LOCAL_NGROK === 'true' && process.env.NGROK_AUTH_TOKEN) {
+      ngrok.connect({
         proto: 'http',
         addr: PORT,
         authtoken: process.env.NGROK_AUTH_TOKEN
-      });
-      console.log(`📡 PUBLIC SERVER URL (Use this in api.config.js):`);
-      console.log(`👉 ${url}`);
-      console.log('===========================================\n');
-    } catch (err) {
-      // Silently ignore Ngrok errors so it doesn't print a scary error when Kaggle is using the tunnel.
+      }).then(url => {
+        console.log(`📡 PUBLIC SERVER URL: ${url}`);
+      }).catch(() => {});
     }
-    logger.info(`Server initialized in ${process.env.NODE_ENV || 'production'} mode`);
+    logger.info(`Server initialized on port ${PORT} in ${process.env.NODE_ENV || 'production'} mode`);
   });
 }
 

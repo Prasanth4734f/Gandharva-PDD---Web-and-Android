@@ -103,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
       isCheckingRef.current = true;
       if (showChecking) setGpuStatus('checking');
       const res = await checkMusicGenHealth();
-      const nextStatus = (res && res.status === 'online') ? 'online' : 'offline';
+      const nextStatus = (res && res.status === 'online' && res.gpu_live === true) ? 'online' : 'offline';
       setGpuStatus(nextStatus);
       currentStatusRef.current = nextStatus;
     } catch (e) {
@@ -118,9 +118,7 @@ const HomeScreen = ({ navigation }) => {
     // 1. Initial health check on mount
     verifyGpuHealth(true);
 
-    // 2. Real-time fast-recovery auto-polling:
-    // Checks every 3.5s when offline so it turns Green the moment backend is ON / cellular connected.
-    // Checks every 15s when online.
+    // 2. Real-time continuous auto-scan strictly every 5 seconds (5000ms)
     let isMounted = true;
     let timerId = null;
 
@@ -128,12 +126,11 @@ const HomeScreen = ({ navigation }) => {
       if (!isMounted) return;
       await verifyGpuHealth(false);
       if (isMounted) {
-        const delay = currentStatusRef.current === 'online' ? 15000 : 8000;
-        timerId = setTimeout(runSentinel, delay);
+        timerId = setTimeout(runSentinel, 5000);
       }
     };
 
-    timerId = setTimeout(runSentinel, 6000);
+    timerId = setTimeout(runSentinel, 5000);
 
     // 3. React Native AppState listener (resumes from background or toggling mobile data)
     const appStateSub = AppState.addEventListener('change', (nextAppState) => {

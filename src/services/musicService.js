@@ -356,47 +356,71 @@ import { supabase } from './supabase';
 import { getCandidateUrls, setWorkingBaseUrl, getBaseUrl, autoDiscoverBackendUrl } from '../config/api.config';
 
 /**
- * Perform connection check to verify if Backend Server & AI Engine are online.
- * Strictly verifies the Node.js / Cloud Backend server health before reporting Online.
+ * Perform connection check to verify if Kaggle AI GPU & Backend Server are online.
+ * Strictly verifies that the Kaggle AI GPU is responsive before reporting 'online'.
+ * If Kaggle GPU is offline or unreachable, returns status: 'offline' with gpu_live: false.
  */
 export const checkMusicGenHealth = async () => {
-  // 1. Auto-discover active backend URL across candidates
+  const candidateGpuUrls = [
+    DEFAULT_KAGGLE_GPU_URL,
+    process.env.EXPO_PUBLIC_AI_ENGINE_URL,
+    process.env.EXPO_PUBLIC_KAGGLE_URL,
+  ].filter(Boolean);
+
+  // 1. Check Supabase gpu_registry for the latest dynamically registered Kaggle URL
+  try {
+    const { data, error } = await supabase
+      .from('gpu_registry')
+      .select('ngrok_url, status, updated_at')
+      .eq('id', 'kaggle-primary')
+      .single();
+
+    if (!error && data && data.ngrok_url && data.ngrok_url !== 'none') {
+      const updatedAt = new Date(data.updated_at).getTime();
+      const isFresh = (Date.now() - updatedAt) < 120000; // Heartbeat within last 2 minutes
+      if (data.status === 'online' && isFresh) {
+        candidateGpuUrls.unshift(data.ngrok_url.replace(/\/$/, ''));
+      }
+    }
+  } catch (_) {}
+
+  // 2. Direct probe against Kaggle GPU URLs
+  for (const gpuUrl of [...new Set(candidateGpuUrls)]) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2800);
+      const resp = await fetch(`${gpuUrl}/musicgen-health`, {
+        headers: { 'ngrok-skip-browser-warning': 'true' },
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (resp.ok) {
+        const data = await resp.json().catch(() => null);
+        if (data && (data.status === 'online' || data.session_1_musicgen || data.engine)) {
+          return {
+            status: 'online',
+            gpu_live: true,
+            backend_live: true,
+            source: 'Kaggle Dual-Brain GPU Direct',
+            url: gpuUrl,
+            engine: data.engine || 'Gandharva Dual-Brain (MusicGen + ACE-Step 8.0)'
+          };
+        }
+      }
+    } catch (_) {}
+  }
+
+  // 3. Probe Express Backend proxy (which also checks Kaggle GPU internally)
   try {
     const discoveredUrl = await autoDiscoverBackendUrl(2000);
     const targetBaseUrl = discoveredUrl || getBaseUrl();
 
-    // Probe /api/health on discovered backend
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
-    const url = `${targetBaseUrl}/api/health?t=${Date.now()}`;
-
-    const resp = await fetch(url, {
-      headers: { 'ngrok-skip-browser-warning': 'true' },
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
-
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data && (data.status === 'online' || data.server === 'Gandharva Express Backend')) {
-        setWorkingBaseUrl(targetBaseUrl);
-        return {
-          ...data,
-          status: 'online',
-          backend_live: true
-        };
-      }
-    }
-  } catch (e) {}
-
-  // 2. Secondary probe directly across all candidates
-  const candidateUrls = getCandidateUrls();
-  const pingPromises = candidateUrls.map(async (baseUrl) => {
-    try {
+    if (targetBaseUrl) {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
-      const url = `${baseUrl}/api/health?t=${Date.now()}`;
-      
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const url = `${targetBaseUrl}/api/musicgen-health?t=${Date.now()}`;
+
       const resp = await fetch(url, {
         headers: { 'ngrok-skip-browser-warning': 'true' },
         signal: controller.signal
@@ -404,35 +428,27 @@ export const checkMusicGenHealth = async () => {
       clearTimeout(timeoutId);
 
       if (resp.ok) {
-        const data = await resp.json();
-        if (data && data.status === 'online') {
-          setWorkingBaseUrl(baseUrl);
+        const data = await resp.json().catch(() => null);
+        if (data && data.status === 'online' && data.gpu_live === true) {
+          setWorkingBaseUrl(targetBaseUrl);
           return {
             status: 'online',
-            backend_live: true,
             gpu_live: true,
-            message: 'Gandharva Backend active'
+            backend_live: true,
+            source: 'Gandharva Backend (Kaggle Verified)',
+            ...data
           };
         }
       }
-    } catch (err) {}
-    return null;
-  });
-
-  try {
-    const results = await Promise.all(pingPromises);
-    const workingResult = results.find(r => r && r.status === 'online');
-    if (workingResult) {
-      return workingResult;
     }
-  } catch (err) {}
+  } catch (_) {}
 
-  // If backend is not responding, accurately report offline
+  // 4. If Kaggle GPU is unreachable, accurately report Offline
   return { 
     status: 'offline', 
     gpu_live: false, 
     backend_live: false, 
-    message: 'Backend Server is Offline' 
+    message: 'Kaggle GPU is Offline' 
   };
 };
 

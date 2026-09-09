@@ -302,10 +302,10 @@ const handleVocalUpload = async (req, res) => {
 
 let _lastHealthCheckTime = 0;
 let _lastHealthCheckResult = null;
-const HEALTH_CACHE_TTL_MS = 8000; // 8 seconds cache for health state
+const HEALTH_CACHE_TTL_MS = 3000; // 3 seconds cache for responsive 5-second polling
 
 const handleHealthCheck = async (req, res) => {
-  // If we checked within the last 8s and the result was offline/online, return cached result immediately
+  // If we checked within the last 3s, return cached result immediately
   if (_lastHealthCheckResult && (Date.now() - _lastHealthCheckTime) < HEALTH_CACHE_TTL_MS) {
     return res.status(200).json(_lastHealthCheckResult);
   }
@@ -316,7 +316,7 @@ const handleHealthCheck = async (req, res) => {
   if (!aiUrl) {
     recordGpuFailure();
     _lastHealthCheckResult = { 
-      status: 'online', 
+      status: 'offline', 
       server: 'online',
       message: 'Gandharva Backend active (AI GPU offline/unregistered)', 
       gpu_url: null, 
@@ -326,14 +326,14 @@ const handleHealthCheck = async (req, res) => {
     return res.status(200).json(_lastHealthCheckResult);
   }
 
-  // Fast live verification (timeout 2000ms)
+  // Fast live verification (timeout 2500ms)
   try {
     const ping = await axios.get(`${aiUrl}/musicgen-health`, {
       headers: { 
         'ngrok-skip-browser-warning': 'true',
         'User-Agent': 'Mozilla/5.0'
       },
-      timeout: 2000
+      timeout: 2500
     });
 
     const d = ping.data;
@@ -361,10 +361,10 @@ const handleHealthCheck = async (req, res) => {
     // Live GPU ping failed
   }
 
-  // Ping failed or returned invalid response -> Backend is online, GPU is offline
+  // Ping failed or returned invalid response -> Kaggle GPU is offline
   recordGpuFailure();
   _lastHealthCheckResult = { 
-    status: 'online', 
+    status: 'offline', 
     server: 'online',
     message: 'Gandharva Backend active (Kaggle GPU Offline or Unreachable)', 
     gpu_url: aiUrl, 
