@@ -64,3 +64,10 @@ fast_copy_pdd.py
 clean_pdd_large.py
 copy_pdd_files.py
 gandharva_lyrics_v1/
+*Recovery*.txt
+*recovery*.txt
+*.txt
+!server/src/services/system_prompt.txt
+!server/src/services/system_writer.txt
+!server/lyrics_backend/hf_space_omni_requirements.txt
+!requirements.txt
