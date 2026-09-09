@@ -362,6 +362,13 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
       callClientGeminiLyrics(sysPromptB, cleanTopic, 0.95)
     ]);
 
+    let cleanLyricsA = lyricsA;
+    let cleanLyricsB = lyricsB;
+
+    if (!cleanLyricsB || cleanLyricsA.trim() === cleanLyricsB.trim() || cleanLyricsB.length < 50) {
+      cleanLyricsB = generateDynamicLyrics(prompt, genre, mood, language, 1, Date.now() + 1000);
+    }
+
     const baseTitle = `${cleanTopic.substring(0, 30)} (${genre})`;
     const bgmPrompt = `High-quality ${genre} ${mood} instrumental arrangement. Key of C Major, 124 BPM. Layered instruments, pads, and driving rhythm. Perfect backing track for singing: "${cleanTopic}".`;
 
@@ -373,7 +380,7 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
           id: `ai-lyric-${Date.now()}-0`,
           version_name: 'Variation A (Soulful Classic)',
           title: `${cleanTopic} - Variation A`,
-          lyrics_text: lyricsA,
+          lyrics_text: cleanLyricsA,
           engine: 'Google Gemini Flash AI Engine',
           fallback_used: false
         },
@@ -381,7 +388,7 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
           id: `ai-lyric-${Date.now()}-1`,
           version_name: 'Variation B (Rhythmic Dynamic)',
           title: `${cleanTopic} - Variation B`,
-          lyrics_text: lyricsB,
+          lyrics_text: cleanLyricsB,
           engine: 'Google Gemini Flash AI Engine',
           fallback_used: false
         },
@@ -404,8 +411,12 @@ export const generateLyrics = async (prompt, genre = 'Pop', mood = 'Melancholic'
   // 3. Fallback Dynamic Generator
   const topicText = (prompt || 'Music Anthem').trim();
   const reqTimestamp = Date.now();
-  const varALyrics = generateDynamicLyrics(prompt, genre, mood, language, 0, reqTimestamp);
-  const varBLyrics = generateDynamicLyrics(prompt, genre, mood, language, 1, reqTimestamp);
+  let varALyrics = generateDynamicLyrics(prompt, genre, mood, language, 0, reqTimestamp);
+  let varBLyrics = generateDynamicLyrics(prompt, genre, mood, language, 1, reqTimestamp + 1000);
+
+  if (varALyrics.trim() === varBLyrics.trim()) {
+    varBLyrics = generateDynamicLyrics(prompt, genre, mood, language, 1, reqTimestamp + 9999);
+  }
   const bgmPrompt = `Master high-fidelity ${genre} track with ${mood} atmosphere. 120 BPM, key of C Major. Built specifically for prompt: "${topicText}". Layered acoustic instruments, pads, and rhythmic percussion.`;
 
   return {

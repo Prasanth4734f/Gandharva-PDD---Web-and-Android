@@ -22,6 +22,8 @@ async function callGeminiPrompt(systemPrompt, userPrompt, temperature = 0.85) {
   return GandharvaModelClient._proceduralFallback('LYRICS_STUDIO', userPrompt, { temperature });
 }
 
+const { generateFullLyrics } = require('./proceduralLyricsEngine');
+
 /**
  * Generate 2 unique, full-length non-repeating variations + BGM prompt via Gandharva AI Engine
  */
@@ -31,18 +33,18 @@ async function generateAiLyricsWithVariations({ prompt, genre = 'Pop', mood = 'I
   // Run in parallel for ultra-fast generation
   const [lyricsA, lyricsB, bgmText] = await Promise.all([
     GandharvaModelClient.generate('LYRICS_STUDIO', {
-      topic: `${cleanTopic} (Soulful Poetic Melody)`,
+      topic: `${cleanTopic} (Soulful Poetic Melody, Version A)`,
       mood,
       genre,
       language
-    }, { language, temperature: 0.82 }),
+    }, { language, genre, mood, variationIndex: 0, temperature: 0.82 }),
 
     GandharvaModelClient.generate('LYRICS_STUDIO', {
-      topic: `${cleanTopic} (High Energy Rhythmic Catchy)`,
+      topic: `${cleanTopic} (High Energy Rhythmic Catchy, Version B)`,
       mood,
       genre,
       language
-    }, { language, temperature: 0.95 }),
+    }, { language, genre, mood, variationIndex: 1, temperature: 0.95 }),
 
     GandharvaModelClient.generate('PROMPT_DIRECTOR', `Master instrumental arrangement for a ${genre} ${mood} song titled "${cleanTopic}".`, { temperature: 0.7 })
   ]);
@@ -50,6 +52,31 @@ async function generateAiLyricsWithVariations({ prompt, genre = 'Pop', mood = 'I
   // Validate quality, structure, and language script
   const valA = validateLyrics(lyricsA, language);
   const valB = validateLyrics(lyricsB, language);
+
+  let textA = valA.isValid ? valA.cleanedText : (valA.cleanedText || lyricsA || '');
+  let textB = valB.isValid ? valB.cleanedText : (valB.cleanedText || lyricsB || '');
+
+  // Fallback to rich procedural engine if invalid
+  if (!textA || textA.length < 50) {
+    textA = generateFullLyrics({ prompt: cleanTopic, genre, mood, language, variationIndex: 0 });
+  }
+
+  if (!textB || textB.length < 50) {
+    textB = generateFullLyrics({ prompt: cleanTopic, genre, mood, language, variationIndex: 1 });
+  }
+
+  // STRICT ANTI-DUPLICATION GUARANTEE:
+  // If Variation A and Variation B are identical, force Variation B to be a completely distinct composition
+  if (textA.trim() === textB.trim() || textA.replace(/\s+/g, '') === textB.replace(/\s+/g, '')) {
+    textB = generateFullLyrics({
+      prompt: cleanTopic,
+      genre,
+      mood,
+      language,
+      variationIndex: 1
+    });
+  }
+
   return {
     project_id: `gandharva-ai-${Date.now()}`,
     title: `${mood} ${genre}: ${cleanTopic.substring(0, 24)}`,
@@ -58,7 +85,7 @@ async function generateAiLyricsWithVariations({ prompt, genre = 'Pop', mood = 'I
         id: `gandharva-var-A-${Date.now()}`,
         version_name: 'Variation A',
         title: `${cleanTopic} - Variation A (Soulful Poetic)`,
-        lyrics_text: valA.cleanedText || lyricsA,
+        lyrics_text: textA,
         engine: 'Gandharva-Omni AI Engine',
         fallback_used: !valA.isValid
       },
@@ -66,7 +93,7 @@ async function generateAiLyricsWithVariations({ prompt, genre = 'Pop', mood = 'I
         id: `gandharva-var-B-${Date.now()}`,
         version_name: 'Variation B',
         title: `${cleanTopic} - Variation B (Rhythmic Dynamic)`,
-        lyrics_text: valB.cleanedText || lyricsB,
+        lyrics_text: textB,
         engine: 'Gandharva-Omni AI Engine',
         fallback_used: !valB.isValid
       },

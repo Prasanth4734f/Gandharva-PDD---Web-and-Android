@@ -141,9 +141,15 @@ class GandharvaModelClient {
     return cleaned;
   }
 
-  static _proceduralFallback(mode, promptText, options) {
+  static _proceduralFallback(mode, promptText, options = {}) {
     if (mode === 'LYRICS_STUDIO') {
-      return generateFullLyrics(promptText, options.genre || 'Melody', options.mood || 'Romantic', options.language || 'Telugu');
+      return generateFullLyrics({
+        prompt: promptText,
+        genre: options.genre || 'Melody',
+        mood: options.mood || 'Romantic',
+        language: options.language || 'Telugu',
+        variationIndex: options.variationIndex !== undefined ? options.variationIndex : 0
+      });
     }
 
     if (mode === 'PROMPT_DIRECTOR') {
