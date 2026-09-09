@@ -694,7 +694,9 @@ const StoryToAlbumScreen = ({ navigation }) => {
             actIndex: idx,
             variationIndex: 0,
             bpm: t.suggested_bpm || (90 + idx * 6),
-            durationSec: 8
+            durationSec: 8,
+            genre: bp?.genre || 'Cinematic',
+            story: bp?.story || story || ''
           });
           aceBgmUrl = await bufferToAudioUri(wavBuffer1, `story_act_${idx + 1}_var1.wav`);
         } catch (_) {
@@ -708,7 +710,9 @@ const StoryToAlbumScreen = ({ navigation }) => {
             actIndex: idx,
             variationIndex: 1,
             bpm: (t.suggested_bpm || (90 + idx * 6)) + 4,
-            durationSec: 8
+            durationSec: 8,
+            genre: bp?.genre || 'Cinematic',
+            story: bp?.story || story || ''
           });
           mgenBgmUrl = await bufferToAudioUri(wavBuffer2, `story_act_${idx + 1}_var2.wav`);
         } catch (_) {
@@ -1078,7 +1082,10 @@ const StoryToAlbumScreen = ({ navigation }) => {
             actIndex: trackIdx,
             variationIndex: varIdx,
             bpm: track.bpm || 90,
-            durationSec: 8
+            durationSec: 8,
+            genre: albumData?.genre || albumData?.subgenre || '',
+            story: albumData?.story || '',
+            emotion: track.emotion || ''
           });
           setWebAudioObj(activeSynth);
 
@@ -1149,7 +1156,9 @@ const StoryToAlbumScreen = ({ navigation }) => {
         actIndex: trackIdx,
         variationIndex: varIdx,
         bpm: track?.bpm || 90,
-        durationSec: 8
+        durationSec: 8,
+        genre: albumData?.genre || albumData?.subgenre || '',
+        story: albumData?.story || ''
       });
     }
 
