@@ -40,6 +40,7 @@ import CONFIG from '../../config/api.config';
 import { analyzeStory, createAlbumJob, getJobStatus, getAlbum, regenerateTrack, regenerateCover } from '../../services/albumService';
 import { saveProjectToLibrary } from '../../services/libraryStorage';
 import { checkMusicGenHealth, blobToAudioUri, bufferToAudioUri, DEFAULT_KAGGLE_GPU_URL } from '../../services/musicService';
+import { createSyntheticWavBuffer, playLiveSyntheticTrack, getSyntheticWavUri } from '../../services/syntheticAudioEngine';
 
 const PRESET_STORIES = [
   {
@@ -661,13 +662,6 @@ const StoryToAlbumScreen = ({ navigation }) => {
       setJobProgress(currentPct);
       setJobStepText(`[Scene ${idx + 1}/${totalTracks}] Synthesizing Soundtrack Score: "${t.title}"...`);
 
-      const baseFallback1 = Platform.OS === 'web'
-        ? `/fallback/fallback_0${(idx % 6) + 1}.mp3`
-        : `${CONFIG.BASE_URL}/fallback/fallback_0${(idx % 6) + 1}.mp3`;
-      const baseFallback2 = Platform.OS === 'web'
-        ? `/fallback/fallback_0${((idx + 1) % 6) + 1}.mp3`
-        : `${CONFIG.BASE_URL}/fallback/fallback_0${((idx + 1) % 6) + 1}.mp3`;
-
       // Try GPU generation if available with fast 4.5s timeout per track
       if (isGpuLive && targetGpuUrl && !targetGpuUrl.includes('your-url-here')) {
         try {
@@ -693,12 +687,33 @@ const StoryToAlbumScreen = ({ navigation }) => {
         } catch (_) {}
       }
 
-      // Safe Fallback guarantee
+      // 100% Guaranteed High-Fidelity Distinct Audio per Act & Variation
       if (!aceBgmUrl) {
-        aceBgmUrl = baseFallback1;
+        try {
+          const wavBuffer1 = createSyntheticWavBuffer({
+            actIndex: idx,
+            variationIndex: 0,
+            bpm: t.suggested_bpm || (90 + idx * 6),
+            durationSec: 8
+          });
+          aceBgmUrl = await bufferToAudioUri(wavBuffer1, `story_act_${idx + 1}_var1.wav`);
+        } catch (_) {
+          aceBgmUrl = `/fallback/fallback_0${(idx % 6) + 1}.mp3`;
+        }
       }
+
       if (!mgenBgmUrl) {
-        mgenBgmUrl = baseFallback2;
+        try {
+          const wavBuffer2 = createSyntheticWavBuffer({
+            actIndex: idx,
+            variationIndex: 1,
+            bpm: (t.suggested_bpm || (90 + idx * 6)) + 4,
+            durationSec: 8
+          });
+          mgenBgmUrl = await bufferToAudioUri(wavBuffer2, `story_act_${idx + 1}_var2.wav`);
+        } catch (_) {
+          mgenBgmUrl = `/fallback/fallback_0${((idx + 1) % 6) + 1}.mp3`;
+        }
       }
 
       generatedTracks.push({
@@ -713,7 +728,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
         audioUrl: aceBgmUrl,
         bgm_url: aceBgmUrl,
         duration: 8,
-        source: isAiGenerated ? 'ace_step' : 'local_fallback',
+        source: isAiGenerated ? 'ace_step' : 'gandharva_synth',
         status: 'completed',
         isFallback: !isAiGenerated,
         is_ai_generated: isAiGenerated,
@@ -722,7 +737,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
             id: `ace-${idx + 1}`,
             sceneId: `scene_${idx + 1}`,
             name: '1. ACE-Step Master Score (Dual-Brain GPU)',
-            source: isAiGenerated ? 'ace_step' : 'local_fallback',
+            source: isAiGenerated ? 'ace_step' : 'gandharva_synth',
             status: 'completed',
             audioUrl: aceBgmUrl,
             duration: 8,
@@ -1056,10 +1071,15 @@ const StoryToAlbumScreen = ({ navigation }) => {
           setPlayingTrackId(playId);
 
           const trackIdx = track.track_number ? track.track_number - 1 : 0;
-          const varIdx = (variationId?.includes('2') || variationId?.includes('mgen')) ? 1 : 0;
+          const varIdx = (variationId?.startsWith('mgen') || variationId?.includes('var-2') || variationId === 'v2') ? 1 : 0;
 
           // Synthesize distinct, high-fidelity real-time audio tailored to this Act & Variation
-          const activeSynth = playRichSceneAudio(trackIdx, varIdx, track.bpm, track.key_signature, track.emotion);
+          const activeSynth = playLiveSyntheticTrack({
+            actIndex: trackIdx,
+            variationIndex: varIdx,
+            bpm: track.bpm || 90,
+            durationSec: 8
+          });
           setWebAudioObj(activeSynth);
 
           setTimeout(() => {
@@ -1120,10 +1140,17 @@ const StoryToAlbumScreen = ({ navigation }) => {
 
   // Download / Share specific BGM variation track directly to device storage
   const handleDownloadTrack = async (track, variationUrl = null, variationName = 'Track') => {
-    const rawUrl = variationUrl || track?.bgm_url;
-    if (!rawUrl) {
-      Alert.alert('Notice', 'Audio track is not available for download.');
-      return;
+    let rawUrl = variationUrl || track?.bgm_url;
+    const trackIdx = track?.track_number ? track.track_number - 1 : 0;
+    const varIdx = (variationName?.includes('2') || variationName?.includes('MusicGen')) ? 1 : 0;
+
+    if (!rawUrl || rawUrl.endsWith('.mp3')) {
+      rawUrl = getSyntheticWavUri({
+        actIndex: trackIdx,
+        variationIndex: varIdx,
+        bpm: track?.bpm || 90,
+        durationSec: 8
+      });
     }
 
     try {
@@ -1697,7 +1724,22 @@ const StoryToAlbumScreen = ({ navigation }) => {
                 {(albumData?.tracks || []).map((t, idx) => (
                   <View key={t.id || idx} style={styles.accordionCard}>
                     <TouchableOpacity style={styles.accordionHeader} onPress={() => setExpandedTrackIdx(expandedTrackIdx === idx ? -1 : idx)}>
-                      <View style={styles.trackIndexBadge}>
+                      {/* Direct Audio Play / Pause Button */}
+                      <TouchableOpacity 
+                        style={[styles.playCircleBtnMini, (playingTrackId === t.id || playingTrackId === `${t.id}-ace-${idx + 1}`) && styles.playCircleBtnActive]}
+                        onPress={(e) => {
+                          if (e && e.stopPropagation) e.stopPropagation();
+                          handleTogglePlay(t, t.bgm_url, `ace-${idx + 1}`);
+                        }}
+                      >
+                        {(playingTrackId === t.id || playingTrackId === `${t.id}-ace-${idx + 1}`) ? (
+                          <Pause color="#FFFFFF" size={12} />
+                        ) : (
+                          <Play color="#FFFFFF" size={12} style={{ marginLeft: 1 }} />
+                        )}
+                      </TouchableOpacity>
+
+                      <View style={[styles.trackIndexBadge, { marginLeft: 8 }]}>
                         <Text style={styles.trackIndexText}>{t.track_number || idx + 1}</Text>
                       </View>
                       <View style={{ flex: 1 }}>
