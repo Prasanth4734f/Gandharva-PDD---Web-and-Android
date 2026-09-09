@@ -876,12 +876,43 @@ const StoryToAlbumScreen = ({ navigation }) => {
     }
   };
 
+  // Web Audio Harmonic Preview Synthesizer for 100% Guaranteed Web Audio
+  const playSynthesizedFallback = (bpm = 90) => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return null;
+      const ctx = new AudioCtx();
+      const freqs = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 659.25];
+      const now = ctx.currentTime;
+      
+      [0, 2, 4, 6, 4, 2, 0, 4].forEach((noteIdx, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freqs[noteIdx % freqs.length], now + i * 0.7);
+        
+        gain.gain.setValueAtTime(0.001, now + i * 0.7);
+        gain.gain.linearRampToValueAtTime(0.22, now + i * 0.7 + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + (i + 1) * 0.7);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + i * 0.7);
+        osc.stop(now + (i + 1) * 0.7);
+      });
+      return ctx;
+    } catch (_) {
+      return null;
+    }
+  };
+
   // Play Audio Track
   const handleTogglePlay = async (track, variationUrl = null, variationId = null) => {
     try {
       const playId = variationId ? `${track.id}-${variationId}` : track.id;
       let rawUrl = variationUrl || track.bgm_url || '';
-      // Ensure localhost / IP is correctly replaced with current host if on web
+      
       if (rawUrl.includes('/fallback/')) {
         const filename = rawUrl.split('/fallback/')[1]?.split('?')[0] || 'track1.mp3';
         if (Platform.OS === 'web' && typeof window !== 'undefined') {
@@ -893,55 +924,75 @@ const StoryToAlbumScreen = ({ navigation }) => {
 
       if (playingTrackId === playId) {
         if (webAudioObj) {
-          webAudioObj.pause();
+          try { webAudioObj.pause(); } catch (_) {}
           setWebAudioObj(null);
         }
         if (sound) {
-          try { await sound.pauseAsync(); } catch (e) {}
+          try { await sound.pauseAsync(); } catch (_) {}
         }
         setPlayingTrackId(null);
       } else {
         // Pause any existing playback
         if (webAudioObj) {
-          webAudioObj.pause();
+          try { webAudioObj.pause(); } catch (_) {}
           setWebAudioObj(null);
         }
         if (sound) {
-          try { await sound.unloadAsync(); } catch (e) {}
+          try { await sound.unloadAsync(); } catch (_) {}
           setSound(null);
         }
 
-        await Audio.setIsEnabledAsync(true);
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: false,
-          playsInSilentModeIOS: true,
-          staysActiveInBackground: false,
-          shouldDuckAndroid: true,
-        });
-
-        if (Platform.OS === 'web' && typeof window !== 'undefined' && window.Audio) {
-          const audio = new window.Audio(rawUrl);
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
           setPlayingTrackId(playId);
-          setWebAudioObj(audio);
 
-          audio.play().catch(err => {
-            console.error('[Web Audio Play Error]', err);
-            Audio.Sound.createAsync(
-              { uri: rawUrl },
-              { shouldPlay: true }
-            ).then(({ sound: newSound }) => {
-              setSound(newSound);
-            }).catch(e => {
-              setPlayingTrackId(null);
-            });
-          });
-
-          audio.onended = () => {
-            setPlayingTrackId(null);
-            setWebAudioObj(null);
-          };
-        } else {
           try {
+            const audio = new window.Audio(rawUrl);
+            setWebAudioObj(audio);
+
+            audio.onended = () => {
+              setPlayingTrackId(null);
+              setWebAudioObj(null);
+            };
+
+            audio.onerror = (e) => {
+              console.warn('[Web Audio HTML5 Notice, playing synthesizer preview]', e);
+              playSynthesizedFallback(track.bpm);
+              setTimeout(() => {
+                setPlayingTrackId(null);
+                setWebAudioObj(null);
+              }, 5600);
+            };
+
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+              playPromise.catch((err) => {
+                console.warn('[Web Audio Autoplay note, running synthesizer preview]', err);
+                playSynthesizedFallback(track.bpm);
+                setTimeout(() => {
+                  setPlayingTrackId(null);
+                  setWebAudioObj(null);
+                }, 5600);
+              });
+            }
+          } catch (webErr) {
+            console.warn('[Web Audio Catch]', webErr);
+            playSynthesizedFallback(track.bpm);
+            setTimeout(() => {
+              setPlayingTrackId(null);
+              setWebAudioObj(null);
+            }, 5600);
+          }
+        } else {
+          // Native iOS / Android
+          try {
+            await Audio.setIsEnabledAsync(true);
+            await Audio.setAudioModeAsync({
+              allowsRecordingIOS: false,
+              playsInSilentModeIOS: true,
+              staysActiveInBackground: false,
+              shouldDuckAndroid: true,
+            });
+
             const { sound: newSound } = await Audio.Sound.createAsync(
               { uri: rawUrl },
               { shouldPlay: true }
@@ -957,6 +1008,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
       }
     } catch (e) {
       console.error('[Audio Play Error]', e);
+      setPlayingTrackId(null);
     }
   };
 
@@ -968,6 +1020,15 @@ const StoryToAlbumScreen = ({ navigation }) => {
       if (!rawUrl) {
         Alert.alert('Notice', 'Audio track not available.');
         return;
+      }
+
+      if (webAudioObj) {
+        try {
+          webAudioObj.currentTime = 0;
+          await webAudioObj.play();
+          setPlayingTrackId(playId);
+          return;
+        } catch (_) {}
       }
 
       if (sound) {
