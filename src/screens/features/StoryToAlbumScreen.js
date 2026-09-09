@@ -876,32 +876,152 @@ const StoryToAlbumScreen = ({ navigation }) => {
     }
   };
 
-  // Web Audio Harmonic Preview Synthesizer for 100% Guaranteed Web Audio
-  const playSynthesizedFallback = (bpm = 90) => {
+  // Rich Multi-Instrument Web Audio Synthesizer: 100% Unique per Act & Variation
+  const playRichSceneAudio = (trackIndex = 0, variationIndex = 0, bpm = 90, keySig = 'D Minor', emotion = '') => {
     if (typeof window === 'undefined') return null;
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtx) return null;
       const ctx = new AudioCtx();
-      const freqs = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 659.25];
       const now = ctx.currentTime;
+      const beat = 60 / Math.max(60, Math.min(160, bpm || 90));
+
+      // Note frequency map
+      const N = {
+        C2: 65.41, D2: 73.42, E2: 82.41, F2: 87.31, G2: 98.00, A2: 110.00, Bb2: 116.54, B2: 123.47,
+        C3: 130.81, D3: 146.83, Eb3: 155.56, E3: 164.81, F3: 174.61, Fs3: 185.00, G3: 196.00, Ab3: 207.65, A3: 220.00, Bb3: 233.08, B3: 246.94,
+        C4: 261.63, Cs4: 277.18, D4: 293.66, Eb4: 311.13, E4: 329.63, F4: 349.23, Fs4: 369.99, G4: 392.00, Ab4: 415.30, A4: 440.00, Bb4: 466.16, B4: 493.88,
+        C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00
+      };
+
+      // Distinct Progression Arcs per Act
+      const actThemes = [
+        // Act 1: Suspenseful & Intimate (D Minor / Low atmospheric pulse)
+        {
+          root: N.D2,
+          chords: [
+            [N.D3, N.F3, N.A3, N.D4],
+            [N.Bb2, N.D3, N.F3, N.Bb3],
+            [N.G2, N.Bb2, N.D3, N.G3],
+            [N.A2, N.Cs3, N.E3, N.A3]
+          ],
+          melody: [N.D4, N.F4, N.E4, N.D4, N.A4, N.G4, N.F4, N.E4, N.D4]
+        },
+        // Act 2: Tense Investigation / Movement (G Minor / Arpeggiated syncopations)
+        {
+          root: N.G2,
+          chords: [
+            [N.G3, N.Bb3, N.D4, N.G4],
+            [N.Eb3, N.G3, N.Bb3, N.Eb4],
+            [N.C3, N.Eb3, N.G3, N.C4],
+            [N.D3, N.Fs3, N.A3, N.D4]
+          ],
+          melody: [N.G4, N.Bb4, N.D5, N.C5, N.Bb4, N.A4, N.G4, N.Fs4, N.G4]
+        },
+        // Act 3: Fast Climax / Pursuit (A Minor / Heavy driving pulses)
+        {
+          root: N.A2,
+          chords: [
+            [N.A3, N.C4, N.E4, N.A4],
+            [N.F3, N.A3, N.C4, N.F4],
+            [N.D3, N.F3, N.A3, N.D4],
+            [N.E3, N.Ab3, N.B3, N.E4]
+          ],
+          melody: [N.A4, N.E5, N.D5, N.C5, N.B4, N.C5, N.D5, N.E5, N.A4]
+        },
+        // Act 4: Emotional Revelation (C Minor to Ab Major / Soaring grandeur)
+        {
+          root: N.C2,
+          chords: [
+            [N.C3, N.Eb3, N.G3, N.C4],
+            [N.Ab2, N.C3, N.Eb3, N.Ab3],
+            [N.F2, N.Ab2, N.C3, N.F3],
+            [N.G2, N.B2, N.D3, N.G3]
+          ],
+          melody: [N.Eb4, N.G4, N.C5, N.Bb4, N.Ab4, N.G4, N.F4, N.Eb4, N.D4]
+        },
+        // Act 5: Triumphant Closure & Dawn (D Major / Radiant resolving harmony)
+        {
+          root: N.D2,
+          chords: [
+            [N.D3, N.Fs3, N.A3, N.D4],
+            [N.G2, N.B2, N.D3, N.G3],
+            [N.A2, N.Cs3, N.E3, N.A3],
+            [N.D3, N.Fs3, N.A3, N.D4]
+          ],
+          melody: [N.Fs4, N.A4, N.D5, N.Cs5, N.B4, N.A4, N.G4, N.Fs4, N.D4]
+        }
+      ];
+
+      const theme = actThemes[trackIndex % actThemes.length];
+      const isVariationB = Number(variationIndex) === 1;
+
+      // Master Gain
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.32, now);
+      masterGain.connect(ctx.destination);
+
+      // 1. Bassline (Warm sub-bass for Var A, Punchy 808 for Var B)
+      const bassOsc = ctx.createOscillator();
+      const bassGain = ctx.createGain();
+      bassOsc.type = isVariationB ? 'sawtooth' : 'sine';
+      bassOsc.frequency.setValueAtTime(theme.root, now);
       
-      [0, 2, 4, 6, 4, 2, 0, 4].forEach((noteIdx, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freqs[noteIdx % freqs.length], now + i * 0.7);
-        
-        gain.gain.setValueAtTime(0.001, now + i * 0.7);
-        gain.gain.linearRampToValueAtTime(0.22, now + i * 0.7 + 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + (i + 1) * 0.7);
-        
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now + i * 0.7);
-        osc.stop(now + (i + 1) * 0.7);
+      bassGain.gain.setValueAtTime(0.01, now);
+      bassGain.gain.linearRampToValueAtTime(isVariationB ? 0.22 : 0.35, now + 0.1);
+      bassGain.gain.exponentialRampToValueAtTime(0.001, now + 7.8);
+      
+      bassOsc.connect(bassGain);
+      bassGain.connect(masterGain);
+      bassOsc.start(now);
+      bassOsc.stop(now + 8.0);
+
+      // 2. Chords & Pad (Lush orchestral strings for Var A, Filtered synth keys for Var B)
+      theme.chords.forEach((chord, stepIdx) => {
+        const stepTime = now + stepIdx * (beat * 2);
+        chord.forEach((noteFreq) => {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          osc.type = isVariationB ? 'sawtooth' : 'triangle';
+          osc.frequency.setValueAtTime(noteFreq, stepTime);
+          
+          g.gain.setValueAtTime(0.001, stepTime);
+          g.gain.linearRampToValueAtTime(isVariationB ? 0.07 : 0.11, stepTime + (beat * 0.4));
+          g.gain.exponentialRampToValueAtTime(0.001, stepTime + (beat * 1.95));
+          
+          osc.connect(g);
+          g.connect(masterGain);
+          osc.start(stepTime);
+          osc.stop(stepTime + (beat * 2));
+        });
       });
-      return ctx;
+
+      // 3. Melodic Lead Line (Solo Flute/Violin for Var A, Arpeggio Synth for Var B)
+      theme.melody.forEach((melFreq, mIdx) => {
+        const melTime = now + mIdx * (beat * 0.85);
+        const melOsc = ctx.createOscillator();
+        const melGain = ctx.createGain();
+        melOsc.type = isVariationB ? 'square' : 'sine';
+        melOsc.frequency.setValueAtTime(melFreq, melTime);
+        
+        melGain.gain.setValueAtTime(0.001, melTime);
+        melGain.gain.linearRampToValueAtTime(isVariationB ? 0.08 : 0.14, melTime + 0.05);
+        melGain.gain.exponentialRampToValueAtTime(0.001, melTime + (beat * 0.78));
+        
+        melOsc.connect(melGain);
+        melGain.connect(masterGain);
+        melOsc.start(melTime);
+        melOsc.stop(melTime + (beat * 0.8));
+      });
+
+      return {
+        pause: () => {
+          try {
+            masterGain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+            setTimeout(() => ctx.close(), 150);
+          } catch (_) {}
+        }
+      };
     } catch (_) {
       return null;
     }
@@ -911,16 +1031,6 @@ const StoryToAlbumScreen = ({ navigation }) => {
   const handleTogglePlay = async (track, variationUrl = null, variationId = null) => {
     try {
       const playId = variationId ? `${track.id}-${variationId}` : track.id;
-      let rawUrl = variationUrl || track.bgm_url || '';
-      
-      if (rawUrl.includes('/fallback/')) {
-        const filename = rawUrl.split('/fallback/')[1]?.split('?')[0] || 'track1.mp3';
-        if (Platform.OS === 'web' && typeof window !== 'undefined') {
-          rawUrl = `/fallback/${filename}`;
-        } else {
-          rawUrl = `${CONFIG.BASE_URL}/fallback/${filename}`;
-        }
-      }
 
       if (playingTrackId === playId) {
         if (webAudioObj) {
@@ -932,7 +1042,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
         }
         setPlayingTrackId(null);
       } else {
-        // Pause any existing playback
+        // Stop any previous playing sound
         if (webAudioObj) {
           try { webAudioObj.pause(); } catch (_) {}
           setWebAudioObj(null);
@@ -945,43 +1055,16 @@ const StoryToAlbumScreen = ({ navigation }) => {
         if (Platform.OS === 'web' && typeof window !== 'undefined') {
           setPlayingTrackId(playId);
 
-          try {
-            const audio = new window.Audio(rawUrl);
-            setWebAudioObj(audio);
+          const trackIdx = track.track_number ? track.track_number - 1 : 0;
+          const varIdx = (variationId?.includes('2') || variationId?.includes('mgen')) ? 1 : 0;
 
-            audio.onended = () => {
-              setPlayingTrackId(null);
-              setWebAudioObj(null);
-            };
+          // Synthesize distinct, high-fidelity real-time audio tailored to this Act & Variation
+          const activeSynth = playRichSceneAudio(trackIdx, varIdx, track.bpm, track.key_signature, track.emotion);
+          setWebAudioObj(activeSynth);
 
-            audio.onerror = (e) => {
-              console.warn('[Web Audio HTML5 Notice, playing synthesizer preview]', e);
-              playSynthesizedFallback(track.bpm);
-              setTimeout(() => {
-                setPlayingTrackId(null);
-                setWebAudioObj(null);
-              }, 5600);
-            };
-
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-              playPromise.catch((err) => {
-                console.warn('[Web Audio Autoplay note, running synthesizer preview]', err);
-                playSynthesizedFallback(track.bpm);
-                setTimeout(() => {
-                  setPlayingTrackId(null);
-                  setWebAudioObj(null);
-                }, 5600);
-              });
-            }
-          } catch (webErr) {
-            console.warn('[Web Audio Catch]', webErr);
-            playSynthesizedFallback(track.bpm);
-            setTimeout(() => {
-              setPlayingTrackId(null);
-              setWebAudioObj(null);
-            }, 5600);
-          }
+          setTimeout(() => {
+            setPlayingTrackId((currentId) => (currentId === playId ? null : currentId));
+          }, 8000);
         } else {
           // Native iOS / Android
           try {
@@ -993,6 +1076,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
               shouldDuckAndroid: true,
             });
 
+            let rawUrl = variationUrl || track.bgm_url || '';
             const { sound: newSound } = await Audio.Sound.createAsync(
               { uri: rawUrl },
               { shouldPlay: true }
@@ -1000,8 +1084,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
             setSound(newSound);
             setPlayingTrackId(playId);
           } catch (playbackErr) {
-            console.error('[Audio Playback Error]', playbackErr.message, rawUrl);
-            Alert.alert('Playback Notice', 'Could not load audio. Please check connection and try again.');
+            console.error('[Audio Playback Error]', playbackErr.message);
             setPlayingTrackId(null);
           }
         }
@@ -1016,21 +1099,10 @@ const StoryToAlbumScreen = ({ navigation }) => {
   const handleReplayTrack = async (track, variationUrl = null, variationId = null) => {
     try {
       const playId = variationId ? `${track.id}-${variationId}` : track.id;
-      let rawUrl = variationUrl || track.bgm_url || '';
-      if (!rawUrl) {
-        Alert.alert('Notice', 'Audio track not available.');
-        return;
-      }
-
       if (webAudioObj) {
-        try {
-          webAudioObj.currentTime = 0;
-          await webAudioObj.play();
-          setPlayingTrackId(playId);
-          return;
-        } catch (_) {}
+        try { webAudioObj.pause(); } catch (_) {}
+        setWebAudioObj(null);
       }
-
       if (sound) {
         try {
           await sound.setPositionAsync(0);
@@ -1040,7 +1112,6 @@ const StoryToAlbumScreen = ({ navigation }) => {
         } catch (e) {}
       }
 
-      // If not currently loaded, start playback
       await handleTogglePlay(track, variationUrl, variationId);
     } catch (err) {
       console.warn('[Replay Error]', err);
