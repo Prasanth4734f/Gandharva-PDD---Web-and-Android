@@ -1,32 +1,15 @@
 {
   "version": 2,
-  "name": "gandharva-ai-music-studio",
-  "buildCommand": "npx expo export --platform web",
+  "buildCommand": "expo export --platform web",
   "outputDirectory": "dist",
   "cleanUrls": true,
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
+      "handle": "filesystem"
+    },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
