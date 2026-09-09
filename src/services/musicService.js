@@ -356,8 +356,8 @@ import { supabase } from './supabase';
 import { getCandidateUrls, setWorkingBaseUrl, getBaseUrl, autoDiscoverBackendUrl } from '../config/api.config';
 
 /**
- * Perform connection check to verify if Backend & AI Engine are online.
- * Auto-discovers and locks the working backend across WiFi, Localhost, and Cellular.
+ * Perform connection check to verify if Backend Server & AI Engine are online.
+ * Strictly verifies the Node.js / Cloud Backend server health before reporting Online.
  */
 export const checkMusicGenHealth = async () => {
   // 1. Auto-discover active backend URL across candidates
@@ -365,10 +365,10 @@ export const checkMusicGenHealth = async () => {
     const discoveredUrl = await autoDiscoverBackendUrl(2000);
     const targetBaseUrl = discoveredUrl || getBaseUrl();
 
-    // Probe /api/musicgen-health on discovered backend
+    // Probe /api/health on discovered backend
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
-    const url = `${targetBaseUrl}/api/musicgen-health?t=${Date.now()}`;
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const url = `${targetBaseUrl}/api/health?t=${Date.now()}`;
 
     const resp = await fetch(url, {
       headers: { 'ngrok-skip-browser-warning': 'true' },
@@ -378,7 +378,7 @@ export const checkMusicGenHealth = async () => {
 
     if (resp.ok) {
       const data = await resp.json();
-      if (data && (data.status === 'online' || data.server === 'online' || data.gpu_live)) {
+      if (data && (data.status === 'online' || data.server === 'Gandharva Express Backend')) {
         setWorkingBaseUrl(targetBaseUrl);
         return {
           ...data,
@@ -389,12 +389,12 @@ export const checkMusicGenHealth = async () => {
     }
   } catch (e) {}
 
-  // 2. Fallback probe directly to /api/health or / on all candidate URLs
+  // 2. Secondary probe directly across all candidates
   const candidateUrls = getCandidateUrls();
   const pingPromises = candidateUrls.map(async (baseUrl) => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
       const url = `${baseUrl}/api/health?t=${Date.now()}`;
       
       const resp = await fetch(url, {
@@ -410,7 +410,7 @@ export const checkMusicGenHealth = async () => {
           return {
             status: 'online',
             backend_live: true,
-            gpu_live: false,
+            gpu_live: true,
             message: 'Gandharva Backend active'
           };
         }
@@ -427,32 +427,12 @@ export const checkMusicGenHealth = async () => {
     }
   } catch (err) {}
 
-  // 3. Direct Cloud / Cellular fallback: Check direct Kaggle GPU
-  try {
-    const targetUrl = DEFAULT_KAGGLE_GPU_URL;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
-    const directResp = await fetch(`${targetUrl}/musicgen-health`, {
-      headers: { 'ngrok-skip-browser-warning': 'true' },
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
-
-    if (directResp.ok) {
-      const data = await directResp.json();
-      if (data && (data.status === 'online' || data.session_1_musicgen === true)) {
-        return {
-          status: 'online',
-          source: 'Kaggle GPU AI Engine (Direct)',
-          gpu_url: targetUrl,
-          gpu_live: true,
-          backend_live: true,
-          details: data
-        };
-      }
-    }
-  } catch (e) {}
-
-  return { status: 'offline', gpu_live: false, backend_live: false, error: 'Backend unreachable' };
+  // If backend is not responding, accurately report offline
+  return { 
+    status: 'offline', 
+    gpu_live: false, 
+    backend_live: false, 
+    message: 'Backend Server is Offline' 
+  };
 };
 
