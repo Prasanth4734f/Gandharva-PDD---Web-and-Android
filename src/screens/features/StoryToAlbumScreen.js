@@ -110,74 +110,111 @@ const StoryToAlbumScreen = ({ navigation }) => {
   const generateUniqueSceneLyrics = (storyText, lang, trackTitle, sceneIdx, emotion) => {
     const l = (lang || 'English').toLowerCase();
     const cleanStory = (storyText || '').trim();
+    const lower = cleanStory.toLowerCase();
     
-    // Extract keywords or names from user story
-    const hasCollege = cleanStory.toLowerCase().includes('college') || cleanStory.toLowerCase().includes('campus');
-    const hasLove = cleanStory.toLowerCase().includes('love') || cleanStory.toLowerCase().includes('romance') || cleanStory.toLowerCase().includes('priya') || cleanStory.toLowerCase().includes('arjun');
-    const hasWar = cleanStory.toLowerCase().includes('war') || cleanStory.toLowerCase().includes('battle') || cleanStory.toLowerCase().includes('hero');
-    const hasCyber = cleanStory.toLowerCase().includes('cyber') || cleanStory.toLowerCase().includes('hacker') || cleanStory.toLowerCase().includes('neon');
-    const hasTemple = cleanStory.toLowerCase().includes('temple') || cleanStory.toLowerCase().includes('spiritual') || cleanStory.toLowerCase().includes('god');
+    // Theme Detection
+    const isMystery = lower.includes('call') || lower.includes('disappear') || lower.includes('missing') || lower.includes('secret') || lower.includes('shadow') || lower.includes('investigat') || lower.includes('strange') || lower.includes('murder') || lower.includes('dark');
+    const isMass = lower.includes('mass') || lower.includes('elevation') || lower.includes('hero') || lower.includes('entry') || lower.includes('don') || lower.includes('gang') || lower.includes('fight') || lower.includes('revenge');
+    const isHeartbreak = lower.includes('reject') || lower.includes('heartbreak') || lower.includes('breakup') || lower.includes('propose') || lower.includes('alone') || lower.includes('crying');
+    const isCyber = lower.includes('cyber') || lower.includes('hacker') || lower.includes('neon') || lower.includes('future') || lower.includes('robot');
+    const isTemple = lower.includes('temple') || lower.includes('spiritual') || lower.includes('god') || lower.includes('sacred') || lower.includes('flute');
+    const isRain = lower.includes('rain') || lower.includes('nostalgia') || lower.includes('childhood') || lower.includes('memories');
 
     if (l === 'telugu') {
+      if (isMystery) {
+        const teluguMysteryScenes = [
+          `[రచన - ఘట్టం 1: అర్ధరాత్రి మోగిన ఫోన్ గంట - ${trackTitle}]\n\n[Intro / హుక్]\nనిశ్శబ్ద రాత్రిలో మోగింది ఆ రింగ్ టోన్...\nఎన్నో ఏళ్ల క్రితం కనుమరుగైన స్వరం మళ్లీ పిలిచెన్!\n\n[Verse 1]\nచీకటి గదిలో గుండె చప్పుడు వేగమాయె,\nచేతిలోని ఫోన్ వణుకుతూ మాటలు రాలదాయె.\n"నేను ఇంకా బ్రతికే ఉన్నాను" అన్న ఆ మాట వినగానే,\nగతం తాలూకు జ్ఞాపకాలన్నీ ఒక్కసారిగా మేల్కొనెన్!\n\n[Chorus]\nఎవరు నీవు? ఎక్కడున్నావు?\nకాలం దాచిన రహస్యానివా?\nగాలిలో తేలే నీ స్వరం నిజమా లేక భ్రమా?\n\n[Outro]\nనిశ్శబ్దంలో మొదలైన అన్వేషణ...`,
+
+          `[రచన - ఘట్టం 2: గతం విసిరిన పాత జ్ఞాపకాల జాడ - ${trackTitle}]\n\n[Intro / హుక్]\nపాత డైరీ పేజీల్లో దాగిన చిరునామా...\nవర్షపు రాత్రిలో వెతుకుతున్నా నీ ఆనవాలు!\n\n[Verse 1]\nవీధి దీపాల వెలుగులో కదిలే నీడలు,\nప్రతి అడుగులోనూ వెంటాడే అనుమానాలు.\nఏమిటీ మర్మం? ఎందుకు ఈ నిశ్శబ్ద ద్రోహం?\n\n[Chorus]\nసత్యం కోసం సాగే ఈ చీకటి ప్రయాణం,\nగుండె లోతుల్లో రగులుతున్న భయం, ఉత్కంఠం!\n\n[Outro]\nఒక్కొక్క ముడి వీడుతున్న వేళ...`,
+
+          `[రచన - ఘట్టం 3: ప్రమాదకరమైన మలుపు - ${trackTitle}]\n\n[Intro / హుక్]\nనీడల మాటున పొంచి ఉన్న ప్రమాదం...\nనిజం తెలిసే కొద్దీ పెరిగే ఉత్కంఠం!\n\n[Verse 1]\nపాడుబడిన భవనంలో మెరిసిన చిన్న దీపం,\nతలుపు వెనుక దాగిన భయంకర నిజం.\nకాలం ఆగిపోయిన చోట రహస్యం బద్దలయ్యెన్!\n\n[Chorus]\nసాహసమే ఊపిరిగా ముందుకు సాగాలి,\nదాగి ఉన్న దుష్ట నీడలను ఛేదించాలి!\n\n[Outro]\nచివరి అంకానికి చేరుకున్న సమరం...`,
+
+          `[రచన - ఘట్టం 4: సత్యం ఆవిష్కృతం - ${trackTitle}]\n\n[Intro / హుక్]\nఎదురెదురుగా నిలిచాం నేడు...\nముసుగు తొలగిన క్షణాన ఆశ్చర్యం!\n\n[Verse 1]\nకళ్ళలోకి చూస్తే కనిపించెను ఆనాటి బంధం,\nకనుమరుగైన వెనుక ఉన్న అసలైన కారణం.\nకన్నీరు సాక్ష్యంగా వీడిన రహస్యాల తెర!\n\n[Chorus]\nఇన్నాళ్ళ నిరీక్షణకు దక్కిన ముగింపు,\nన్యాయం గెలిచిన వేళ గుండెకు తీపి ఓదార్పు!\n\n[Outro]\nవీడిన మాయ... వెలిగిన సత్యం!`
+        ];
+        return teluguMysteryScenes[sceneIdx % teluguMysteryScenes.length];
+      }
+
+      if (isMass) {
+        const teluguMassScenes = [
+          `[రచన - ఘట్టం 1: అగ్ని ప్రవేశం - ${trackTitle}]\n\n[Intro / హుక్]\nసింహం అడుగుపెడితే భూకంపమే!\nచరిత్ర తిరగరాసే సమరమే!\n\n[Verse 1]\nచీకటిని చీల్చుకుంటూ వచ్చాడు రారాజు,\nఎదురొచ్చే శత్రువుల గుండెల్లో దడ పుట్టించే రోజు.\nదూసుకొచ్చే సుడిగాలిలా సాగేను ప్రయాణం!\n\n[Chorus]\nఢంకా బజాయించు... జెండా ఎగరేయి!\nగాంధర్వ సైన్యం నడిచెను విజయ పథాన!\n\n[Outro]\nఎదురులేని అధిపతి!`,
+
+          `[రచన - ఘట్టం 2: సమర శంఖారావం - ${trackTitle}]\n\n[Intro / హుక్]\nరణరంగంలో మోగెను తుపాకీల ధ్వని...\n\n[Verse 1]\nవెనకడుగు వేయని ధీరుడి పోరాటం,\nరక్తంలో రగిలేను వీరత్వం!\n\n[Chorus]\nజయహో... జయహో వీరాధివీరా!\nతీరని దాహంతో గెలిచే సమర వీరా!\n\n[Outro]\nవిజయ గర్జన!`
+        ];
+        return teluguMassScenes[sceneIdx % teluguMassScenes.length];
+      }
+
       const teluguScenes = [
-        `[రచన - ఘట్టం 1: పరిచయం & నూతన ఆరంభం]\n\n[Intro / హుక్]\nమొదలైంది ఒక సరికొత్త కల...\nనిశ్శబ్ద తీరంలో సాగే మధుర జ్ఞాపకాల ప్రవాహం!\n\n[Verse 1]\nహైదరాబాద్ నగరపు వీధుల్లోన,\nకనురెప్పల చాటున చిగురించిన ఆశల వాన.\nకాలేజ్ దారుల్లోన అడుగడుగునా నీ చిరునవ్వుల రాగం!\n\n[Chorus]\nఓ... శ్వాసగా మారే ఈ మధుర స్వరాలు,\nహృదయ లోతుల్లో పొంగే అమృత తరంగాలు!\nసంగీతమై నన్ను చుట్టుముట్టే నీ తలపులు!\n\n[Outro]\nసాగుతోంది మన అనురాగ ప్రయాణం...`,
+        `[రచన - ఘట్టం 1: పరిచయం & నూతన ఆరంభం - ${trackTitle}]\n\n[Intro / హుక్]\nమొదలైంది ఒక సరికొత్త జీవన ప్రయాణం...\nనిశ్శబ్ద తీరంలో సాగే మధుర స్వప్నాల ప్రవాహం!\n\n[Verse 1]\nతెల్లవారుజామున విరిసిన ఆశల వెలుగులో,\nఅడుగడుగునా వినిపించే రాగాల లయలో.\nమనసంతా నిండిపోయెను అమృత భావన!\n\n[Chorus]\nశ్వాసగా మారే ఈ మధుర స్వరాలు,\nహృదయ లోతుల్లో పొంగే ఆనంద తరంగాలు!\nగాంధర్వ సంగీతమై నన్ను నడిపించే తలపులు!\n\n[Outro]\nసాగుతోంది మన జీవన ప్రయాణం...`,
 
-        `[రచన - ఘట్టం 2: స్నేహం నుండి ప్రేమ వైపు]\n\n[Intro / హుక్]\nచేరాయి రెండు హృదయాలు ఒకే త్రోవలో...\nప్రతి క్షణం పండుగై వెలిగే క్షణంలో!\n\n[Verse 1]\nచెలిమి కాస్తా ప్రేమగా మారిన వేళ,\nనవరాత్రుల వేడుకలో దీపపు కాంతుల లీల.\nకన్నులు కన్నులు కలిసిన చోట మాటలు మూగబోయెన్!\n\n[Chorus]\nనీతోనే ప్రతీ క్షణం ఒక వేడుక,\nనీ నీడగా సాగడమే నా కోరిక!\nమన ప్రేమ గంధర్వ రాగమై మోగేను!\n\n[Outro]\nఎప్పటికీ మన బంధం అమరం!`,
+        `[రచన - ఘట్టం 2: బంధం బలపడిన వేళ - ${trackTitle}]\n\n[Intro / హుక్]\nచేరాయి హృదయాలు ఒకే మార్గంలో...\nప్రతి క్షణం పండుగై వెలిగే ఉత్సవంలో!\n\n[Verse 1]\nనమ్మకం తోడై నడిచిన వేళ,\nదీపాల కాంతుల్లో వెలిగిన లీల.\nమాటలు దాటి మనసులు కలిసిన శుభతరుణం!\n\n[Chorus]\nనీతోనే ప్రతీ క్షణం ఒక వేడుక,\nసత్యం వైపు సాగడమే మన కోరిక!\n\n[Outro]\nఎప్పటికీ ఈ బంధం అమరం!`,
 
-        `[రచన - ఘట్టం 3: అనుమానం & మనస్పర్ధల సంఘర్షణ]\n\n[Intro / హుక్]\nకమ్ముకున్నాయి చీకటి మేఘాలు...\nమౌనమైన ఈ రాత్రిలో చెదిరిన స్వప్నాలు!\n\n[Verse 1]\nఒక చిన్న అపార్థం తెచ్చెను ఎడబాటు,\nనిండిపోయెను గుండెల్లో కన్నీటి గాటు.\nఎవరిది తప్పు... ఎవరిది న్యాయం?\n\n[Chorus]\nసాహసమే నా ఊపిరి... నిలిచేనా మన బంధం?\nఈ నిశ్శబ్ద సమరంలో కరిగిపోదు నా ప్రేమ సంకల్పం!\n\n[Outro]\nఎదురుచూపుల వేదన...`,
+        `[రచన - ఘట్టం 3: సవాళ్ళు & పరీక్ష - ${trackTitle}]\n\n[Intro / హుక్]\nకమ్ముకున్నాయి తుఫాను మేఘాలు...\nనిలబడాలి ధైర్యంతో ఎదురీదుతూ!\n\n[Verse 1]\nఎదురైన ఆటంకాలను దాటుకుంటూ,\nలక్ష్యం వైపు గుండెను నిలుపుకుంటూ.\nవిశ్వాసమే మనకు రక్షా కవచం!\n\n[Chorus]\nసాహసమే మన ఊపిరి... గెలుపే మన సంకల్పం!\nచీకటిని చీల్చి వెలుగును నింపాలి!\n\n[Outro]\nపోరాట పటిమ...`,
 
-        `[రచన - ఘట్టం 4: విరహం & విరహ వేదన]\n\n[Intro / హుక్]\nరాలిపోయిన ఆశల తీరంలో...\nఒంటరిగా మిగిలిన నా మది నిట్టూర్పు!\n\n[Verse 1]\nనీ జ్ఞాపకాల వర్షంలో తడుస్తూ,\nకంటిపాపలో కన్నీరు దాగదాయె.\nకలిసి నడిచిన దారులన్నీ శూన్యమై పిలిచేను నిన్నే!\n\n[Chorus]\nనిశ్శబ్దంలో వినపడే నా గుండె కోత,\nనీ రాక కోసం వేచే నా ఆరాటం!\nతిరిగి రావా ఓ నేస్తమా...\n\n[Outro]\nనీ రాకకై వేచే ప్రాణం...`,
-
-        `[రచన - ఘట్టం 5: గ్రాడ్యుయేషన్ వేళ పునర్మిలనం & విజయం]\n\n[Intro / హుక్]\nవికసించిన కమలంలా వెలిగెను సంబరం!\nనేడు మన నిష్కల్మష ప్రేమకే దక్కిన జయం!\n\n[Verse 1]\nడిగ్రీ పట్టాల వేదిక పైన,\nకన్నీరు తుడిచి నవ్వుల పూయించిన క్షణాన.\nఅపార్థాలన్నీ వీడి ఏకమైన వేళ!\n\n[Chorus]\nశుభసమయం ఇది నూతన అధ్యాయం,\nతరతరాలకు నిలిచే మన గాంధర్వ అనుబంధం!\nజైత్రయాత్ర మన ప్రేమకే దక్కిన వరం!\n\n[Outro]\nసదా శాంతి... సదా ఆనందం!`,
-
-        `[రచన - ఘట్టం 6: ఆనందోత్సాహాల మహా వేడుక]\n\n[Intro / హుక్]\nఢోలు మోగెను... తాళం సాగెను!\nమనసులన్నీ ఏకమై నర్తించెను!\n\n[Verse 1]\nస్నేహితులందరూ ఒక్కటై పాడగా,\nఆనంద భాష్పాలు కాంతులు చిమ్మగా!\n\n[Chorus]\nహే... గెలిచాం నేడు లోకాన్ని,\nచేరదీశాం మన గమ్యాన్ని!\n\n[Outro]\nసంగీత లోకంలో మనం అమరులం!`
+        `[రచన - ఘట్టం 4: మహోన్నత విజయం & సంబరం - ${trackTitle}]\n\n[Intro / హుక్]\nవికసించిన ఉషోదయంలా వెలిగెను సంబరం!\nనేడు మన నిష్కల్మష సంకల్పానికే దక్కిన జయం!\n\n[Verse 1]\nవిజయ వేదికపై నిలిచిన వేళ,\nకన్నీటిని తుడిచి నవ్వులు పూయించిన క్షణాన.\nఅడ్డంకులన్నీ సమసిపోయిన శుభ సమయం!\n\n[Chorus]\nశుభసమయం ఇది నూతన అధ్యాయం,\nతరతరాలకు నిలిచే మన విజయ సందేశం!\n\n[Outro]\nసదా శాంతి... సదా ఆనందం!`
       ];
       return teluguScenes[sceneIdx % teluguScenes.length];
     }
 
     if (l === 'hindi') {
+      if (isMystery) {
+        const hindiMysteryScenes = [
+          `[गीत - भाग 1: आधी रात की खामोश घंटी - ${trackTitle}]\n\n[Intro / Hook]\nसन्नाटे में बजी वो अनजान घंटी...\nसालों पहले जो खो गया था, उसी की गूंजती सदा!\n\n[Verse 1]\nअंधेरे कमरे में थरथराते हुए हाथ,\nफोन उठाते ही याद आए पुराने वो जज़्बात।\n"मैं जिंदा हूं..." बस इतना उसने कहा,\nऔर रुक सी गई यह चलती हवा!\n\n[Chorus]\nकौन है वो साया जो पुकारता है मुझे?\nकिस मोड़ पर ले जाएगा यह अनसुलझा राज़?\nतलाश जारी है अंधेरों के पार!\n\n[Outro]\nशुरू हुआ सवालों का सिलसिला...`,
+
+          `[गीत - भाग 2: धुंधली यादों के सुराग - ${trackTitle}]\n\n[Intro / Hook]\nपुरानी गलियों में भटकते हुए साए...\nहर दीवार से किसी के होने की आहट आए!\n\n[Verse 1]\nबरसात की रात में खामोश दरख्त,\nढूंढ रहा हूं खोए हुए वो अनमोल वक्त।\nक्या यह सच है या कोई फरेब?\n\n[Chorus]\nसच्चाई की खातिर लड़ना होगा,\nइस खौफनाक अंधेरे से निकलना होगा!\n\n[Outro]\nखुलती जा रही हैं रहस्यमयी परतें...`,
+
+          `[गीत - भाग 3: महा-रहस्योद्घाटन और मुक्ति - ${trackTitle}]\n\n[Intro / Hook]\nआमने-सामने खड़ी है वो सच्चाई...\nसालों की खामोशी आज मिटने को आई!\n\n[Verse 1]\nआंखों में वही दर्द, वही पुरानी दास्तान,\nसुलझ गया हर एक उलझा इम्तिहान।\nसच की रोशनी से रोशन हुआ समां!\n\n[Chorus]\nजीत हुई इंसाफ और सब्र की,\nखत्म हुई दास्तान उस खोई हुई रात की!\n\n[Outro]\nसदा के लिए शांत हुई यह सदा!`
+        ];
+        return hindiMysteryScenes[sceneIdx % hindiMysteryScenes.length];
+      }
+
       const hindiScenes = [
-        `[गीत - भाग 1: सफर का आगाज़ - ${trackTitle}]\n\n[Intro / Hook]\nशुरू हुई है एक नई दास्तान...\nखामोश राहों पर बहती हुई सदा!\n\n[Verse 1]\nकॉलेज की इन हसीन वादियों में,\nसपनों की महकती गलियों में।\nतेरी एक झलक से रौशन हुआ सारा जहां!\n\n[Chorus]\nसांसों में घुलती यह मीठी धुन,\nहर लम्हा लाती है नया सुकून!\nदिल की आवाज़ बनके तू जो मिला...\n\n[Outro]\nचलता रहेगा यह हसीन सफर...`,
+        `[गीत - भाग 1: सफर का आगाज़ - ${trackTitle}]\n\n[Intro / Hook]\nशुरू हुई है एक नई दास्तान...\nखामोश राहों पर बहती हुई सदा!\n\n[Verse 1]\nसपनों की महकती गलियों में,\nउम्मीदों के नए सवेरे में।\nएक नया हौसला जागा है दिल में!\n\n[Chorus]\nसांसों में घुलती यह मीठी धुन,\nहर लम्हा लाती है नया सुकून!\n\n[Outro]\nचलता रहेगा यह हसीन सफर...`,
 
-        `[गीत - भाग 2: दोस्ती से मोहब्बत का मोड़]\n\n[Intro / Hook]\nमिले दो दिल एक नए मोड़ पर...\nहर कदम पर छाई है खुशियां!\n\n[Verse 1]\nत्योहारों की जगमग रौशनी में,\nखामोशी से दिल ने किया इकरार।\nतेरी हंसी मेरी दुनिया का सबसे प्यारा सुर बन गई!\n\n[Chorus]\nतेरे संग हर पल है एक उत्सव,\nतेरा साथ ही है मेरा सब कुछ!\nअमर रहेगा यह पावन संगीत!\n\n[Outro]\nसदा रहे यह प्यार...`,
+        `[गीत - भाग 2: अटूट विश्वास और उमंग - ${trackTitle}]\n\n[Intro / Hook]\nमिले दो दिल एक नए मोड़ पर...\nहर कदम पर छाई है खुशियां!\n\n[Verse 1]\nरोशनी से जगमगा उठा जहां,\nसाथ चले हम जहां तक है आसमां।\n\n[Chorus]\nतेरे संग हर पल है एक उत्सव,\nसच्चा इरादा ही है हमारा वैभव!\n\n[Outro]\nसदा रहे यह साथ...`,
 
-        `[गीत - भाग 3: गलतफहमी और तकरार]\n\n[Intro / Hook]\nतूफानों से घिर गई यह राह...\nरूठ गई क्यों हमसे यह पनाह!\n\n[Verse 1]\nएक छोटी सी गलतफहमी ने बढ़ाई दूरियां,\nआंखों में सिमट आई मजबूरियां।\nसन्नाटा चीखता है तेरी याद में!\n\n[Chorus]\nदर्द से भरी है यह रात,\nकब होगी फिर से वो मीठी बात?\n\n[Outro]\nखामोशियां ही खामोशियां...`,
-
-        `[गीत - भाग 4: तन्हाई और जुदाई का दर्द]\n\n[Intro / Hook]\nटूटे हुए ख्वाबों के साहिल पर...\nअकेले खड़े हैं यादों के साये!\n\n[Verse 1]\nतेरी जुदाई का यह गहरा गम,\nआंखों से बहता है बनके शबनम।\nलौट आओ मेरे हमसफर...\n\n[Chorus]\nसन्नाटे में गूंजती है मेरी तड़प,\nतेरे लौट आने की है बस एक तड़प!\n\n[Outro]\nतेरा ही इंतज़ार है...`,
-
-        `[गीत - भाग 5: दीक्षांत समारोह और महा-मिलन]\n\n[Intro / Hook]\nखिला है खुशियों का नया सवेरा!\nआज पूरा हुआ हर एक सपना हमारा!\n\n[Verse 1]\nसारे गम मिट गए इस उजाले में,\nसज गई जिंदगी मोहब्बत के रंग में।\nडिग्री हाथ में और तू मेरे साथ में!\n\n[Chorus]\nयह जीत है हमारी सच्ची मोहब्बत की,\nअमर कहानी हमारे अटूट विश्वास की!\n\n[Outro]\nसदा रहेगा यह आनंद!`,
-
-        `[गीत - भाग 6: जश्न और विजय का तराना]\n\n[Intro / Hook]\nझूमो नाचो गाओ सब मिलके!\nरंग खिले हैं दिल के!\n\n[Verse 1]\nयारों की टोली संग चली,\nमहकी है अब हर एक गली!\n\n[Chorus]\nगांधर्व राग पर झूमे समां,\nजीत लिया हमने सारा जहां!\n\n[Outro]\nसदा बहार संगीत!`
+        `[गीत - भाग 3: विजय का जश्न - ${trackTitle}]\n\n[Intro / Hook]\nखिला है खुशियों का नया सवेरा!\nआज पूरा हुआ हर एक सपना हमारा!\n\n[Verse 1]\nसारे गम मिट गए इस उजाले में,\nसज गई जिंदगी जीत के रंग में।\n\n[Chorus]\nयह जीत है हमारे अटूट विश्वास की,\nअमर कहानी हमारे सच्चे प्रयास की!\n\n[Outro]\nसदा रहेगा यह आनंद!`
       ];
       return hindiScenes[sceneIdx % hindiScenes.length];
     }
 
     if (l === 'tamil') {
       const tamilScenes = [
-        `[பாடல் - காட்சி 1: தொடக்கம் & அறிமுகம் - ${trackTitle}]\n\n[Intro / Hook]\nஆரம்பமானது ஒரு புதிய காதல் காவியம்...\nஅமைதியான நதிக்கரையில் பாடும் கானம்!\n\n[Verse 1]\nகல்லூரி பாதையிலே உன் புன்னகை பூத்தது,\nஎன் நெஞ்சில் புது ராகம் மீட்டினாய்.\n\n[Chorus]\nஉன்னோடு சேர்ந்திடும் இந்த இனிய பயணம்,\nவாழ்நாள் முழுவதும் வேண்டும் உன் நேசம்!\n\n[Outro]\nதொடர்கிறது இந்த பயணம்...`,
+        `[பாடல் - காட்சி 1: ஆரம்பம் - ${trackTitle}]\n\n[Intro / Hook]\nதொடங்கியது ஒரு புதிய பயணம்...\n\n[Verse 1]\nவிடியலின் ஒளியில் பிறந்த நம்பிக்கை,\nநம் நெஞ்சில் பூத்த புது ராகம்.\n\n[Chorus]\nஇசை வெள்ளத்தில் நீந்தும் மனது,\nவெற்றிப்பாதையில் தொடரும் நமது கனவு!\n\n[Outro]\nபயணம் தொடர்கிறது...`,
 
-        `[பாடல் - காட்சி 2: விழாக்கால காதல்]\n\n[Intro / Hook]\nதிருவிழா ஒளியினில் இணைந்தது இரு நெஞ்சம்...\n\n[Verse 1]\nநட்பாக மலர்ந்து காதலாய் கனிந்தது,\nஉன் கண்கள் பேசும் மொழியில் உலகம் மறந்தது!\n\n[Chorus]\nநீதானே என் ஜீவன், நீதானே என் ராகம்!\nகாந்தர்வ சங்கீதமாய் ஒலிக்கும் உன் நாதம்!\n\n[Outro]\nஎன்றும் பிரியாத வரம்...`,
-
-        `[பாடல் - காட்சி 3: பிரிவு & வேதனை]\n\n[Intro / Hook]\nபுயல் அடித்தது என் நெஞ்சில்...\n\n[Verse 1]\nதவறான புரிதலால் வந்த இடைவெளி,\nகண்ணீரில் கரைகிறது என் இரவு பொழுது.\n\n[Chorus]\nமீண்டும் வா என் அன்பே, தீர்த்திடு என் துயரம்!\n\n[Outro]\nஉனக்காய் காத்திருப்பேன்...`,
-
-        `[பாடல் - காட்சி 4: பட்டமளிப்பு விழா & மகா சங்கமம்]\n\n[Intro / Hook]\nவிடியல் பிறந்தது நம் காதலுக்கு!\n\n[Verse 1]\nவெற்றி மாலை சூடிய நன்னாளில்,\nபிரிவுகள் முடிந்து கைகோர்த்த தருணத்தில்!\n\n[Chorus]\nவென்றது நம் தூய காதல்!\nவாழ்வோம் என்றும் இன்பமாய்!\n\n[Outro]\nசங்கீத சங்கமம்!`
+        `[பாடல் - காட்சி 2: மகா சங்கமம் & வெற்றி - ${trackTitle}]\n\n[Intro / Hook]\nவிடியல் பிறந்தது நம் வாழ்வுக்கு!\n\n[Verse 1]\nதுயரங்கள் நீங்கி கைகோர்த்த தருணம்,\nவெற்றி மாலை சூடிய நன்னாள்!\n\n[Chorus]\nவென்றது நம் தூய உள்ளம்,\nவாழுவோம் என்றும் ஆனந்தமாய்!\n\n[Outro]\nசங்கீத சங்கமம்!`
       ];
       return tamilScenes[sceneIdx % tamilScenes.length];
     }
 
-    // Default English Narrative Lyrics
+    // Default English Narrative Lyrics (Theme-Aware)
+    if (isMystery) {
+      const englishMysteryScenes = [
+        `[Act 1: The Midnight Ring - ${trackTitle}]\n\n[Intro / Hook]\nA telephone shatters the dead of night,\nBreaking the silence with unearthly light...\n\n[Verse 1]\nStatic on the receiver, cold air in the room,\nA voice from the past cutting through the gloom.\n"I'm still alive," whispered through the wire,\nIgniting the darkness with questions of fire.\n\n[Chorus]\nWho is calling across the lost divide?\nWhat truth did the passing years hide?\nA phantom voice echoing in my head,\nAwakening secrets long thought dead!\n\n[Outro]\nThe investigation begins...`,
+
+        `[Act 2: Whispers in the Static - ${trackTitle}]\n\n[Intro / Hook]\nFootsteps on empty midnight asphalt,\nSearching for where time came to a halt...\n\n[Verse 1]\nDusty photographs and a hidden key,\nUnlocking the door to a dark mystery.\nShadows watch from behind the streetlamp glow,\nLeading to secrets no one was meant to know.\n\n[Chorus]\nChasing echoes through the fog and rain,\nUntangling the threads of fear and pain!\nEvery clue brings me closer to the edge,\nBound by an unbreakable truth and pledge!\n\n[Outro]\nThe web tightens...`,
+
+        `[Act 3: Heart of the Labyrinth - ${trackTitle}]\n\n[Intro / Hook]\nA flickering lamp in an abandoned hall,\nWriting on the cracked and faded wall...\n\n[Verse 1]\nThe pieces assemble in the dim moonlight,\nThe deception unravels into the night.\nA secret kept safe from the public eyes,\nBuried beneath a mountain of lies.\n\n[Chorus]\nNo more running, the truth is here,\nCutting through every lingering fear!\nThe melody surges with relentless drive,\nProving the lost one is truly alive!\n\n[Outro]\nThe confrontation looms...`,
+
+        `[Act 4: Face to Face - ${trackTitle}]\n\n[Intro / Hook]\nTwo silhouettes under the thunderous sky,\nFinally an answer to the question why...\n\n[Verse 1]\nNo longer a shadow, no longer a ghost,\nThe long-lost companion we mourned the most.\nTears of relief wash away the years,\nErasing the doubts and the silent tears.\n\n[Chorus]\nThe mystery is solved, the night is done,\nA hard-fought closure under the rising sun!\nEchoes of the call fading into peace,\nAt last, the torment finds its release!\n\n[Outro]\nPeace restored in the morning mist...`
+      ];
+      return englishMysteryScenes[sceneIdx % englishMysteryScenes.length];
+    }
+
+    if (isMass) {
+      const englishMassScenes = [
+        `[Act 1: The Fire Awakens - ${trackTitle}]\n\n[Intro / Hook]\nHeavy 808s shaking the concrete ground,\nThe king has arrived without making a sound!\n\n[Verse 1]\nShadows disperse as the thunder rolls in,\nReady for the ultimate battle to begin.\nEyes like lightning, power in his stride,\nNowhere left for the enemies to hide!\n\n[Chorus]\nSound the alarm, let the stadium roar!\nUnstoppable force kicking down the door!\nGandharva elevation rising supreme,\nTurning the legend into reality from a dream!\n\n[Outro]\nBow to the master!`,
+
+        `[Act 2: The Victor's Coronation - ${trackTitle}]\n\n[Intro / Hook]\nVictory echoes across the skyline high!\n\n[Verse 1]\nStanding at the top where the legends belong,\nWriting history inside of this song.\n\n[Chorus]\nImmortal reign, eternal might,\nWe conquered the darkness and brought the light!\n\n[Outro]\nThe reign of the titan!`
+      ];
+      return englishMassScenes[sceneIdx % englishMassScenes.length];
+    }
+
     const englishScenes = [
-      `[Scene 1: Prelude & Awakening - ${trackTitle}]\n\n[Intro / Hook]\nEchoes of a distant morning breeze,\nWhispering melodies through the whispering trees...\n\n[Verse 1]\nWalking down the bustling campus hall,\nNot knowing destiny was about to call.\nA single glance under the morning light,\nTurned an ordinary day into pure delight.\n\n[Chorus]\nListen to the quiet melody in the air,\nA sacred story we are meant to share!\nFrom this moment on, the journey begins,\nWhere true harmony and hope wins!\n\n[Outro]\nThe path opens before us...`,
+      `[Scene 1: Prelude & Awakening - ${trackTitle}]\n\n[Intro / Hook]\nEchoes of a distant morning breeze,\nWhispering melodies through the whispering trees...\n\n[Verse 1]\nTaking the first step into the morning light,\nTurning an ordinary day into pure delight.\nA melody humming inside of my mind,\nLeaving the worries of yesterday behind.\n\n[Chorus]\nListen to the quiet harmony in the air,\nA sacred story we are meant to share!\nFrom this moment on, the journey begins,\nWhere true harmony and courage wins!\n\n[Outro]\nThe path opens before us...`,
 
-      `[Scene 2: Blooming Connection & Sweet Serenade - ${trackTitle}]\n\n[Intro / Hook]\nTwo kindred spirits walking side by side,\nLeaving all hesitations far behind!\n\n[Verse 1]\nFestival lights illuminating the night,\nShared laughter making the whole world bright.\nFrom friendship blossoming into something profound,\nThe sweetest frequencies that we found.\n\n[Chorus]\nWith every note, our hearts align,\nA timeless chord, forever divine!\nGandharva melodies guide our way,\nBrighter than the golden day!\n\n[Outro]\nGrowing stronger day by day...`,
+      `[Scene 2: Rising Momentum & Harmony - ${trackTitle}]\n\n[Intro / Hook]\nTwo kindred spirits walking side by side,\nLeaving all hesitations far behind!\n\n[Verse 1]\nLights illuminating the pathway bright,\nShared laughter turning darkness into light.\nFrom friendship blossoming into something profound,\nThe sweetest frequencies that we found.\n\n[Chorus]\nWith every note, our hearts align,\nA timeless chord, forever divine!\nGandharva melodies guide our way,\nBrighter than the golden day!\n\n[Outro]\nGrowing stronger day by day...`,
 
-      `[Scene 3: Clash of Shadows & The Great Misunderstanding - ${trackTitle}]\n\n[Intro / Hook]\nThunderous clouds gathering in the sky,\nQuestions linger without an answer why...\n\n[Verse 1]\nA sudden silence cuts through the air,\nA web of misunderstandings hard to bear.\nPaths diverge under the autumn rain,\nHiding the echoes of unspoken pain.\n\n[Chorus]\nWill the melody survive the cold?\nCan we restore the love we hold?\nStanding in the eye of the storm,\nWaiting for the warmth to reform!\n\n[Outro]\nThe trial of true devotion...`,
-
-      `[Scene 4: Solitude & The Weeping Sitar - ${trackTitle}]\n\n[Intro / Hook]\nEmpty corridors and fading light,\nSearching for a sign in the lonely night...\n\n[Verse 1]\nEvery shared memory becomes a song,\nWondering where our rhythm went wrong.\nA weeping string echoes in my heart,\nTorn by the distance keeping us apart.\n\n[Chorus]\nTears fall down like midnight dew,\nEvery breath still calling out for you!\nCome back to the melody we made,\nBefore the final embers fade!\n\n[Outro]\nWaiting in silent yearning...`,
-
-      `[Scene 5: Graduation Day & The Grand Reunion - ${trackTitle}]\n\n[Intro / Hook]\nThe morning sun breaks through the longest night,\nFlooding the stage with triumphant light!\n\n[Verse 1]\nStanding together as the crowds applaud,\nClearing all doubts beneath the grace of God.\nA warm embrace washes away the tears,\nErasing the sorrow of passing years.\n\n[Chorus]\nWe made it through the fire and rain,\nLove is reunited and born again!\nA masterpiece written in the stars,\nHealing every wound and old scars!\n\n[Outro]\nTogether forever in harmony!`,
-
-      `[Scene 6: Euphoric Festival Anthem & Legacy - ${trackTitle}]\n\n[Intro / Hook]\nSound the drums, let the brass proclaim!\nHonor and glory in music's name!\n\n[Verse 1]\nDancing in joy with our heads held high,\nOur anthem soaring into the endless sky!\nGenerations will sing this melody,\nA timeless triumph of love and unity!\n\n[Chorus]\nCelebrate the victory we won,\nShining brighter than the golden sun!\nGandharva symphony forever blest,\nMusic that puts the soul at rest!\n\n[Outro]\nEternal resonance!`
+      `[Scene 3: The Climactic Breakthrough - ${trackTitle}]\n\n[Intro / Hook]\nThe morning sun breaks through the longest night,\nFlooding the horizon with triumphant light!\n\n[Verse 1]\nStanding together as the crowds applaud,\nClearing all doubts beneath the grace of God.\nA warm embrace washes away the tears,\nErasing the sorrow of passing years.\n\n[Chorus]\nWe made it through the fire and rain,\nTruth and triumph are born again!\nA masterpiece written in the stars,\nHealing every wound and old scars!\n\n[Outro]\nTogether forever in harmony!`
     ];
     return englishScenes[sceneIdx % englishScenes.length];
   };
@@ -187,101 +224,296 @@ const StoryToAlbumScreen = ({ navigation }) => {
     const cleanStory = (storyText || '').trim();
     const lower = cleanStory.toLowerCase();
 
+    // Thematic Classification
+    const isMystery = lower.includes('call') || lower.includes('disappear') || lower.includes('missing') || lower.includes('secret') || lower.includes('shadow') || lower.includes('investigat') || lower.includes('strange') || lower.includes('murder') || lower.includes('dark') || lower.includes('phone');
+    const isMass = lower.includes('mass') || lower.includes('elevation') || lower.includes('hero') || lower.includes('entry') || lower.includes('don') || lower.includes('gang') || lower.includes('fight') || lower.includes('revenge') || lower.includes('swag');
+    const isWar = lower.includes('war') || lower.includes('battle') || lower.includes('kingdom') || lower.includes('empire') || lower.includes('warrior') || lower.includes('sword') || lower.includes('fortress');
+    const isRain = lower.includes('rain') || lower.includes('nostalgia') || lower.includes('childhood') || lower.includes('memories') || lower.includes('alone') || lower.includes('lonely');
+    const isLove = lower.includes('love') || lower.includes('romance') || lower.includes('romantic') || lower.includes('propose') || lower.includes('couple') || lower.includes('college') || lower.includes('priya') || lower.includes('arjun');
+    const isCyber = lower.includes('cyber') || lower.includes('hacker') || lower.includes('neon') || lower.includes('future') || lower.includes('2088') || lower.includes('robot');
+    const isTemple = lower.includes('temple') || lower.includes('spiritual') || lower.includes('god') || lower.includes('flute') || lower.includes('sacred') || lower.includes('divine');
+
     let genre = 'Cinematic Drama Score';
     let subgenre = 'Original Story Soundtrack';
     let coverStyle = 'Cinematic Film Still';
     let colorPalette = ['#0F172A', '#D97706', '#2563EB', '#F8FAFC'];
     let dominantInstruments = ['Grand Piano', 'Acoustic Cello', 'Violin Strings', 'Sub-bass'];
-    let isMass = false;
 
-    if (lower.includes('mass') || lower.includes('elevation') || lower.includes('hero') || lower.includes('entry') || lower.includes('don') || lower.includes('gang') || lower.includes('swag') || lower.includes('deva') || lower.includes('vikram') || lower.includes('hukum') || lower.includes('salaar') || lower.includes('kgf')) {
-      isMass = true;
+    let title = 'Echoes of Destiny';
+    let actPresets = [];
+
+    if (isMystery) {
+      genre = 'Cinematic Mystery & Suspense Thriller';
+      subgenre = 'Dark Atmospheric Noir & Pulse Synth';
+      coverStyle = 'Moody Dark Film Noir Cinematography';
+      colorPalette = ['#090A0F', '#1E293B', '#3B82F6', '#94A3B8'];
+      dominantInstruments = ['Suspense Grand Piano', 'Pulsing Analog Bass', 'Haunting Solo Cello', 'Atmospheric Violin Pad'];
+      title = 'Echoes of the Forgotten Call';
+      actPresets = [
+        {
+          title: 'Act 1: The Midnight Ring',
+          scene_description: 'A sudden late-night telephone ring shatters years of silence with an impossible voice from the past.',
+          emotion: 'Ominous Shock & Intrigue',
+          bpm: 72,
+          key: 'D Minor'
+        },
+        {
+          title: 'Act 2: Whispers in the Static',
+          scene_description: 'Investigating dusty photographs, faded letters, and cryptic audio recordings to trace the lost signal.',
+          emotion: 'Deepening Suspense',
+          bpm: 84,
+          key: 'G Minor'
+        },
+        {
+          title: 'Act 3: Chasing the Phantom',
+          scene_description: 'A nocturnal pursuit through rainy alleyways and abandoned corridors as danger closes in.',
+          emotion: 'Surging Tension & Thrill',
+          bpm: 110,
+          key: 'A Minor'
+        },
+        {
+          title: 'Act 4: Face to Face with the Past',
+          scene_description: 'A climactic midnight confrontation where the shocking truth behind the disappearance is unveiled.',
+          emotion: 'Dramatic Revelation',
+          bpm: 92,
+          key: 'C Minor'
+        },
+        {
+          title: 'Act 5: Haunting Epilogue & Dawn',
+          scene_description: 'The puzzle is finally solved, leaving peace and quiet resolution in the morning mist.',
+          emotion: 'Cathartic Closure',
+          bpm: 76,
+          key: 'D Major'
+        }
+      ];
+    } else if (isMass) {
       genre = 'High-Impact Mass & Heroic Elevation';
       subgenre = 'Commercial Cinematic Action & 808 Trap';
       coverStyle = 'Dramatic Cinematic Action Lighting';
       colorPalette = ['#1E1B4B', '#DC2626', '#EA580C', '#FBBF24'];
       dominantInstruments = ['Heavy 808 Sub-bass', 'Stadium Brass Section', 'Punchy Live Percussion', 'Distorted Electric Guitar'];
-    } else if (lower.includes('war') || lower.includes('battle') || lower.includes('kingdom') || lower.includes('empire') || lower.includes('prince') || lower.includes('warrior') || lower.includes('spear') || lower.includes('fortress') || lower.includes('mahishmati') || lower.includes('rudra')) {
+      title = 'The Roar of Thunder: Mass Elevation';
+      actPresets = [
+        {
+          title: 'Act 1: The Silent Thunder',
+          scene_description: 'An unstoppable force awakens from the shadows, sending tremors through the underworld.',
+          emotion: 'Menacing Anticipation',
+          bpm: 96,
+          key: 'D Minor'
+        },
+        {
+          title: 'Act 2: The Rising Empire',
+          scene_description: 'Marching into enemy territory with heavy 808 beats and ferocious energy.',
+          emotion: 'Aggressive Momentum',
+          bpm: 128,
+          key: 'E Minor'
+        },
+        {
+          title: 'Act 3: The War Drop',
+          scene_description: 'An explosive adrenaline surge where destiny and raw power collide in full force.',
+          emotion: 'Peak Mass Elevation',
+          bpm: 136,
+          key: 'A Minor'
+        },
+        {
+          title: 'Act 4: Titan\'s Reign',
+          scene_description: 'Claiming the throne as the dust settles over the defeated opposition.',
+          emotion: 'Triumphant Dominance',
+          bpm: 124,
+          key: 'D Major'
+        },
+        {
+          title: 'Act 5: Eternal Legend',
+          scene_description: 'A grand celebration anthem echoing the immortal legacy across generations.',
+          emotion: 'Euphoria & Grandeur',
+          bpm: 130,
+          key: 'G Major'
+        }
+      ];
+    } else if (isWar) {
       genre = 'Epic Historical & Mythological Symphony';
       subgenre = 'Taiko War Drums & Choral Majesty';
       coverStyle = 'Mythological Ancient Battlefield Painting';
       colorPalette = ['#450A0A', '#B91C1C', '#D97706', '#FEF08A'];
       dominantInstruments = ['Taiko War Drums', 'Symphonic French Horns', 'Sacred Veena', 'Epic Battle Choir'];
-    } else if (lower.includes('rain') || lower.includes('childhood') || lower.includes('nostalgia') || lower.includes('memories') || lower.includes('alone') || lower.includes('lonely') || lower.includes('walking in heavy rain')) {
-      genre = 'Atmospheric Melancholic Acoustic Journey';
-      subgenre = 'Nostalgic Felt Piano & Bansuri Flute';
-      coverStyle = 'Moody Rainy Street Photography';
-      colorPalette = ['#0F172A', '#1E293B', '#38BDF8', '#94A3B8'];
-      dominantInstruments = ['Felt Grand Piano', 'Bamboo Bansuri Flute', 'Acoustic Fingerstyle Guitar', 'Chamber Cello'];
-    } else if (lower.includes('college') || lower.includes('love') || lower.includes('romance') || lower.includes('hyderabad') || lower.includes('priya') || lower.includes('arjun')) {
+      title = 'Chronicles of the Fallen Kingdom';
+      actPresets = [
+        {
+          title: 'Act 1: The Sacred Omen',
+          scene_description: 'Prophecies whispered by elders as the sacred war horn resounds across the valley.',
+          emotion: 'Solemn Awakening',
+          bpm: 74,
+          key: 'C Minor'
+        },
+        {
+          title: 'Act 2: March of the Legions',
+          scene_description: 'Armies assemble beneath roaring war banners and thunderous percussion.',
+          emotion: 'Heroic March',
+          bpm: 104,
+          key: 'F Minor'
+        },
+        {
+          title: 'Act 3: Clash of Titans',
+          scene_description: 'A colossal symphonic battle where heroes fight for honour and destiny.',
+          emotion: 'Colossal Climax',
+          bpm: 132,
+          key: 'D Minor'
+        },
+        {
+          title: 'Act 4: Lament for the Brave',
+          scene_description: 'A solemn cello and sitar tribute honoring the fallen warriors.',
+          emotion: 'Sacred Reverence',
+          bpm: 68,
+          key: 'G Minor'
+        },
+        {
+          title: 'Act 5: Coronation of Peace',
+          scene_description: 'The golden kingdom celebrates eternal peace under triumphant choral fanfare.',
+          emotion: 'Majestic Glory',
+          bpm: 118,
+          key: 'C Major'
+        }
+      ];
+    } else if (isLove) {
       genre = 'Lush Romantic Contemporary Symphony';
-      subgenre = 'Youth College Romance';
-      coverStyle = 'Festive College Campus Lights';
-      colorPalette = ['#EC4899', '#F43F5E', '#8B5CF6', '#3B82F6'];
-      dominantInstruments = ['Bansuri Flute', 'Acoustic Guitar', 'Soft Piano', 'Warm Strings'];
-    } else if (lower.includes('cyber') || lower.includes('hacker') || lower.includes('neon') || lower.includes('future') || lower.includes('2088')) {
-      genre = 'Cyber Synthwave';
-      subgenre = 'Neon Metropolis Score';
-      coverStyle = 'Cyberpunk Neon Art';
-      colorPalette = ['#00F2FE', '#4FACFE', '#7F00FF', '#E100FF'];
-      dominantInstruments = ['Analogue Synth Lead', 'Sub Bass', 'Arpeggiator', 'Cyber Drums'];
-    } else if (lower.includes('temple') || lower.includes('spiritual') || lower.includes('god') || lower.includes('flute')) {
-      genre = 'Devotional Fusion';
-      subgenre = 'Spiritual Sacred Journey';
-      coverStyle = 'Golden Sacred Temple Riverbank';
-      colorPalette = ['#F7971E', '#FFD200', '#D4AF37', '#8E2DE2'];
-      dominantInstruments = ['Bansuri Flute', 'Acoustic Sitar', 'Tabla Beats', 'Warm Strings'];
-    }
-
-    // Extract character names
-    const nameMatches = cleanStory.match(/\b([A-Z][a-z]{2,15})\b/g) || [];
-    const excludedWords = new Set(['The', 'Act', 'Scene', 'Track', 'When', 'Then', 'With', 'From', 'After', 'Before', 'Two', 'Four', 'His', 'Her', 'Their', 'They', 'This', 'That', 'Into', 'Upon']);
-    const characterNames = [...new Set(nameMatches.filter(n => !excludedWords.has(n)))];
-    const protagonist = characterNames[0] || 'The Protagonist';
-
-    const explicitActs = cleanStory.split(/(?:Act\s*\d+|Scene\s*\d+|Track\s*\d+)\s*[:—\-]/i).map(s => s.trim()).filter(Boolean);
-    const sentences = cleanStory.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 8);
-    const rawSegments = explicitActs.length >= 3 ? explicitActs : sentences;
-
-    let title = '';
-    if (isMass) {
-      title = `${protagonist}: Mass Elevation`;
-    } else if (characterNames.length >= 2) {
-      title = `${characterNames[0]} & ${characterNames[1]}: Journey`;
+      subgenre = 'Youth College Romance & Acoustic Strings';
+      coverStyle = 'Festive Golden Hour Romance Photography';
+      colorPalette = ['#831843', '#BE185D', '#FB7185', '#FCE7F3'];
+      dominantInstruments = ['Bansuri Flute', 'Acoustic Guitar', 'Velvet Grand Piano', 'Warm Strings'];
+      title = 'A Symphony of Two Hearts';
+      actPresets = [
+        {
+          title: 'Act 1: The First Glance',
+          scene_description: 'Two kindred spirits cross paths under the afternoon light, igniting a silent spark.',
+          emotion: 'Sweet Awakening',
+          bpm: 80,
+          key: 'C Major'
+        },
+        {
+          title: 'Act 2: Whispers in the Rain',
+          scene_description: 'Friendship blossoms into profound love during late-night walks and festival lights.',
+          emotion: 'Deepening Connection',
+          bpm: 90,
+          key: 'G Major'
+        },
+        {
+          title: 'Act 3: The Great Misunderstanding',
+          scene_description: 'A sudden silence and unspoken words test the resilience of their bond.',
+          emotion: 'Emotional Tension',
+          bpm: 76,
+          key: 'A Minor'
+        },
+        {
+          title: 'Act 4: Longing & Realization',
+          scene_description: 'Realizing that distance only proves the depth and sincerity of their love.',
+          emotion: 'Yearning & Hope',
+          bpm: 82,
+          key: 'E Minor'
+        },
+        {
+          title: 'Act 5: Grand Reunion & Forever',
+          scene_description: 'A joyful embrace at graduation as two souls unite forever in harmonious music.',
+          emotion: 'Pure Joy & Triumph',
+          bpm: 116,
+          key: 'F Major'
+        }
+      ];
+    } else if (isCyber) {
+      genre = 'Futuristic Cyberpunk Synthwave';
+      subgenre = 'Neon Bass & Electronic Odyssey';
+      coverStyle = 'Cyberpunk Neon Metropolis Digital Art';
+      colorPalette = ['#020617', '#06B6D4', '#7C3AED', '#EC4899'];
+      dominantInstruments = ['Analog Synth Leads', 'Running Synth Bass', '80s Drum Machine Kicks', 'Vocoder Pads'];
+      title = 'Neon Metropolis 2088';
+      actPresets = [
+        {
+          title: 'Act 1: System Boot (Neon Awakening)',
+          scene_description: 'Glitches in the neon grid reveal a rogue AI transmission at midnight.',
+          emotion: 'Futuristic Mystery',
+          bpm: 100,
+          key: 'F Minor'
+        },
+        {
+          title: 'Act 2: Infiltration Run',
+          scene_description: 'Navigating cyberpunk alleyways and bypassing corporate firewalls.',
+          emotion: 'Cybernetic Drive',
+          bpm: 124,
+          key: 'G Minor'
+        },
+        {
+          title: 'Act 3: Neural Overclock',
+          scene_description: 'A high-speed confrontation inside the virtual mainframe core.',
+          emotion: 'Peak Electro Rush',
+          bpm: 138,
+          key: 'D Minor'
+        },
+        {
+          title: 'Act 4: Beyond the Firewall',
+          scene_description: 'Transcending physical limits into the boundless expanse of cyberspace.',
+          emotion: 'Transcendent Wonder',
+          bpm: 108,
+          key: 'A Minor'
+        },
+        {
+          title: 'Act 5: Synthetic Dawn',
+          scene_description: 'A harmonious new digital dawn rising over the glowing skyscraper horizon.',
+          emotion: 'Harmonic Ascension',
+          bpm: 120,
+          key: 'C Major'
+        }
+      ];
     } else {
+      // General Narrative Arc
       const words = cleanStory.split(/\s+/).slice(0, 4).join(' ').replace(/[^\w\s]/g, '');
-      title = words ? (words.charAt(0).toUpperCase() + words.slice(1)) : 'Original Story Album';
+      title = words ? `${words.charAt(0).toUpperCase() + words.slice(1)}: The Soundtrack` : 'The Cinematic Journey';
+      actPresets = [
+        {
+          title: 'Act 1: The Awakening Horizon',
+          scene_description: 'The story begins with an evocative premise that sets the emotional stakes in motion.',
+          emotion: 'Nostalgia & Anticipation',
+          bpm: 78,
+          key: 'C Major'
+        },
+        {
+          title: 'Act 2: The Journey Unfolds',
+          scene_description: 'Characters navigate unexpected turns, deepening their purpose and relationships.',
+          emotion: 'Growing Momentum',
+          bpm: 92,
+          key: 'G Major'
+        },
+        {
+          title: 'Act 3: The Pivotal Climax',
+          scene_description: 'The decisive turning point where obstacles are confronted with unwavering determination.',
+          emotion: 'Surging Climax',
+          bpm: 115,
+          key: 'A Minor'
+        },
+        {
+          title: 'Act 4: Twilight Reflection',
+          scene_description: 'Processing the consequences of the trial with newfound wisdom and inner peace.',
+          emotion: 'Peaceful Transcendence',
+          bpm: 80,
+          key: 'E Minor'
+        },
+        {
+          title: 'Act 5: Celebration of Destiny',
+          scene_description: 'A grand finale celebrating harmony, triumph, and lasting transformation.',
+          emotion: 'Euphoria & Grandeur',
+          bpm: 128,
+          key: 'D Major'
+        }
+      ];
     }
 
     const trackCount = Math.max(3, Math.min(5, parseInt(numLyrics) || 4));
-
-    const actTemplates = [
-      { role: 'Intro & Awakening', titlePrefix: isMass ? `${protagonist}'s Prelude` : 'The First Spark', emotion: isMass ? 'Ominous Anticipation' : 'Nostalgia & Hope', bpm: isMass ? 96 : 76, key: 'D Minor' },
-      { role: 'Rising Tension & Movement', titlePrefix: isMass ? 'The Midnight Convoy' : 'Unspoken Waves', emotion: isMass ? 'Aggressive Momentum' : 'Deepening Connection', bpm: isMass ? 128 : 88, key: 'E Minor' },
-      { role: 'Peak Climax & Elevation', titlePrefix: isMass ? `${protagonist}'s Mass Elevation Drop` : 'The Heartfelt Climax', emotion: isMass ? 'God-Level Elevation' : 'Surging Climax', bpm: isMass ? 134 : 96, key: 'A Minor' },
-      { role: 'Resolution & Legacy', titlePrefix: isMass ? 'Reign of the Champion' : 'Timeless Resonance', emotion: isMass ? 'Triumphant Glory' : 'Peaceful Transcendence', bpm: isMass ? 126 : 80, key: 'D Major' },
-      { role: 'Grand Celebration', titlePrefix: 'Festival of Victory', emotion: 'Euphoria & Grandeur', bpm: 130, key: 'G Major' }
-    ];
-
     const plannedTracks = [];
+
     for (let i = 0; i < trackCount; i++) {
-      const act = actTemplates[i] || actTemplates[0];
-      const segmentText = rawSegments[i] || rawSegments[rawSegments.length - 1] || cleanStory;
-      const sceneSummary = segmentText.length > 120 ? `${segmentText.slice(0, 117)}...` : segmentText;
-
-      let trackTitle = act.titlePrefix;
-      if (segmentText) {
-        const segWords = segmentText.split(/\s+/).filter(w => w.length > 3 && !excludedWords.has(w)).slice(0, 3);
-        if (segWords.length > 0) {
-          const contextualSlug = segWords.join(' ').replace(/[^\w\s]/g, '');
-          trackTitle = `Act ${i + 1}: ${act.titlePrefix} (${contextualSlug})`;
-        }
-      }
-
+      const act = actPresets[i] || actPresets[i % actPresets.length];
       plannedTracks.push({
         track_number: i + 1,
-        title: trackTitle.replace(/[^\w\s-()]/g, '').trim(),
-        scene_description: sceneSummary,
+        title: act.title,
+        scene_description: act.scene_description,
         emotion: act.emotion,
         suggested_bpm: act.bpm,
         key_signature: act.key
@@ -289,7 +521,8 @@ const StoryToAlbumScreen = ({ navigation }) => {
     }
 
     return {
-      title: `${title} Concept Album`,
+      title,
+      album_title: title,
       genre,
       subgenre,
       language: language || 'English',
@@ -298,7 +531,7 @@ const StoryToAlbumScreen = ({ navigation }) => {
       num_bgms: parseInt(numBgms) || trackCount,
       timeline: `${trackCount}-Scene Story Arc`,
       cover_style: coverStyle,
-      cover_prompt: `${title}, ${coverStyle}, dramatic atmospheric lighting, 8k square album art`,
+      cover_prompt: `${title}, ${genre}, ${coverStyle}, hyperrealistic cinematic photography, Hasselblad 35mm, 8k square album art, no text`,
       color_palette: colorPalette,
       dominant_instruments: dominantInstruments,
       planned_tracks: plannedTracks,
