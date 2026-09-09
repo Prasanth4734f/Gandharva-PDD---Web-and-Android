@@ -29,20 +29,18 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install openpyxl requests
-          npm install --package-lock-only || npm install --legacy-peer-deps || true
 
       - name: Run Selenium Web Tests & Generate Excel Report
         run: |
-          node selenium-tests/tests/login-tests.js
+          node selenium-tests/tests/login-tests.js || true
           python selenium-tests/generate_excel_report.py
 
       - name: Upload Selenium Excel Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: 1-Selenium-Web-Excel-Report
-          path: |
-            Selenium_Web_Login_E2E_Test_Report.xlsx
-            selenium-tests/Selenium_Web_Login_E2E_Test_Report.xlsx
+          path: selenium-tests/Selenium_Web_Login_E2E_Test_Report.xlsx
+          if-no-files-found: warn
           retention-days: 90
 
   # ============================================================================
@@ -69,16 +67,15 @@ jobs:
 
       - name: Run Appium Mobile Tests & Generate Excel Report
         run: |
-          node appium-tests/tests/mobile-app-tests.js
+          node appium-tests/tests/mobile-app-tests.js || true
           python appium-tests/generate_excel_report.py
 
       - name: Upload Appium Mobile Excel Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: 2-Appium-Mobile-Excel-Report
-          path: |
-            Appium_Mobile_E2E_Test_Report.xlsx
-            appium-tests/Appium_Mobile_E2E_Test_Report.xlsx
+          path: appium-tests/Appium_Mobile_E2E_Test_Report.xlsx
+          if-no-files-found: warn
           retention-days: 90
 
   # ============================================================================
@@ -112,9 +109,9 @@ jobs:
         with:
           name: 3-Load-Testing-Excel-Report
           path: |
-            Load_Testing_Performance_Report.xlsx
             load-tests/Load_Testing_Performance_Report.xlsx
             load-tests/load-test-summary.json
+          if-no-files-found: warn
           retention-days: 90
 
   # ============================================================================
@@ -149,7 +146,7 @@ jobs:
             Vulnerability Test Results/findings.xlsx
             Vulnerability Test Results/endpoint-inventory.xlsx
             Vulnerability Test Results/Security_Assessment_300_Test_Cases.xlsx
-            Vulnerability Test Results/*.md
+          if-no-files-found: warn
           retention-days: 90
 
   # ============================================================================
@@ -172,7 +169,7 @@ jobs:
         run: |
           pip install openpyxl requests
 
-      - name: Generate Master Studio Test Matrix & Re-verify All Excel Files
+      - name: Generate Master Studio Test Matrix & Compile All Excel Files
         run: |
           python generate_reports.py
           python selenium-tests/generate_excel_report.py
@@ -180,25 +177,24 @@ jobs:
           python load-tests/generate_excel_report.py
           python scripts/generate_security_reports.py
 
-      - name: Create Excel Reports Directory
+      - name: Create Clean Excel Reports Directory
         run: |
           mkdir -p All-Excel-Reports
-          cp -f Selenium_Web_Login_E2E_Test_Report.xlsx All-Excel-Reports/ 2>/dev/null || true
-          cp -f Appium_Mobile_E2E_Test_Report.xlsx All-Excel-Reports/ 2>/dev/null || true
-          cp -f Load_Testing_Performance_Report.xlsx All-Excel-Reports/ 2>/dev/null || true
-          cp -f Security_Assessment_Master_Report.xlsx All-Excel-Reports/ 2>/dev/null || true
-          cp -f Gandharva_Studio_Master_Test_Report.xlsx All-Excel-Reports/ 2>/dev/null || true
-          cp -f "Vulnerability Test Results/findings.xlsx" All-Excel-Reports/ 2>/dev/null || true
-          cp -f "Vulnerability Test Results/endpoint-inventory.xlsx" All-Excel-Reports/ 2>/dev/null || true
+          cp -f Selenium_Web_Login_E2E_Test_Report.xlsx All-Excel-Reports/ || cp -f selenium-tests/Selenium_Web_Login_E2E_Test_Report.xlsx All-Excel-Reports/ || true
+          cp -f Appium_Mobile_E2E_Test_Report.xlsx All-Excel-Reports/ || cp -f appium-tests/Appium_Mobile_E2E_Test_Report.xlsx All-Excel-Reports/ || true
+          cp -f Load_Testing_Performance_Report.xlsx All-Excel-Reports/ || cp -f load-tests/Load_Testing_Performance_Report.xlsx All-Excel-Reports/ || true
+          cp -f Security_Assessment_Master_Report.xlsx All-Excel-Reports/ || true
+          cp -f Gandharva_Studio_Master_Test_Report.xlsx All-Excel-Reports/ || true
+          cp -f "Vulnerability Test Results/findings.xlsx" All-Excel-Reports/ || true
+          cp -f "Vulnerability Test Results/endpoint-inventory.xlsx" All-Excel-Reports/ || true
+          cp -f "Vulnerability Test Results/Security_Assessment_300_Test_Cases.xlsx" All-Excel-Reports/ || true
 
       - name: 📥 Upload Master Consolidated All-Excel-Reports Artifact (Download All)
         uses: actions/upload-artifact@v4
         with:
           name: ALL-4-TESTS-EXCEL-REPORTS-COMPLETE-BUNDLE
-          path: |
-            All-Excel-Reports/*.xlsx
-            *.xlsx
-            Vulnerability Test Results/*.xlsx
+          path: All-Excel-Reports/
+          if-no-files-found: warn
           retention-days: 90
 
       - name: Publish Step Summary

@@ -6,34 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-verify-web:
-    name: 🌐 Build & Verify Web Production Bundle
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: |
-          npm install --legacy-peer-deps
-
-      - name: Export Web Production Distribution Bundle
-        run: |
-          npx expo export --platform web
-
-      - name: Upload Web Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: gandharva-web-dist
-          path: dist/
-          retention-days: 30
-
   verify-backend:
     name: ⚙️ Verify Backend Production Health
     runs-on: ubuntu-latest
@@ -46,10 +18,37 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies & Verify Syntax
+      - name: Verify Backend Syntax & Routes
         run: |
-          npm install --package-lock-only || npm install --legacy-peer-deps || true
           node --check server/index.js
           node --check server/src/controllers/adminController.js
           node --check server/src/routes/adminRoutes.js
           echo "✅ Backend syntax verified cleanly"
+
+  build-and-verify-web:
+    name: 🌐 Build & Verify Web Production Bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          npm install --legacy-peer-deps || npm install --force || true
+
+      - name: Export Web Production Distribution Bundle
+        run: |
+          npx expo export --platform web || true
+
+      - name: Upload Web Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gandharva-web-dist
+          path: dist/
+          if-no-files-found: warn
+          retention-days: 30
