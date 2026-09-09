@@ -86,8 +86,11 @@ export const getPlaybackUri = async (audioUrl) => {
     return cachedUri;
   }
   
-  // Fallback to remote URL
+  // Fallback to remote URL or relative URL for web
+  if (typeof window !== 'undefined' && audioUrl.startsWith('/')) {
+    return audioUrl;
+  }
   const targetUrl = audioUrl.startsWith('http') ? audioUrl : `${CONFIG.BASE_URL}${audioUrl}`;
-  console.log(`[AudioCache] Cache miss, using remote URL: ${targetUrl}`);
+  console.log(`[AudioCache] Cache miss, using URL: ${targetUrl}`);
   return targetUrl;
 };

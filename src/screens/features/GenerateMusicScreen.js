@@ -144,13 +144,17 @@ const GenerateMusicScreen = ({ navigation, route }) => {
 
     try {
       setError(null);
-      await Audio.setIsEnabledAsync(true);
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        playsInSilentModeIOS: true,
-        staysActiveInBackground: false,
-        shouldDuckAndroid: true,
-      });
+      if (Platform.OS !== 'web') {
+        try {
+          await Audio.setIsEnabledAsync(true);
+          await Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            playsInSilentModeIOS: true,
+            staysActiveInBackground: false,
+            shouldDuckAndroid: true,
+          });
+        } catch (_) {}
+      }
 
       if (sound) {
         try {

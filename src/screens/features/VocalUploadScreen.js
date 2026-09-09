@@ -185,10 +185,14 @@ const VocalUploadScreen = ({ navigation }) => {
     try {
       const permission = await Audio.requestPermissionsAsync();
       if (permission.status === 'granted') {
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        });
+        if (Platform.OS !== 'web') {
+          try {
+            await Audio.setAudioModeAsync({
+              allowsRecordingIOS: true,
+              playsInSilentModeIOS: true,
+            });
+          } catch (_) {}
+        }
 
         const { recording } = await Audio.Recording.createAsync(
           Audio.RecordingOptionsPresets.HIGH_QUALITY

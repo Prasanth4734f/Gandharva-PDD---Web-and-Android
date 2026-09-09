@@ -86,11 +86,15 @@ export const useAudioPlayback = (project) => {
     if (primarySource) {
       try {
         if (!soundRef.current) {
-          await Audio.setAudioModeAsync({
-            playsInSilentModeIOS: true,
-            staysActiveInBackground: false,
-            shouldDuckAndroid: true,
-          });
+          if (Platform.OS !== 'web') {
+            try {
+              await Audio.setAudioModeAsync({
+                playsInSilentModeIOS: true,
+                staysActiveInBackground: false,
+                shouldDuckAndroid: true,
+              });
+            } catch (_) {}
+          }
 
           const { sound: newSound } = await Audio.Sound.createAsync(
             { uri: primarySource },

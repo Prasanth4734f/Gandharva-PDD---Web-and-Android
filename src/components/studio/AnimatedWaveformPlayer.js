@@ -78,11 +78,15 @@ export default function AnimatedWaveformPlayer({
     try {
       if (!sound) {
         setIsLoading(true);
-        await Audio.setAudioModeAsync({
-          playsInSilentModeIOS: true,
-          staysActiveInBackground: true,
-          shouldDuckAndroid: true,
-        });
+        if (Platform.OS !== 'web') {
+          try {
+            await Audio.setAudioModeAsync({
+              playsInSilentModeIOS: true,
+              staysActiveInBackground: true,
+              shouldDuckAndroid: true,
+            });
+          } catch (_) {}
+        }
 
         const { sound: newSound } = await Audio.Sound.createAsync(
           { uri: audioUrl },
