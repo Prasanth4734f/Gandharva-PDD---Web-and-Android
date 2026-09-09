@@ -1,0 +1,23 @@
+services:
+  # Node.js Express Production Backend Service
+  - type: web
+    name: gandharva-backend-api
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_PIN
+        value: "240899"
+      - key: ADMIN_JWT_SECRET
+        generateValue: true
+      - key: SUPABASE_URL
+        value: "https://rslvwhvcvvljzwhovkux.supabase.co"
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
