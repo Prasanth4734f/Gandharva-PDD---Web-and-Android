@@ -103,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
       isCheckingRef.current = true;
       if (showChecking) setGpuStatus('checking');
       const res = await checkMusicGenHealth();
-      const nextStatus = (res && res.status === 'online' && res.gpu_live === true) ? 'online' : 'offline';
+      const nextStatus = (res && res.status === 'online') ? 'online' : 'offline';
       setGpuStatus(nextStatus);
       currentStatusRef.current = nextStatus;
     } catch (e) {

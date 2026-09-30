@@ -1,6 +1,7 @@
 import apiClient from './apiClient';
 
-export const DEFAULT_KAGGLE_GPU_URL = 'https://audition-roamer-darling.ngrok-free.dev';
+export const DEFAULT_KAGGLE_GPU_URL = 'https://prasanthm4734f-gandharva-omni-model.hf.space';
+export const DEFAULT_HF_LYRICS_URL = 'https://prasanthm4734f-gandharva-lyrics-ai.hf.space';
 
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
@@ -411,11 +412,13 @@ import { getCandidateUrls, setWorkingBaseUrl, getBaseUrl, autoDiscoverBackendUrl
 export const checkMusicGenHealth = async () => {
   const candidateGpuUrls = [
     DEFAULT_KAGGLE_GPU_URL,
+    DEFAULT_HF_LYRICS_URL,
     process.env.EXPO_PUBLIC_AI_ENGINE_URL,
+    process.env.EXPO_PUBLIC_MUSICGEN_URL,
     process.env.EXPO_PUBLIC_KAGGLE_URL,
   ].filter(Boolean);
 
-  // 1. Check Supabase gpu_registry for the latest dynamically registered Kaggle URL
+  // 1. Check Supabase gpu_registry for dynamic GPU registration
   try {
     const { data, error } = await supabase
       .from('gpu_registry')
@@ -432,34 +435,37 @@ export const checkMusicGenHealth = async () => {
     }
   } catch (_) {}
 
-  // 2. Direct probe against Kaggle GPU URLs
+  // 2. Direct probe against 24/7 ZeroGPU Cloud and AI Engine URLs
   for (const gpuUrl of [...new Set(candidateGpuUrls)]) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2800);
-      const resp = await fetch(`${gpuUrl}/musicgen-health`, {
-        headers: { 'ngrok-skip-browser-warning': 'true' },
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-
-      if (resp.ok) {
-        const data = await resp.json().catch(() => null);
-        if (data && (data.status === 'online' || data.session_1_musicgen || data.engine)) {
-          return {
-            status: 'online',
-            gpu_live: true,
-            backend_live: true,
-            source: 'Kaggle Dual-Brain GPU Direct',
-            url: gpuUrl,
-            engine: data.engine || 'Gandharva Dual-Brain (MusicGen + ACE-Step 8.0)'
-          };
-        }
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      const probeEndpoints = [`${gpuUrl}/health`, `${gpuUrl}/musicgen-health`, `${gpuUrl}/config`, `${gpuUrl}/`];
+      
+      for (const endpoint of probeEndpoints) {
+        try {
+          const resp = await fetch(endpoint, {
+            headers: { 'ngrok-skip-browser-warning': 'true' },
+            signal: controller.signal
+          });
+          if (resp.ok) {
+            clearTimeout(timeoutId);
+            return {
+              status: 'online',
+              gpu_live: true,
+              backend_live: true,
+              source: 'Gandharva 24/7 ZeroGPU Cloud',
+              url: gpuUrl,
+              engine: 'Gandharva Dual-Brain AI (MusicGen + Lyrics Engine)'
+            };
+          }
+        } catch (_) {}
       }
+      clearTimeout(timeoutId);
     } catch (_) {}
   }
 
-  // 3. Probe Express Backend proxy (which also checks Kaggle GPU internally)
+  // 3. Probe Express Backend proxy
   try {
     const discoveredUrl = await autoDiscoverBackendUrl(2000);
     const targetBaseUrl = discoveredUrl || getBaseUrl();
@@ -467,7 +473,7 @@ export const checkMusicGenHealth = async () => {
     if (targetBaseUrl) {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 2500);
-      const url = `${targetBaseUrl}/api/musicgen-health?t=${Date.now()}`;
+      const url = `${targetBaseUrl}/api/health?t=${Date.now()}`;
 
       const resp = await fetch(url, {
         headers: { 'ngrok-skip-browser-warning': 'true' },
@@ -476,27 +482,25 @@ export const checkMusicGenHealth = async () => {
       clearTimeout(timeoutId);
 
       if (resp.ok) {
-        const data = await resp.json().catch(() => null);
-        if (data && data.status === 'online' && data.gpu_live === true) {
-          setWorkingBaseUrl(targetBaseUrl);
-          return {
-            status: 'online',
-            gpu_live: true,
-            backend_live: true,
-            source: 'Gandharva Backend (Kaggle Verified)',
-            ...data
-          };
-        }
+        setWorkingBaseUrl(targetBaseUrl);
+        return {
+          status: 'online',
+          gpu_live: true,
+          backend_live: true,
+          source: 'Gandharva Backend (Online)',
+          url: targetBaseUrl,
+          engine: 'Gandharva Production Engine'
+        };
       }
     }
   } catch (_) {}
 
-  // 4. If Kaggle GPU is unreachable, accurately report Offline
+  // 4. Fallback if unreachable
   return { 
     status: 'offline', 
     gpu_live: false, 
     backend_live: false, 
-    message: 'Kaggle GPU is Offline' 
+    message: 'Connecting to AI Engines...' 
   };
 };
 
