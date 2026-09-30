@@ -4318,6 +4318,255 @@
         ],
         "created_at": "2026-09-09T21:11:15.174Z"
       }
+    ],
+    [
+      "album-1788989874648",
+      {
+        "id": "album-1788989874648",
+        "title": "Arjun  Priya Destiny",
+        "story": "Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during festival season, and an emotional reunion at graduation.",
+        "genre": "Lush Romantic Contemporary Symphony",
+        "subgenre": "Acoustic Love Ballad & Chamber Strings",
+        "language": "Telugu",
+        "cover_url": "https://image.pollinations.ai/prompt/A%20master-tier%20Soul-Stirring%20Cinematic%20Melodrama%20crafted%20specifically%20around%20Album%20cover%20visual%20description%20for%20album%20titled%20Arjun%20%20Priya%20Destiny.%20Story%20Arjun%20and%20Priya%20meet%20in%20college%20in%20Hyderabad.%20Friendship%20turns%20into%20deep%20love%2C%20followed%20by%20a%20misunderstanding%20during%20festival%20season%2C%20and%20an%20emotional%20reunion%20at%20graduation..%20Genre%20Lush%20Romantic%20Contemporary%20Symphony.%20Visual%20Style%20Warm%20Golden%20Hour%20Romantic%20Scene..%20Movement%20%20Harmonic%20Structure%20Composed%20at%2066-72%20BPM%20in%20D%20Minor%20%20B%20Minor.%20Progression%20The%20piece%20opens%20with%20a%20fragile%2C%20solitary%20piano%20motif%20evoking%20tender%20nostalgic%20memories%20of%20the%20early%20days.%20It%20gradually%20weaves%20in%20weeping%20cello%20lines%20and%20delicate%20violin%20counterpoints%20as%20emotional%20tension%20and%20tragic%20longing%20mount.%20At%20its%20summit%2C%20the%20arrangement%20surges%20into%20a%20heart-wrenching%20orchestral%20crescendo%20where%20sweeping%20strings%20and%20acoustic%20plucks%20mourn%20what%20could%20have%20been.%20Finally%2C%20it%20gently%20dissolves%20into%20a%20solitary%2C%20echoing%20piano%20chord%20left%20hanging%20in%20reflective%20quietude.%20Featured%20Instrumentation%20solo%20grand%20piano%2C%20weeping%20cello%2C%20expressive%20violin%20section%2C%20warm%20ambient%20pads.%20Acoustic%20Engineering%20natural%20room%20reverb%2C%20subtle%20vinyl%20warmth%2C%20intimate%20mic%20placement%2C%20pristine%2024-bit%20studio%20mastering%2C%20zero%20noise%20distortion%2C%20immersive%20depth.%2C%20Hasselblad%2035mm%20photography%2C%208k%20resolution%2C%20cinematic%20lighting%2C%20volumetric%20atmosphere%2C%20hyperrealistic%20details%2C%20masterpiece%20composition%2C%20highly%20detailed%20textures%2C%20no%20text%2C%20no%20watermark%2C%20no%20logos%2C%208k%20resolution%2C%20ultra%20detailed%20album%20cover%20art%2C%20award%20winning%20photography%2C%20masterpiece%2C%20photorealistic%2C%20no%20text%2C%20no%20watermark?width=1024&height=1024&model=flux&enhance=true&nologo=true&seed=74658",
+        "cover_style": "Warm Golden Hour Romantic Scene",
+        "cover_prompt": "A master-tier Soul-Stirring Cinematic Melodrama crafted specifically around Album cover visual description for album titled Arjun  Priya Destiny. Story Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during festival season, and an emotional reunion at graduation.. Genre Lush Romantic Contemporary Symphony. Visual Style Warm Golden Hour Romantic Scene.. Movement  Harmonic Structure Composed at 66-72 BPM in D Minor  B Minor. Progression The piece opens with a fragile, solitary piano motif evoking tender nostalgic memories of the early days. It gradually weaves in weeping cello lines and delicate violin counterpoints as emotional tension and tragic longing mount. At its summit, the arrangement surges into a heart-wrenching orchestral crescendo where sweeping strings and acoustic plucks mourn what could have been. Finally, it gently dissolves into a solitary, echoing piano chord left hanging in reflective quietude. Featured Instrumentation solo grand piano, weeping cello, expressive violin section, warm ambient pads. Acoustic Engineering natural room reverb, subtle vinyl warmth, intimate mic placement, pristine 24-bit studio mastering, zero noise distortion, immersive depth., Hasselblad 35mm photography, 8k resolution, cinematic lighting, volumetric atmosphere, hyperrealistic details, masterpiece composition, highly detailed textures, no text, no watermark, no logos, 8k resolution, ultra detailed album cover art, award winning photography, masterpiece, photorealistic, no text, no watermark",
+        "color_palette": [
+          "#831843",
+          "#BE185D",
+          "#FB7185",
+          "#FCE7F3"
+        ],
+        "dominant_instruments": [
+          "Acoustic Nylon Guitar",
+          "Velvet Grand Piano",
+          "Soaring Violin Duet",
+          "Warm Electric Bass"
+        ],
+        "tracks": [
+          {
+            "id": "track-album-1788989874648-1",
+            "sceneId": "scene_1",
+            "track_number": 1,
+            "title": "Act 1 The First Spark Arjun Priya meet",
+            "scene_description": "Arjun and Priya meet in college in Hyderabad",
+            "emotion": "Nostalgia & Hope",
+            "suggested_bpm": 76,
+            "bpm": 76,
+            "key_signature": "D Minor",
+            "lyrics_text": "[హుక్ / ఇంట్రో]\nకాలేజీ అడుగుల సవ్వడితో మేల్కొన్న ఉదయమిది,\nయవ్వనపు రెక్కలు విప్పి ఎగిరే స్వేచ్ఛా గగనమిది!\nగుండెల్లో ఎన్నెన్నో ఆశలతో నిండిన క్యాంపస్ వేళ,\nస్నేహపు వెలుగులు చిందించే సరికొత్త పూలదోర!\n\n[పల్లవి]\nచదువుల గుడిలో దొరికిన ప్రాణమిత్రుల బంధం,\nకష్టసుఖాలలో తోడుండే నిస్వార్థమైన అనుబంధం!\nబెల్ మోగే వేళకై ఎదురుచూసే ఆ చూపులు,\nకబుర్లతో కరిగిపోయే మధురమైన కాలేజీ రోజులు!\n\n[చరణం 1]\nసెమిస్టర్ పరీక్షల ముందు రాత్రంతా జాగారం,\nగ్రూప్ స్టడీల పేరిట సాగే సరదా సమరం.\nఒక్కరు ఫెయిల్ అయినా అందరం బాధపడే సమయం,\nస్నేహమే మా ఊపిరిగా మారిన దివ్య తరుణం!\n\n[చరణం 2]\nకాలేజ్ ఫెస్ట్‌లో వేసే డ్యాన్సులు, విజిల్స్ చప్పుళ్ళు,\nస్టేజీపై పాడే పాటలకు మారుమ్రోగే చప్పట్లు.\nరేపటి భవిష్యత్తు వైపు సాగే మన ఈ పయనం,\nకాలేజీ గుర్తుల పునాదిపై కట్టే సుందర భవనం!\n\n[వంత / బ్రిడ్జ్]\nఈ అల్లరి జ్ఞాపకాలు మన కనులలో దీపాలు...\nఎడబాటు వచ్చినా చెరిగిపోనివి ఈ స్నేహాలు...\nనిరంతరం మోగే కాలేజీ ఆనంద రాగాలు!\n\n[ముగింపు]\nస్నేహమే అమరజ్యోతి...\nకాలేజీ రోజులే జీవన కాంతి...\nగుండెల్లో పదిలంగా... ఎల్లప్పుడూ!",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1788989877405_115.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1788989877405_115.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-1",
+                "sceneId": "scene_1",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1788989877405_115.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1788989877405_115.wav",
+                "prompt": "Cinematic background score for 'Act 1 The First Spark Arjun Priya meet' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: Arjun and Priya meet in college in Hyderabad. Emotional mood: Nostalgia & Hope. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 76 BPM, Key: D Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-1",
+                "sceneId": "scene_1",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_02.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_02.mp3",
+                "prompt": "Cinematic background score for 'Act 1 The First Spark Arjun Priya meet' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: Arjun and Priya meet in college in Hyderabad. Emotional mood: Nostalgia & Hope. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 76 BPM, Key: D Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1788989874648-2",
+            "sceneId": "scene_2",
+            "track_number": 2,
+            "title": "Act 2 Unspoken Waves Friendship turns into",
+            "scene_description": "Friendship turns into deep love, followed by a misunderstanding during festival season, and an emotional reunion at g...",
+            "emotion": "Deepening Connection",
+            "suggested_bpm": 88,
+            "bpm": 88,
+            "key_signature": "E Minor",
+            "lyrics_text": "[హుక్ / ఇంట్రో]\nకాలేజీ అడుగుల సవ్వడితో మేల్కొన్న ఉదయమిది,\nయవ్వనపు రెక్కలు విప్పి ఎగిరే స్వేచ్ఛా గగనమిది!\nగుండెల్లో ఎన్నెన్నో ఆశలతో నిండిన క్యాంపస్ వేళ,\nస్నేహపు వెలుగులు చిందించే సరికొత్త పూలదోర!\n\n[పల్లవి]\nచదువుల గుడిలో దొరికిన ప్రాణమిత్రుల బంధం,\nకష్టసుఖాలలో తోడుండే నిస్వార్థమైన అనుబంధం!\nబెల్ మోగే వేళకై ఎదురుచూసే ఆ చూపులు,\nకబుర్లతో కరిగిపోయే మధురమైన కాలేజీ రోజులు!\n\n[చరణం 1]\nసెమిస్టర్ పరీక్షల ముందు రాత్రంతా జాగారం,\nగ్రూప్ స్టడీల పేరిట సాగే సరదా సమరం.\nఒక్కరు ఫెయిల్ అయినా అందరం బాధపడే సమయం,\nస్నేహమే మా ఊపిరిగా మారిన దివ్య తరుణం!\n\n[చరణం 2]\nకాలేజ్ ఫెస్ట్‌లో వేసే డ్యాన్సులు, విజిల్స్ చప్పుళ్ళు,\nస్టేజీపై పాడే పాటలకు మారుమ్రోగే చప్పట్లు.\nరేపటి భవిష్యత్తు వైపు సాగే మన ఈ పయనం,\nకాలేజీ గుర్తుల పునాదిపై కట్టే సుందర భవనం!\n\n[వంత / బ్రిడ్జ్]\nఈ అల్లరి జ్ఞాపకాలు మన కనులలో దీపాలు...\nఎడబాటు వచ్చినా చెరిగిపోనివి ఈ స్నేహాలు...\nనిరంతరం మోగే కాలేజీ ఆనంద రాగాలు!\n\n[ముగింపు]\nస్నేహమే అమరజ్యోతి...\nకాలేజీ రోజులే జీవన కాంతి...\nగుండెల్లో పదిలంగా... ఎల్లప్పుడూ!",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1788989912334_538.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1788989912334_538.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-2",
+                "sceneId": "scene_2",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1788989912334_538.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1788989912334_538.wav",
+                "prompt": "Cinematic background score for 'Act 2 Unspoken Waves Friendship turns into' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: Friendship turns into deep love, followed by a misunderstanding during festival season, and an emotional reunion at g.... Emotional mood: Deepening Connection. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 88 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-2",
+                "sceneId": "scene_2",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_03.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_03.mp3",
+                "prompt": "Cinematic background score for 'Act 2 Unspoken Waves Friendship turns into' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: Friendship turns into deep love, followed by a misunderstanding during festival season, and an emotional reunion at g.... Emotional mood: Deepening Connection. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 88 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1788989874648-3",
+            "sceneId": "scene_3",
+            "track_number": 3,
+            "title": "Act 3 The Heartfelt Climax Language Telugu Preferred",
+            "scene_description": "\" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5",
+            "emotion": "Surging Climax",
+            "suggested_bpm": 96,
+            "bpm": 96,
+            "key_signature": "A Minor",
+            "lyrics_text": "[హుక్ / ఇంట్రో]\nమనసును తాకే మౌన రాగమై నిలిచావు నీవు,\nకంటిపాపలో మెరిసే వెన్నెల భానుడవు నీవు!\nఎడబాటు లేని అనుబంధాల తీరానికి,\nచేర్చావు నన్ను నీ ప్రేమ సౌరభానికి!\n\n[పల్లవి]\nనీ చూపుల తాకిడిలో పులకించిన ప్రాణం,\nనీ అడుగుల సవ్వడితో మారెను నా జీవనం!\nప్రేమ పూల వానలా కురిసిన నీ అనురాగం,\nనిత్య నూతనమైన దైవిక సుమధుర గానం!\n\n[చరణం 1]\nరాలిపడే పూల పరిమళమై తాకిన నీ స్మృతులు,\nగుండె గదిలో నిత్యం మ్రోగే సుమధుర కవితలు.\nచీకటి రాత్రుల శూన్యంలో వెలిగే తారవై,\nనా ప్రతి అడుగుకు దారి చూపే దివ్య కాంతివై!\n\n[చరణం 2]\nఎన్నెన్నో జన్మల పుణ్యఫలమై దక్కిన వరం,\nనీ సన్నిధిలో గడిచే క్షణమే నా స్వర్గధామం.\nసముద్రపు అలల సాక్షిగా పలికే ప్రణయం,\nకాలం మారినా మాయనిది మన పవిత్ర హృదయం!\n\n[వంత / బ్రిడ్జ్]\nఈ అనంత విశ్వంలో మన ప్రేమే ఒక అద్భుతం...\nగుండె చప్పుడుతో లయ కలిపిన శాశ్వత సత్యం...\nయుగాంతం వరకూ నీ జతలోనే ఉంటాను!\n\n[ముగింపు]\nశాశ్వతంగా నిలిచే ఈ అనురాగం...\nమనసు పొంగే మధుర తరంగం...\nనీవే నా సర్వస్వం... నిరంతరం!",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1788989947212_367.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1788989947212_367.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-3",
+                "sceneId": "scene_3",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1788989947212_367.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1788989947212_367.wav",
+                "prompt": "Cinematic background score for 'Act 3 The Heartfelt Climax Language Telugu Preferred' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: \" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 96 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-3",
+                "sceneId": "scene_3",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_04.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_04.mp3",
+                "prompt": "Cinematic background score for 'Act 3 The Heartfelt Climax Language Telugu Preferred' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: \" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 96 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1788989874648-4",
+            "sceneId": "scene_4",
+            "track_number": 4,
+            "title": "Act 4 Timeless Resonance Language Telugu Preferred",
+            "scene_description": "\" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5",
+            "emotion": "Peaceful Transcendence",
+            "suggested_bpm": 80,
+            "bpm": 80,
+            "key_signature": "D Major",
+            "lyrics_text": "[హుక్ / ఇంట్రో]\nమనసును తాకే మౌన రాగమై నిలిచావు నీవు,\nకంటిపాపలో మెరిసే వెన్నెల భానుడవు నీవు!\nఎడబాటు లేని అనుబంధాల తీరానికి,\nచేర్చావు నన్ను నీ ప్రేమ సౌరభానికి!\n\n[పల్లవి]\nనీ చూపుల తాకిడిలో పులకించిన ప్రాణం,\nనీ అడుగుల సవ్వడితో మారెను నా జీవనం!\nప్రేమ పూల వానలా కురిసిన నీ అనురాగం,\nనిత్య నూతనమైన దైవిక సుమధుర గానం!\n\n[చరణం 1]\nరాలిపడే పూల పరిమళమై తాకిన నీ స్మృతులు,\nగుండె గదిలో నిత్యం మ్రోగే సుమధుర కవితలు.\nచీకటి రాత్రుల శూన్యంలో వెలిగే తారవై,\nనా ప్రతి అడుగుకు దారి చూపే దివ్య కాంతివై!\n\n[చరణం 2]\nఎన్నెన్నో జన్మల పుణ్యఫలమై దక్కిన వరం,\nనీ సన్నిధిలో గడిచే క్షణమే నా స్వర్గధామం.\nసముద్రపు అలల సాక్షిగా పలికే ప్రణయం,\nకాలం మారినా మాయనిది మన పవిత్ర హృదయం!\n\n[వంత / బ్రిడ్జ్]\nఈ అనంత విశ్వంలో మన ప్రేమే ఒక అద్భుతం...\nగుండె చప్పుడుతో లయ కలిపిన శాశ్వత సత్యం...\nయుగాంతం వరకూ నీ జతలోనే ఉంటాను!\n\n[ముగింపు]\nశాశ్వతంగా నిలిచే ఈ అనురాగం...\nమనసు పొంగే మధుర తరంగం...\nనీవే నా సర్వస్వం... నిరంతరం!",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1788989983711_167.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1788989983711_167.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-4",
+                "sceneId": "scene_4",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1788989983711_167.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1788989983711_167.wav",
+                "prompt": "Cinematic background score for 'Act 4 Timeless Resonance Language Telugu Preferred' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: \" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-4",
+                "sceneId": "scene_4",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_05.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_05.mp3",
+                "prompt": "Cinematic background score for 'Act 4 Timeless Resonance Language Telugu Preferred' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: \" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1788989874648-5",
+            "sceneId": "scene_5",
+            "track_number": 5,
+            "title": "Act 5 Festival of Victory Language Telugu Preferred",
+            "scene_description": "\" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5",
+            "emotion": "Euphoria & Grandeur",
+            "suggested_bpm": 130,
+            "bpm": 130,
+            "key_signature": "G Major",
+            "lyrics_text": "[హుక్ / ఇంట్రో]\nమనసును తాకే మౌన రాగమై నిలిచావు నీవు,\nకంటిపాపలో మెరిసే వెన్నెల భానుడవు నీవు!\nఎడబాటు లేని అనుబంధాల తీరానికి,\nచేర్చావు నన్ను నీ ప్రేమ సౌరభానికి!\n\n[పల్లవి]\nనీ చూపుల తాకిడిలో పులకించిన ప్రాణం,\nనీ అడుగుల సవ్వడితో మారెను నా జీవనం!\nప్రేమ పూల వానలా కురిసిన నీ అనురాగం,\nనిత్య నూతనమైన దైవిక సుమధుర గానం!\n\n[చరణం 1]\nరాలిపడే పూల పరిమళమై తాకిన నీ స్మృతులు,\nగుండె గదిలో నిత్యం మ్రోగే సుమధుర కవితలు.\nచీకటి రాత్రుల శూన్యంలో వెలిగే తారవై,\nనా ప్రతి అడుగుకు దారి చూపే దివ్య కాంతివై!\n\n[చరణం 2]\nఎన్నెన్నో జన్మల పుణ్యఫలమై దక్కిన వరం,\nనీ సన్నిధిలో గడిచే క్షణమే నా స్వర్గధామం.\nసముద్రపు అలల సాక్షిగా పలికే ప్రణయం,\nకాలం మారినా మాయనిది మన పవిత్ర హృదయం!\n\n[వంత / బ్రిడ్జ్]\nఈ అనంత విశ్వంలో మన ప్రేమే ఒక అద్భుతం...\nగుండె చప్పుడుతో లయ కలిపిన శాశ్వత సత్యం...\nయుగాంతం వరకూ నీ జతలోనే ఉంటాను!\n\n[ముగింపు]\nశాశ్వతంగా నిలిచే ఈ అనురాగం...\nమనసు పొంగే మధుర తరంగం...\nనీవే నా సర్వస్వం... నిరంతరం!",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1788990019963_632.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1788990019963_632.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-5",
+                "sceneId": "scene_5",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1788990019963_632.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1788990019963_632.wav",
+                "prompt": "Cinematic background score for 'Act 5 Festival of Victory Language Telugu Preferred' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: \" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 130 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-5",
+                "sceneId": "scene_5",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_06.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_06.mp3",
+                "prompt": "Cinematic background score for 'Act 5 Festival of Victory Language Telugu Preferred' in a Lush Romantic Contemporary Symphony soundtrack (Acoustic Love Ballad & Chamber Strings). Story context: Arjun and Priya meet in college in Hyderabad. Friendship turns into deep love, followed by a misunderstanding during .... Scene detail: \" | Language: Telugu | Preferred Genre: Auto-detect | Track Count: 5. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 130 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-09-09T21:37:54.648Z"
+      }
     ]
   ],
   "jobs": [
@@ -4735,6 +4984,22 @@
           "bgm": "completed"
         },
         "created_at": "2026-09-09T21:11:15.174Z"
+      }
+    ],
+    [
+      "job-1788989874648",
+      {
+        "id": "job-1788989874648",
+        "album_id": "album-1788989874648",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "Album compiled and ready for playback!",
+        "workers": {
+          "cover": "completed",
+          "lyrics": "completed",
+          "bgm": "completed"
+        },
+        "created_at": "2026-09-09T21:37:54.648Z"
       }
     ]
   ]

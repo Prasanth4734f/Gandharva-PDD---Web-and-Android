@@ -73,3 +73,7 @@ gandharva_lyrics_v1/
 !server/src/services/system_writer.txt
 !server/lyrics_backend/hf_space_omni_requirements.txt
 !requirements.txt
+
+Screenshots/
+*.mp4
+

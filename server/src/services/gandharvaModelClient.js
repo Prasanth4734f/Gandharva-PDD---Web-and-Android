@@ -21,7 +21,7 @@ const { extractStoryBlueprint } = require('./storyNarrativeEngine');
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-const HF_SPACE_URL = process.env.HF_OMNI_SPACE_URL || 'https://prasanthm4734f-gandharva-omni-model.hf.space';
+const HF_SPACE_URL = process.env.HF_OMNI_SPACE_URL || 'https://prasanthm4734f-gandharva-lyrics-ai.hf.space';
 const LOCAL_OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const MODEL_NAME = process.env.GANDHARVA_MODEL_NAME || 'gandharva-omni-7b';
 

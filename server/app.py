@@ -1,8 +1,8 @@
 # app.py (Deploy this directly into your Hugging Face ZeroGPU Space)
+import spaces
 import gradio as gr
 import torch
 import numpy as np
-import spaces
 from diffusers import AudioLDM2Pipeline
 
 # Load the state-of-the-art Latent Audio Diffusion architecture

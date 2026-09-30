@@ -277,7 +277,7 @@ function generateDynamicLyrics(prompt, genre, mood, language, variationIndex, re
   }
 }
 
-const HF_OMNI_API_URL = 'https://prasanthm4734f-gandharva-omni-model.hf.space/api/generate_lyrics';
+const HF_OMNI_API_URL = 'https://prasanthm4734f-gandharva-lyrics-ai.hf.space/api/generate_lyrics';
 
 async function callClientOmniLyrics(systemPrompt, userPrompt, temperature = 0.9) {
   try {

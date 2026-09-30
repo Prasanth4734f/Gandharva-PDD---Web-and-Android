@@ -1,6 +1,7 @@
 import spaces
 import os
 import sys
+import re
 import torch
 import huggingface_hub
 
@@ -68,51 +69,55 @@ def get_model(device):
         _model_cache.to("cuda")
     return _model_cache
 
+LANGUAGE_INSTRUCTIONS = {
+    "Telugu": "Write strictly in authentic Telugu script (తెలుగు లిపి). Structure the song with [పల్లవి], [చరణం 1], [చరణం 2], [ముగింపు] and chords [Em], [D], [G], etc. DO NOT write English lyrics.",
+    "Hindi": "Write strictly in authentic Hindi Devanagari script (हिन्दी). Structure the song with [मुखड़ा], [अंतरा 1], [अंतरा 2], [समाप्ति] and chords. DO NOT write English lyrics.",
+    "Tamil": "Write strictly in authentic Tamil script (தமிழ்). Structure the song with [பல்லவி], [சரணம் 1], [சரணம் 2], [முடிவு] and chords. DO NOT write English lyrics.",
+    "Kannada": "Write strictly in authentic Kannada script (ಕನ್ನಡ). Structure the song with [ಪಲ್ಲವಿ], [ಚರಣ 1], [ಚರಣ 2] and chords. DO NOT write English lyrics.",
+    "Malayalam": "Write strictly in authentic Malayalam script (മലയാളം). Structure the song with [പല്ലവി], [ചരണം 1], [ചരണം 2] and chords. DO NOT write English lyrics.",
+    "English": "Write full song structure in English with [Verse 1], [Pre-Chorus], [Chorus], [Verse 2], [Bridge], [Outro] and chords."
+}
+
+def clean_output(text: str) -> str:
+    cleaned = text.strip()
+    cleaned = re.sub(r'^(?:assistant|Assistant)\s*:\s*', '', cleaned)
+    cleaned = re.sub(r'^(?:<\|im_start\|>assistant|<\|im_end\|>|\nassistant\n)', '', cleaned).strip()
+    # Strip hallucinated remnants like Nie_BLUE, NIE_BLUEPRINT, etc.
+    cleaned = re.sub(r'(?i)^(?:Nie_BLUE[^\n]*,?\s*|\bNIE_BLUEPRINT\b\s*|\[MODE:\s*[^\]]+\]\s*)', '', cleaned).strip()
+    cleaned = re.sub(r'\[(Em|Am|C|D|G|F|Bm|A|E)\]\s*Nie_BLUE[^\n]*,?', r'[\1]', cleaned, flags=re.IGNORECASE).strip()
+    return cleaned
+
 @spaces.GPU
-def generate_lyrics(prompt, language, genre, emotion, variation):
+def generate_lyrics(prompt, language="Telugu", mood="Devotional", genre="Filmi / Cinematic", bpm=90):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = get_model(device)
 
+    lang_rule = LANGUAGE_INSTRUCTIONS.get(language, LANGUAGE_INSTRUCTIONS["Telugu"])
+
     system_prompt = f"""<|im_start|>system
-You are Gandharva Lyrics AI, a master multilingual songwriter.
-
-CRITICAL INSTRUCTION:
-Write a complete, full-length, extended song in native {language} script.
-You MUST follow a full professional song structure:
-[Verse 1]
-[Pre-Chorus]
-[Chorus]
-[Verse 2]
-[Chorus]
-[Bridge]
-[Outro]
-
-Translate the input concept into rich, poetic native {language} lyrics.
-DO NOT output English characters when native {language} is requested.
-
+You are Gandharva Lyrics AI, a master multilingual songwriter and music director.
+CRITICAL LANGUAGE INSTRUCTION:
+{lang_rule}
 Language: {language}
-Genre: {genre}
-Emotion: {emotion}
-Variation: {variation}
+Mood: {mood}
+Genre/Style: {genre}
+Tempo: {bpm} BPM
 
-Use meaningful singing-performance cues when appropriate:
-[hold]
-[rise]
-[soft]
-[pause]
-
-Do not explain the lyrics.
-Return only the complete song lyrics in native {language}.
+Return ONLY the complete song lyrics in authentic {language} script with chord tags. Do not output English explanations.
 <|im_end|>
 <|im_start|>user
-Write a full-length, complete song in native {language} with all sections ([Verse 1], [Chorus], [Verse 2], [Bridge], [Outro]) based on this theme:
-
-{prompt}
+Write a full devotional and emotive song with chords based on this theme:
+Topic: "{prompt}"
+Target Language: {language}
+Mood: {mood}
+Genre: {genre}
+Tempo: {bpm} BPM
 <|im_end|>
 <|im_start|>assistant
 """
     inputs = tokenizer([system_prompt], return_tensors="pt")
     inputs = {k: v.to(device) for k, v in inputs.items()}
+    input_len = inputs["input_ids"].shape[1]
 
     pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
 
@@ -120,7 +125,7 @@ Write a full-length, complete song in native {language} with all sections ([Vers
         outputs = model.generate(
             **inputs,
             max_new_tokens=1024,
-            min_new_tokens=256,
+            min_new_tokens=128,
             temperature=0.75,
             top_p=0.9,
             repetition_penalty=1.08,
@@ -129,36 +134,59 @@ Write a full-length, complete song in native {language} with all sections ([Vers
             eos_token_id=tokenizer.eos_token_id
         )
 
-    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    if "<|im_start|>assistant" in generated_text:
-        lyrics = generated_text.split("<|im_start|>assistant")[-1].strip()
-    elif "\nassistant\n" in generated_text:
-        lyrics = generated_text.split("\nassistant\n")[-1].strip()
-    elif generated_text.startswith("assistant"):
-        lyrics = generated_text[len("assistant"):].strip()
-    else:
-        lyrics = generated_text.replace(system_prompt, "").strip()
+    # Slice generated tokens only
+    generated_tokens = outputs[0][input_len:]
+    raw_text = tokenizer.decode(generated_tokens, skip_special_tokens=True)
+    return clean_output(raw_text)
 
-    if lyrics.startswith("assistant"):
-        lyrics = lyrics[len("assistant"):].strip()
+custom_css = """
+body { font-family: 'Segoe UI', system-ui, sans-serif; }
+.generate-btn { background: linear-gradient(135deg, #ea580c, #f97316) !important; color: white !important; font-weight: 600; border-radius: 8px; }
+"""
 
-    return lyrics
-
-# Gradio Interface Definition
-demo = gr.Interface(
-    fn=generate_lyrics,
-    inputs=[
-        gr.Textbox(lines=3, placeholder="Enter song concept or prompt...", label="Song Concept / Prompt"),
-        gr.Dropdown(["Telugu", "Hindi", "Tamil", "English", "Kannada", "Malayalam"], value="Telugu", label="Language"),
-        gr.Dropdown(["Pop", "Folk", "Classical", "Melody", "Rock", "Devotional", "Hip-Hop"], value="Pop", label="Genre"),
-        gr.Dropdown(["Romantic", "Melancholic", "Energetic", "Nostalgic", "Devotional", "Upbeat"], value="Romantic", label="Emotion"),
-        gr.Dropdown(["Standard Verse-Chorus", "Extended Hook", "Acoustic Ballad", "Rap Verse"], value="Standard Verse-Chorus", label="Variation")
-    ],
-    outputs=gr.Textbox(lines=12, label="Generated Lyrics by Gandharva AI"),
-    title="🎵 Gandharva Lyrics AI",
-    description="Custom Fine-Tuned Songwriting Engine powered by Qwen + QLoRA Adapter.",
-    api_name="generate_lyrics"
-)
+with gr.Blocks(title="Gandharva Omni - AI Lyrics & Composition Assistant", css=custom_css) as demo:
+    gr.Markdown(
+        """
+        # 🎵 Gandharva Omni - AI Lyrics & Composition Assistant
+        **ZeroGPU-accelerated multilingual neural lyric generator.**
+        """
+    )
+    
+    with gr.Row():
+        with gr.Column(scale=1):
+            t_prompt = gr.Textbox(
+                label="Prompt / Theme",
+                placeholder="create a spiritual lord vinayaka song with real emotions",
+                lines=3
+            )
+            t_language = gr.Dropdown(
+                ["Telugu", "Hindi", "Tamil", "English", "Kannada", "Malayalam"],
+                value="Telugu",
+                label="Language"
+            )
+            t_mood = gr.Dropdown(
+                ["Devotional", "Romantic", "Motivation & Energy", "Melancholic Sad", "Party & Dance", "Folk & Earthy"],
+                value="Devotional",
+                label="Mood"
+            )
+            t_genre = gr.Dropdown(
+                ["Filmi / Cinematic", "Mass Anthem", "Soulful", "Acoustic Pop", "Classical Fusion", "Rap / Hip-Hop", "EDM"],
+                value="Filmi / Cinematic",
+                label="Genre / Style"
+            )
+            t_bpm = gr.Slider(minimum=40, maximum=200, value=90, step=1, label="Tempo (BPM)")
+            
+            btn_gen_lyrics = gr.Button("✨ Generate Lyrics", variant="primary", elem_classes=["generate-btn"])
+        
+        with gr.Column(scale=1):
+            out_lyrics = gr.Textbox(label="Generated Lyrics", lines=20, show_copy_button=True)
+            
+    btn_gen_lyrics.click(
+        generate_lyrics,
+        inputs=[t_prompt, t_language, t_mood, t_genre, t_bpm],
+        outputs=out_lyrics,
+        api_name="generate_lyrics"
+    )
 
 if __name__ == "__main__":
     demo.launch()

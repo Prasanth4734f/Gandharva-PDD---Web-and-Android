@@ -75,7 +75,7 @@ const getSystemHealth = async (req, res) => {
       maintenanceMessage: maintenanceMessage,
       activeModelTier: activeModelTier,
       hfZeroGpuSpace: {
-        url: hfUrl || 'https://prasanthm4734f-gandharva-omni-model.hf.space',
+        url: hfUrl || 'https://prasanthm4734f-gandharva-lyrics-ai.hf.space',
         status: hfSpaceStatus,
         latencyMs: hfSpaceLatency
       },
