@@ -55,6 +55,8 @@ async function sendOtpEmail(email, name = '') {
 
   console.log(`[Email Service] Fast OTP generated: ${code} for ${cleanEmail}`);
 
+  const digits = (code || '000000').split('');
+
   // 1. Direct High-Speed Nodemailer Dispatch
   try {
     const mailer = getTransporter();
@@ -75,97 +77,140 @@ async function sendOtpEmail(email, name = '') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Verify your email - Gandharva AI Studio</title>
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% {
+        border-color: #7C3AED;
+        box-shadow: 0 0 12px rgba(124, 58, 237, 0.4), inset 0 0 8px rgba(124, 58, 237, 0.2);
+        transform: translateY(0px);
+      }
+      50% {
+        border-color: #EC4899;
+        box-shadow: 0 0 22px rgba(236, 72, 153, 0.65), inset 0 0 12px rgba(236, 72, 153, 0.3);
+        transform: translateY(-2px);
+      }
+    }
+    @keyframes waveMotion {
+      0%, 100% { height: 6px; }
+      50% { height: 24px; }
+    }
+    @keyframes badgeGlow {
+      0%, 100% { border-color: rgba(124, 58, 237, 0.4); }
+      50% { border-color: rgba(236, 72, 153, 0.7); }
+    }
+    .digit-box {
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+    .brand-pill {
+      animation: badgeGlow 2.5s infinite ease-in-out;
+    }
+    .wave-1 { animation: waveMotion 1.2s infinite ease-in-out 0.1s; }
+    .wave-2 { animation: waveMotion 1.2s infinite ease-in-out 0.25s; }
+    .wave-3 { animation: waveMotion 1.2s infinite ease-in-out 0.4s; }
+    .wave-4 { animation: waveMotion 1.2s infinite ease-in-out 0.25s; }
+    .wave-5 { animation: waveMotion 1.2s infinite ease-in-out 0.1s; }
+  </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #F8FAFF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F8FAFF; padding: 40px 16px;">
+<body style="margin: 0; padding: 0; background-color: #090D16; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #090D16; padding: 36px 12px;">
     <tr>
       <td align="center">
-        <!-- Main Card Container -->
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 540px; background-color: #FFFFFF; border-radius: 20px; border: 1px solid #E2E8F0; overflow: hidden; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.07);">
+        <!-- Main Dark Glass Card Container -->
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 520px; background-color: #111827; border: 1px solid #1F2937; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);">
           
-          <!-- Top Accent Blue-Cyan-Pink Gradient Bar -->
+          <!-- Top Cyber Neon Gradient Bar -->
           <tr>
-            <td height="6" style="background: linear-gradient(90deg, #2563EB 0%, #06B6D4 50%, #EC4899 100%); line-height: 6px; font-size: 1px;">&nbsp;</td>
+            <td height="5" style="background: linear-gradient(90deg, #7C3AED 0%, #06B6D4 50%, #EC4899 100%); line-height: 5px; font-size: 1px;">&nbsp;</td>
           </tr>
 
           <!-- Inner Content Body -->
           <tr>
-            <td style="padding: 36px 32px 28px 32px; text-align: center;">
+            <td style="padding: 38px 28px 30px 28px; text-align: center;">
               
-              <!-- Subtle Musical Decorative Accents -->
-              <div style="color: #EC4899; opacity: 0.35; font-size: 16px; letter-spacing: 10px; margin-bottom: 12px; user-select: none;">
-                ♪ &nbsp; ♫ &nbsp; ♬ &nbsp; ♩
+              <!-- Brand Pill Badge -->
+              <div class="brand-pill" style="display: inline-block; background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.35); border-radius: 24px; padding: 6px 18px; margin-bottom: 20px;">
+                <span style="color: #A78BFA; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">✦ GANDHARVA AI STUDIO ✦</span>
               </div>
 
-              <!-- Brand Pill Badge -->
-              <div style="display: inline-block; background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%); border: 1px solid rgba(37, 99, 235, 0.22); border-radius: 24px; padding: 6px 18px; margin-bottom: 20px;">
-                <span style="color: #2563EB; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">✦ GANDHARVA AI STUDIO ✦</span>
-              </div>
+              <!-- Animated Sound Wave Visualizer -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto 16px auto;">
+                <tr>
+                  <td align="center" style="height: 30px; vertical-align: middle;">
+                    <span class="wave-1" style="display: inline-block; width: 4px; height: 10px; background: #7C3AED; border-radius: 3px; margin: 0 2px; vertical-align: middle;"></span>
+                    <span class="wave-2" style="display: inline-block; width: 4px; height: 20px; background: #06B6D4; border-radius: 3px; margin: 0 2px; vertical-align: middle;"></span>
+                    <span class="wave-3" style="display: inline-block; width: 4px; height: 26px; background: #EC4899; border-radius: 3px; margin: 0 2px; vertical-align: middle;"></span>
+                    <span class="wave-4" style="display: inline-block; width: 4px; height: 18px; background: #06B6D4; border-radius: 3px; margin: 0 2px; vertical-align: middle;"></span>
+                    <span class="wave-5" style="display: inline-block; width: 4px; height: 10px; background: #7C3AED; border-radius: 3px; margin: 0 2px; vertical-align: middle;"></span>
+                  </td>
+                </tr>
+              </table>
 
               <!-- Main Heading -->
-              <h1 style="color: #0F172A; font-size: 26px; font-weight: 800; margin: 0 0 12px 0; letter-spacing: -0.5px; line-height: 1.25;">
-                Verify your email
+              <h1 style="color: #F9FAFB; font-size: 24px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -0.5px;">
+                Verify Your Account
               </h1>
 
               <!-- Welcome Subtitle -->
-              <p style="color: #475569; font-size: 15px; line-height: 24px; margin: 0 0 24px 0;">
-                Welcome to <strong>Gandharva AI Studio</strong>. Use the verification code below to continue.
+              <p style="color: #9CA3AF; font-size: 14px; line-height: 22px; margin: 0 0 24px 0;">
+                Use the security verification code below to authorize your session on <strong>Gandharva AI Studio</strong>.
               </p>
 
-              <!-- Premium OTP Display Box -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 20px 0 24px 0;">
+              <!-- 6-Digit Animated Glowing OTP Display Grid -->
+              <table role="presentation" cellpadding="0" cellspacing="6" border="0" align="center" style="margin: 0 auto 20px auto;">
                 <tr>
-                  <td style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, rgba(236, 72, 153, 0.03) 100%); border: 2px dashed #CBD5E1; border-radius: 16px; padding: 24px 16px; text-align: center;">
-                    <div style="color: #64748B; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px;">
-                      VERIFICATION CODE
-                    </div>
-                    <!-- Plain Selectable OTP Code (Recognized by Gmail Copy Action) -->
-                    <div style="font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, Courier, monospace; font-size: 38px; font-weight: 800; letter-spacing: 10px; color: #2563EB; line-height: 1.2; user-select: all; -webkit-user-select: all;">
-                      ${code}
-                    </div>
-                    <!-- Expiry Notice Badge -->
-                    <div style="display: inline-block; background-color: #FEF3C7; border: 1px solid #FDE68A; border-radius: 20px; padding: 4px 14px; margin-top: 14px; font-size: 12px; font-weight: 600; color: #B45309;">
-                      ⏱️ This code expires in 10 minutes.
-                    </div>
-                  </td>
+                  ${digits.map((digit, idx) => `
+                    <td class="digit-box" style="width: 46px; height: 56px; background: #1E293B; border: 1.5px solid #7C3AED; border-radius: 12px; text-align: center; vertical-align: middle; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.28);">
+                      <span style="font-family: 'SF Mono', Consolas, Menlo, Monaco, monospace; font-size: 28px; font-weight: 800; color: #FFFFFF; line-height: 56px; display: block;">${digit}</span>
+                    </td>
+                  `).join('')}
                 </tr>
               </table>
 
-              <!-- Security Tip Callout -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+              <!-- Quick Copy Bar for Mobile & Keyboard Copy -->
+              <div style="background: rgba(15, 23, 42, 0.7); border: 1px dashed #374151; border-radius: 12px; padding: 12px 16px; margin-bottom: 22px;">
+                <div style="color: #6B7280; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">
+                  TAP / SELECT TO COPY
+                </div>
+                <div style="font-family: 'SF Mono', Consolas, Monaco, monospace; font-size: 18px; font-weight: 800; letter-spacing: 6px; color: #38BDF8; user-select: all; -webkit-user-select: all;">
+                  ${code}
+                </div>
+              </div>
+
+              <!-- Expiry Notice Badge -->
+              <div style="display: inline-block; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 20px; padding: 5px 16px; margin-bottom: 22px;">
+                <span style="color: #FBBF24; font-size: 12px; font-weight: 600;">⏱️ This code expires in 10 minutes</span>
+              </div>
+
+              <!-- Security Callout Box -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 22px;">
                 <tr>
-                  <td style="background-color: #EFF6FF; border-left: 4px solid #2563EB; border-radius: 8px; padding: 12px 16px; text-align: left;">
-                    <p style="margin: 0; color: #1E40AF; font-size: 13px; line-height: 20px;">
-                      <strong>🔒 Security Tip:</strong> Never share this code with anyone. Gandharva AI will never ask for your verification code.
+                  <td style="background: #1E293B; border-left: 3px solid #06B6D4; border-radius: 8px; padding: 12px 16px; text-align: left;">
+                    <p style="margin: 0; color: #94A3B8; font-size: 12px; line-height: 18px;">
+                      <strong style="color: #E2E8F0;">🔒 Security Note:</strong> Never share this OTP with anyone. Gandharva AI Studio will never ask for your verification code.
                     </p>
                   </td>
                 </tr>
               </table>
 
-              <!-- Unrequested Code Notice -->
-              <p style="color: #64748B; font-size: 13px; line-height: 20px; margin: 0 0 24px 0;">
+              <!-- Unrequested Notice -->
+              <p style="color: #64748B; font-size: 12px; line-height: 18px; margin: 0 0 20px 0;">
                 If you didn't request this code, you can safely ignore this email.
               </p>
 
-              <!-- Subtle Musical Note Separator -->
-              <div style="color: #94A3B8; opacity: 0.45; font-size: 14px; letter-spacing: 12px; margin-bottom: 20px; user-select: none;">
-                ♭ &nbsp; ♩ &nbsp; ♫ &nbsp; ♬ &nbsp; ♯
-              </div>
-
               <!-- Footer Section -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1px solid #E2E8F0; padding-top: 20px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1px solid #1F2937; padding-top: 18px;">
                 <tr>
                   <td style="text-align: center;">
-                    <p style="color: #0F172A; font-size: 13px; font-weight: 700; margin: 0 0 4px 0;">
+                    <p style="color: #E2E8F0; font-size: 12px; font-weight: 700; margin: 0 0 3px 0;">
                       Gandharva AI Studio
                     </p>
-                    <p style="color: #EC4899; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 10px 0;">
+                    <p style="color: #EC4899; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin: 0 0 8px 0;">
                       Create • Compose • Discover
                     </p>
-                    <p style="color: #94A3B8; font-size: 11px; line-height: 16px; margin: 0 0 4px 0;">
+                    <p style="color: #64748B; font-size: 11px; line-height: 15px; margin: 0 0 4px 0;">
                       Automated security notification • Please do not reply directly to this email.
                     </p>
-                    <p style="color: #94A3B8; font-size: 11px; margin: 0;">
+                    <p style="color: #4B5563; font-size: 11px; margin: 0;">
                       &copy; ${new Date().getFullYear()} Gandharva AI Studio. All rights reserved.
                     </p>
                   </td>
