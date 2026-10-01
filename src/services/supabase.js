@@ -5,11 +5,21 @@ import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
 export const getServerBaseUrl = () => {
-  // 1. Web browser: Use current hostname
-  if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location?.hostname) {
-    return `http://${window.location.hostname}:3000`;
+  // 1. Web browser: Use window.location.origin on cloud/Vercel or localhost:3000
+  if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location) {
+    const hostname = window.location.hostname || '';
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return `http://${hostname}:3000`;
+    }
+    if (window.location.origin) {
+      return window.location.origin;
+    }
   }
-  // 2. Dynamic Expo hostUri (auto-detects PC LAN IP on physical mobile devices)
+  // 2. EXPO_PUBLIC_API_URL if set
+  if (process.env?.EXPO_PUBLIC_API_URL) {
+    return process.env.EXPO_PUBLIC_API_URL.replace(/\/$/, '');
+  }
+  // 3. Dynamic Expo hostUri (auto-detects PC LAN IP on physical mobile devices)
   try {
     const hostUri = Constants.expoConfig?.hostUri || Constants.manifest?.debuggerHost || Constants.manifest2?.extra?.expoGo?.debuggerHost || Constants.expoGoConfig?.debuggerHost;
     if (hostUri) {
@@ -19,10 +29,6 @@ export const getServerBaseUrl = () => {
       }
     }
   } catch (e) {}
-  // 3. EXPO_PUBLIC_API_URL if set
-  if (process.env?.EXPO_PUBLIC_API_URL) {
-    return process.env.EXPO_PUBLIC_API_URL;
-  }
   // 4. Default active LAN IP
   return 'http://192.168.1.16:3000';
 };
