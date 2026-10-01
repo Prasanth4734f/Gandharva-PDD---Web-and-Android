@@ -15,15 +15,14 @@ export const setWorkingBaseUrl = (url) => {
 export const getCandidateUrls = () => {
   const candidates = [];
 
-  // 1. Web origin host (when running in web browser)
+  // 1. Web origin host (when running in web browser, e.g. Vercel / Cloud)
   if (typeof window !== 'undefined' && window && window.location) {
-    const hostname = window.location.hostname || 'localhost';
-    candidates.push(`http://${hostname}:3000`);
-    if (hostname !== 'localhost') {
-      candidates.push('http://localhost:3000');
+    if (window.location.origin && window.location.origin.startsWith('http')) {
+      candidates.push(window.location.origin);
     }
-    if (hostname !== '127.0.0.1') {
-      candidates.push('http://127.0.0.1:3000');
+    const hostname = window.location.hostname || 'localhost';
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      candidates.push(`http://${hostname}:3000`);
     }
   }
 
