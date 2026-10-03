@@ -389,7 +389,6 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
 
   throw new Error('Music generation service unavailable. Please check network connection.');
 };
-};
 
 /**
  * Enhance a basic prompt into a highly descriptive prompt using AI
