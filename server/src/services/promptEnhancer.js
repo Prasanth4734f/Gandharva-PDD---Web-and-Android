@@ -105,47 +105,21 @@ const INSTRUMENT_DICTIONARY = [
 
 const THEMATIC_MOODS = [
   {
-    id: "tragic_separation",
-    match: /(separat|breakup|misunderstand|broken|apart|leave|left|divorce|lost love|goodbye|10 years|years apart)/i,
-    genre: "Soul-Stirring Cinematic Melodrama",
-    bpm: "66-72 BPM",
-    key: "D Minor / B Minor",
-    intro: "opens with a fragile, solitary piano motif evoking tender nostalgic memories of the early days",
-    build: "gradually weaves in weeping cello lines and delicate violin counterpoints as emotional tension and tragic longing mount",
-    climax: "surges into a heart-wrenching orchestral crescendo where sweeping strings and acoustic plucks mourn what could have been",
-    outro: "gently dissolves into a solitary, echoing piano chord left hanging in reflective quietude",
-    textures: "natural room reverb, subtle vinyl warmth, intimate mic placement",
-    defaultInstruments: ["solo grand piano", "weeping cello", "expressive violin section", "warm ambient pads"]
-  },
-  {
-    id: "childhood_rain_nostalgia",
-    match: /(rain|walking in heavy rain|childhood|nostalgia|remembering|old days|memories|puddle|lonely man)/i,
-    genre: "Atmospheric Melancholic Acoustic Journey",
-    bpm: "70-76 BPM",
-    key: "F Major / D Minor",
-    intro: "begins with gentle acoustic guitar picking against atmospheric binaural rain ambiance and soft felt piano",
-    build: "develops with a deeply emotive bansuri flute melody and warm chamber strings capturing the innocence of childhood memories",
-    climax: "blossoms into a deeply moving symphonic swell of strings and mellow horn warmth reflecting the passage of time",
-    outro: "subsides back into quiet rain textures and fading acoustic guitar chords",
-    textures: "rain sound design, tape saturation, warm analog warmth",
-    defaultInstruments: ["felt grand piano", "bamboo bansuri", "acoustic fingerstyle guitar", "chamber strings"]
-  },
-  {
-    id: "deep_sadness",
-    match: /(sad|emotional|pain|cry|tear|grief|sorrow|loss|alone|lonely|heartbroken|depress)/i,
-    genre: "Intimate Cinematic Soundtrack",
-    bpm: "64-68 BPM",
-    key: "C Minor / G Minor",
-    intro: "starts with a sparse, haunting piano progression that leaves space between every note for emotional weight",
-    build: "layers a mournful solo cello and soft string quartet that rise in passionate, grief-laden counterpoint",
-    climax: "peaks in a breathtaking, tear-inducing climax of soaring violins and sub-bass resonance",
-    outro: "tapers off into a gentle, solitary piano resolution with lingering emotional depth",
-    textures: "extended reverb tails, intimate close-mic clarity, deep acoustic resonance",
-    defaultInstruments: ["grand piano", "solo cello", "soft string quartet", "subtle ambient drone"]
+    id: "sensual_intimate_romance",
+    match: /(sensual|seductive|hot romance|intimate|chemistry|desire|candlelight|lovers|penthouse|slow dance|bedroom|sultry)/i,
+    genre: "Sensual & Seductive R&B Romantic Soundtrack",
+    bpm: "74-78 BPM",
+    key: "F-sharp Minor / D Minor",
+    intro: "sets an intimate atmosphere with velvet Rhodes chords, subtle vinyl saturation, and deep breathing room",
+    build: "unfolds a slow-burning groove with silky muted electric guitar riffs, warm 808 sub-bass, and sultry saxophone melodies",
+    climax: "peaks in an intense, passionate surge of harmonic chemistry with soaring lead lines and warm stereo reverb",
+    outro: "melts smoothly away into a whispering Rhodes chord and delicate bass decay",
+    textures: "warm analog saturation, intimate microphone proximity, lush stereo imaging",
+    defaultInstruments: ["Rhodes electric piano", "sultry tenor saxophone", "warm 808 sub-bass", "muted electric guitar", "soft trap percussion"]
   },
   {
     id: "hero_mass_anthem",
-    match: /(hero|heroic|entry|mass|mass anthem|king|warrior|triumph|badass|attitude|swag|action|victory)/i,
+    match: /(hero|heroic|entry|mass|mass anthem|king|warrior|triumph|badass|attitude|swag|action|victory|fight|battle|hardcore|elevation|2040|hype)/i,
     genre: "High-Octane Cinematic Mass Anthem",
     bpm: "128-134 BPM",
     key: "E Minor / A Minor",
@@ -158,7 +132,7 @@ const THEMATIC_MOODS = [
   },
   {
     id: "romantic_passion",
-    match: /(love|romantic|romance|passion|heart|sweet|kiss|wedding|soulmate|beloved|hug)/i,
+    match: /(love|romantic|romance|passion|heart|sweet|kiss|wedding|soulmate|beloved|hug|date)/i,
     genre: "Lush Contemporary Romantic Symphony",
     bpm: "80-86 BPM",
     key: "E-flat Major / G Major",
@@ -168,6 +142,58 @@ const THEMATIC_MOODS = [
     outro: "finishes on a soothing, warm acoustic resolution that leaves a sweet romantic aftertaste",
     textures: "lush stereo chorus, warm low-end, sparkling high-frequency polish",
     defaultInstruments: ["acoustic guitar", "grand piano", "soaring violin", "flute woodwinds", "warm bass"]
+  },
+  {
+    id: "cyberpunk_synthwave",
+    match: /(cyber|cyberpunk|synthwave|retro|80s synth|future|futuristic|neon|techno|edm|electronic)/i,
+    genre: "Futuristic Cyberpunk Synthwave & Bass Drive",
+    bpm: "124-130 BPM",
+    key: "F Minor / D Minor",
+    intro: "boots up with sweeping analog filter sweeps, pulsing arpeggiated synths, and punchy vintage drum machine kicks",
+    build: "surges forward with a gritty running synth bassline, gated reverbed snares, and soaring neon synth leads",
+    climax: "ignites an adrenaline-fueled peak with intense sidechain compression, driving drum fills, and electrifying synth stabs",
+    outro: "ends with an abrupt low-pass filter sweep and echoing analog delay",
+    textures: "analog synthesizer grit, gated reverb, punchy transient dynamics",
+    defaultInstruments: ["analog synth leads", "running synth bass", "80s drum machines", "vocoder pads"]
+  },
+  {
+    id: "tragic_separation",
+    match: /(breakup|broken heart|divorce|lost love|goodbye|years apart|separation from love)/i,
+    genre: "Soul-Stirring Cinematic Melodrama",
+    bpm: "66-72 BPM",
+    key: "D Minor / B Minor",
+    intro: "opens with a fragile, solitary piano motif evoking tender nostalgic memories of the early days",
+    build: "gradually weaves in weeping cello lines and delicate violin counterpoints as emotional tension and tragic longing mount",
+    climax: "surges into a heart-wrenching orchestral crescendo where sweeping strings and acoustic plucks mourn what could have been",
+    outro: "gently dissolves into a solitary, echoing piano chord left hanging in reflective quietude",
+    textures: "natural room reverb, subtle vinyl warmth, intimate mic placement",
+    defaultInstruments: ["solo grand piano", "weeping cello", "expressive violin section", "warm ambient pads"]
+  },
+  {
+    id: "childhood_rain_nostalgia",
+    match: /(walking in heavy rain|childhood nostalgia|old memories|lonely puddle|monsoon nostalgia)/i,
+    genre: "Atmospheric Melancholic Acoustic Journey",
+    bpm: "70-76 BPM",
+    key: "F Major / D Minor",
+    intro: "begins with gentle acoustic guitar picking against atmospheric binaural rain ambiance and soft felt piano",
+    build: "develops with a deeply emotive bansuri flute melody and warm chamber strings capturing the innocence of childhood memories",
+    climax: "blossoms into a deeply moving symphonic swell of strings and mellow horn warmth reflecting the passage of time",
+    outro: "subsides back into quiet rain textures and fading acoustic guitar chords",
+    textures: "rain sound design, tape saturation, warm analog warmth",
+    defaultInstruments: ["felt grand piano", "bamboo bansuri", "acoustic fingerstyle guitar", "chamber strings"]
+  },
+  {
+    id: "deep_sadness",
+    match: /(sad|pain|cry|tear|grief|sorrow|loss of someone|mourning|heartbroken|depressed)/i,
+    genre: "Intimate Cinematic Soundtrack",
+    bpm: "64-68 BPM",
+    key: "C Minor / G Minor",
+    intro: "starts with a sparse, haunting piano progression that leaves space between every note for emotional weight",
+    build: "layers a mournful solo cello and soft string quartet that rise in passionate, grief-laden counterpoint",
+    climax: "peaks in a breathtaking, tear-inducing climax of soaring violins and sub-bass resonance",
+    outro: "tapers off into a gentle, solitary piano resolution with lingering emotional depth",
+    textures: "extended reverb tails, intimate close-mic clarity, deep acoustic resonance",
+    defaultInstruments: ["grand piano", "solo cello", "soft string quartet", "subtle ambient drone"]
   },
   {
     id: "lofi_peaceful",
@@ -194,19 +220,6 @@ const THEMATIC_MOODS = [
     outro: "settles softly back into a tranquil tambura drone and lingering temple bell vibration",
     textures: "spacious hall reverb, natural acoustic purity, sacred ambience",
     defaultInstruments: ["bamboo bansuri", "mridangam", "tambura", "harmonium", "devotional choir"]
-  },
-  {
-    id: "cyberpunk_synthwave",
-    match: /(cyber|cyberpunk|synthwave|retro|80s synth|future|neon|drive|speed|techno|edm|electronic)/i,
-    genre: "Futuristic Cyberpunk Synthwave & Bass Drive",
-    bpm: "124-130 BPM",
-    key: "F Minor / D Minor",
-    intro: "boots up with sweeping analog filter sweeps, pulsing arpeggiated synths, and punchy vintage drum machine kicks",
-    build: "surges forward with a gritty running synth bassline, gated reverbed snares, and soaring neon synth leads",
-    climax: "ignites an adrenaline-fueled peak with intense sidechain compression, driving drum fills, and electrifying synth stabs",
-    outro: "ends with an abrupt low-pass filter sweep and echoing analog delay",
-    textures: "analog synthesizer grit, gated reverb, punchy transient dynamics",
-    defaultInstruments: ["analog synth leads", "running synth bass", "80s drum machines", "vocoder pads"]
   },
   {
     id: "horror_dark_suspense",
@@ -248,6 +261,11 @@ class PromptEnhancer {
     }
 
     const input = rawPrompt.trim();
+
+    // Prevent double-wrapping if already an enhanced master-tier prompt
+    if (/^A master-tier/i.test(input) || (input.length > 200 && /BPM/i.test(input) && /Instrumentation/i.test(input))) {
+      return input;
+    }
 
     // 1. Detect Composer Style Mentions
     let composerContext = "";

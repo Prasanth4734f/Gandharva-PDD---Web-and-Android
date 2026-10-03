@@ -204,29 +204,53 @@ export const blobToAudioUri = async (blobOrBuffer, filename = `gen_${Date.now()}
  * - Single variation: 100% independent AI Neural Synthesis (~25-28s, strictly < 1 min)
  * - 3 variations: 3 distinct, 100% independent AI Neural Syntheses (~1m 15s - 1m 20s, strictly < 3 min)
  */
+// Active GPU URL Cache
+let activeWorkingGpuUrl = DEFAULT_KAGGLE_GPU_URL;
+
+export const getActiveGpuUrl = () => activeWorkingGpuUrl;
+export const setActiveGpuUrl = (url) => { if (url) activeWorkingGpuUrl = url; };
+
+/**
+ * Generate music based on a text prompt and optional variations count
+ * Pipeline:
+ * 1. Active Direct AI GPU (ZeroGPU / Kaggle)
+ * 2. Express Backend AI Proxy (/api/generate-music)
+ * 3. Seeded DSP Neural Synthesizer (Unique Procedural Audio)
+ */
 export const generateMusic = async (prompt, duration = 10, numVariations = 1, onProgress = null) => {
-  const targetDuration = Math.min(15, Math.max(5, parseInt(duration) || 8));
+  const targetDuration = Math.min(30, Math.max(5, parseInt(duration) || 10));
   const targetCount = Math.min(3, Math.max(1, parseInt(numVariations || 1)));
   const varNames = ['Variation A (AI Master)', 'Variation B (Dynamic Groove)', 'Variation C (Acoustic Reprise)'];
   const promptModifiers = [
     prompt,
-    `${prompt}, distinct rhythmic progression`,
-    `${prompt}, atmospheric melodic reprise`
+    `${prompt}, distinct rhythmic variation, dynamic drums`,
+    `${prompt}, acoustic reprise, rich melodic swells`
   ];
 
-  console.info(`⚡ Initiating High-Fidelity GPU Music Generation (${targetCount} unique AI track(s), ${targetDuration}s)...`);
+  console.info(`⚡ Initiating High-Fidelity Music Generation (${targetCount} unique track(s), ${targetDuration}s)...`);
 
-  // 1. Direct Kaggle Dual-Brain GPU Generation
+  // --- Step 1: Discover Active GPU Endpoint ---
+  let targetGpuUrl = activeWorkingGpuUrl || DEFAULT_KAGGLE_GPU_URL;
   try {
-    const targetGpuUrl = DEFAULT_KAGGLE_GPU_URL;
+    const health = await checkMusicGenHealth();
+    if (health && health.url) {
+      targetGpuUrl = health.url;
+      activeWorkingGpuUrl = health.url;
+    }
+  } catch (_) {}
 
-    const generateGpuTrack = async (promptText, trackIndex = 0, timeoutMs = 60000) => {
+  console.info(`⚡ Connected to AI Engine at: ${targetGpuUrl}`);
+
+  // --- Step 2: Direct AI GPU Generation ---
+  try {
+    const generateGpuTrack = async (promptText, trackIndex = 0, timeoutMs = 85000) => {
       if (onProgress) {
-        onProgress(`Synthesizing AI Track ${trackIndex + 1} of ${targetCount}...`, trackIndex + 1, targetCount);
+        onProgress(`Synthesizing Neural AI Track ${trackIndex + 1} of ${targetCount}...`, trackIndex + 1, targetCount);
       }
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+      const uniqueSeed = Math.floor(Math.random() * 2147483647);
 
       try {
         const kaggleResp = await fetch(`${targetGpuUrl}/generate`, {
@@ -239,80 +263,101 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
           body: JSON.stringify({
             prompt: promptText,
             duration: targetDuration,
-            seed: Math.floor(Math.random() * 2147483647)
+            seed: uniqueSeed
           }),
           signal: controller.signal
         });
         clearTimeout(timeoutId);
 
         if (kaggleResp && kaggleResp.ok) {
-          const arrayBuffer = await kaggleResp.arrayBuffer();
-          const audioUrl = await bufferToAudioUri(arrayBuffer, `kaggle_gen_${Date.now()}_${trackIndex}.wav`);
-          console.info(`✅ [Direct Kaggle GPU] Track ${trackIndex + 1}/${targetCount} AI Synthesis Complete!`);
+          const rawBuffer = await kaggleResp.arrayBuffer();
+          // Ensure standard 16-bit PCM for universal cross-platform playback
+          const pcmBuffer = convertFloat32WavToInt16Wav(rawBuffer);
+          const audioUrl = await bufferToAudioUri(pcmBuffer, `ai_gen_${Date.now()}_${trackIndex}.wav`);
+          console.info(`✅ [AI Engine] Track ${trackIndex + 1}/${targetCount} AI Synthesis Complete!`);
           return {
             id: `var-gpu-${Date.now()}-${trackIndex}`,
             variation_name: varNames[trackIndex] || `Variation ${trackIndex + 1}`,
             audio_url: audioUrl,
             duration: targetDuration
           };
+        } else {
+          console.warn(`[GPU Endpoint returned ${kaggleResp.status}]`);
         }
       } catch (e) {
-        console.warn(`[GPU Track ${trackIndex + 1} Note]`, e.message);
+        console.warn(`[GPU Track ${trackIndex + 1} Error]`, e.message);
       }
       return null;
     };
 
     const variations = [];
-
-    // Synthesize each variation independently on Kaggle GPU
     for (let i = 0; i < targetCount; i++) {
-      const trackResult = await generateGpuTrack(promptModifiers[i] || prompt, i, 60000);
+      const trackResult = await generateGpuTrack(promptModifiers[i] || prompt, i);
       if (trackResult) {
         variations.push(trackResult);
       }
     }
 
     if (variations.length > 0) {
-      // If any trailing variation timed out, fill with unique seed fallback
-      while (variations.length < targetCount) {
-        const idx = variations.length;
-        variations.push({
-          id: `var-gpu-${Date.now()}-${idx}`,
-          variation_name: varNames[idx] || `Variation ${idx + 1}`,
-          audio_url: variations[0].audio_url,
-          duration: targetDuration
-        });
-      }
-
       return {
-        project_id: `kaggle-gpu-${Date.now()}`,
-        source: 'Kaggle Dual-Brain GPU (Direct 100% AI)',
+        project_id: `ai-gpu-${Date.now()}`,
+        source: 'Gandharva ZeroGPU AI Cloud',
         variations
       };
     }
   } catch (gpuErr) {
-    console.warn('[GPU Generation Attempt Failed]', gpuErr.message);
+    console.warn('[Direct GPU Generation Attempt Failed]', gpuErr.message);
   }
 
-  // High-Fidelity Client-Side Synthesis Fallback (100% Guaranteed Audio Generation)
+  // --- Step 3: Express Backend Proxy Fallback ---
   try {
+    if (onProgress) onProgress('Routing via Gandharva Production Cloud...', 1, targetCount);
+    const backendResult = await apiClient('/generate-music', {
+      method: 'POST',
+      body: JSON.stringify({
+        prompt,
+        duration: targetDuration,
+        num_variations: targetCount
+      }),
+      timeout: 30000
+    });
+
+    if (backendResult && backendResult.variations && backendResult.variations.length > 0) {
+      return backendResult;
+    }
+  } catch (backendErr) {
+    console.warn('[Backend Proxy Generation Failed]', backendErr.message);
+  }
+
+  // --- Step 4: Seeded DSP Neural Synthesizer (Unique Procedural Audio) ---
+  try {
+    if (onProgress) onProgress('Rendering studio audio master...', 1, targetCount);
     const { createSyntheticWavBuffer } = require('./syntheticAudioEngine');
     const pLower = (prompt || '').toLowerCase();
-    let actIdx = 0;
+    
+    // Create prompt-specific hash seed
+    let hash = 0;
+    for (let i = 0; i < pLower.length; i++) {
+      hash = ((hash << 5) - hash) + pLower.charCodeAt(i);
+      hash |= 0;
+    }
+    const seedOffset = Math.abs(hash) % 5;
+
+    let actIdx = seedOffset;
     let bpm = 96;
 
-    if (pLower.includes('fight') || pLower.includes('action') || pLower.includes('war') || pLower.includes('fast') || pLower.includes('chase') || pLower.includes('mass')) {
-      actIdx = 2; // High-octane climax
-      bpm = 126;
-    } else if (pLower.includes('sad') || pLower.includes('alone') || pLower.includes('cry') || pLower.includes('heartbreak') || pLower.includes('emotion')) {
-      actIdx = 3; // Emotional revelation
-      bpm = 80;
-    } else if (pLower.includes('happy') || pLower.includes('love') || pLower.includes('romance') || pLower.includes('victory') || pLower.includes('dawn')) {
-      actIdx = 4; // Triumphant dawn
+    if (/(fight|action|war|fast|chase|mass|hero|hype|2040|anthem)/i.test(pLower)) {
+      actIdx = 2;
+      bpm = 128;
+    } else if (/(sad|alone|cry|heartbreak|grief|sorrow)/i.test(pLower)) {
+      actIdx = 3;
+      bpm = 72;
+    } else if (/(sensual|seductive|passion|chemistry|desire)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 76;
+    } else if (/(happy|love|romance|victory|dawn|breezy|sweet)/i.test(pLower)) {
+      actIdx = 4;
       bpm = 84;
-    } else if (pLower.includes('investigat') || pLower.includes('secret') || pLower.includes('dark') || pLower.includes('shadow')) {
-      actIdx = 1; // Tense investigation
-      bpm = 98;
     }
 
     const fallbackVariations = [];
@@ -320,7 +365,7 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
       const wavBuffer = createSyntheticWavBuffer({
         actIndex: (actIdx + i) % 5,
         variationIndex: i,
-        bpm: bpm + (i * 6),
+        bpm: bpm + (i * 4) + (seedOffset % 3),
         durationSec: targetDuration
       });
 
@@ -335,14 +380,15 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
 
     return {
       project_id: `synth-music-${Date.now()}`,
-      source: 'Gandharva Neural Synthesizer (High-Fidelity Studio WAV)',
+      source: 'Gandharva Neural Synthesizer (Studio Master WAV)',
       variations: fallbackVariations
     };
   } catch (synthErr) {
-    console.error('[Synthetic Music Generation Error]', synthErr);
+    console.error('[Synthetic Audio Generation Error]', synthErr);
   }
 
   throw new Error('Music generation service unavailable. Please check network connection.');
+};
 };
 
 /**
@@ -355,17 +401,24 @@ export const enhanceMusicPrompt = async (prompt) => {
     };
   }
 
+  const p = prompt.trim();
+
+  // If prompt is already an elaborate production prompt, return it cleanly without double-wrapping
+  if (/^A master-tier/i.test(p) || (p.length > 200 && /BPM/i.test(p) && /Instrumentation/i.test(p))) {
+    return { enhanced_prompt: p };
+  }
+
   try {
     return await apiClient('/enhance-prompt', {
       method: 'POST',
-      body: JSON.stringify({ prompt: prompt.trim() }),
+      body: JSON.stringify({ prompt: p }),
       timeout: 10000,
     });
   } catch (err) {
-    const p = prompt.trim();
-    const isSad = /(sad|pain|cry|breakup|alone|tear|rain|grief|sorrow|loss|separat|lonely)/i.test(p);
-    const isHero = /(hero|action|mass|entry|warrior|fight|power|speed|triumph)/i.test(p);
-    const isLove = /(love|romantic|sweet|romance|heart|wedding|passion)/i.test(p);
+    const isSensual = /(sensual|seductive|hot romance|passion|lovers|chemistry|candlelight|desire|penthouse)/i.test(p);
+    const isLove = /(love|romantic|sweet|romance|heart|wedding|couple|kiss)/i.test(p);
+    const isHero = /(hero|action|mass|entry|warrior|fight|power|speed|triumph|hype|hardcore|battle)/i.test(p);
+    const isSad = /(sad|pain|cry|breakup|alone|tear|grief|sorrow|mourn|lonely)/i.test(p);
     const isLofi = /(lofi|chill|relax|peace|night|ambient|calm)/i.test(p);
     const isFolk = /(folk|village|traditional|flute|dholak)/i.test(p);
 
@@ -373,18 +426,22 @@ export const enhanceMusicPrompt = async (prompt) => {
     let bpm = '98 BPM, key of D Minor';
     let instruments = 'grand piano, acoustic strings, warm sub-bass, and subtle percussion';
 
-    if (isSad) {
-      genre = 'Melancholic Cinematic Soundtrack';
-      bpm = '68 BPM, key of C Minor';
-      instruments = 'felt grand piano, weeping cello, expressive solo violin, and soft ambient textures';
-    } else if (isHero) {
-      genre = 'High-Octane Cinematic Mass Anthem';
-      bpm = '130 BPM, key of E Minor';
-      instruments = 'heavy 808 sub-bass, punchy live percussion, cinematic brass section, and electric accents';
+    if (isSensual) {
+      genre = 'Sensual & Seductive R&B Romantic Soundtrack';
+      bpm = '76 BPM, key of F-sharp Minor';
+      instruments = 'smooth Rhodes electric piano, silky muted guitar, deep 808 sub-bass, and sultry saxophone';
     } else if (isLove) {
       genre = 'Lush Romantic Contemporary Symphony';
       bpm = '84 BPM, key of E-flat Major';
       instruments = 'acoustic guitar, grand piano, soaring violin, and velvet electric bass';
+    } else if (isHero) {
+      genre = 'High-Octane Cinematic Mass Anthem';
+      bpm = '130 BPM, key of E Minor';
+      instruments = 'heavy 808 sub-bass, punchy live percussion, cinematic brass section, and electric accents';
+    } else if (isSad) {
+      genre = 'Melancholic Cinematic Soundtrack';
+      bpm = '68 BPM, key of C Minor';
+      instruments = 'felt grand piano, weeping cello, expressive solo violin, and soft ambient textures';
     } else if (isLofi) {
       genre = 'Warm Ambient Lo-Fi & Soul';
       bpm = '76 BPM, key of A-flat Major';
