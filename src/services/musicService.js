@@ -288,21 +288,29 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
                     try {
                       const dataArr = JSON.parse(jsonStr);
                       const fileObj = Array.isArray(dataArr) ? dataArr[0] : dataArr;
-                      const fileUrl = fileObj?.url || (fileObj?.path ? `${targetGpuUrl}/gradio_api/file=${fileObj.path}` : null);
+                      let fileUrl = fileObj?.url || (fileObj?.path ? `${targetGpuUrl}/gradio_api/file=${fileObj.path}` : null);
+
+                      if (fileUrl && fileUrl.startsWith('/')) {
+                        fileUrl = `${targetGpuUrl}${fileUrl}`;
+                      }
 
                       if (fileUrl) {
-                        const audioDown = await fetch(fileUrl);
-                        const rawBuffer = await audioDown.arrayBuffer();
-                        const pcmBuffer = convertFloat32WavToInt16Wav(rawBuffer);
-                        const audioUri = await bufferToAudioUri(pcmBuffer, `ai_gen_${Date.now()}_${trackIndex}.wav`);
-                        clearTimeout(timeoutId);
-                        console.info(`✅ [Gradio 5 ZeroGPU] Track ${trackIndex + 1}/${targetCount} Complete!`);
-                        return {
-                          id: `var-gpu-${Date.now()}-${trackIndex}`,
-                          variation_name: varNames[trackIndex] || `Variation ${trackIndex + 1}`,
-                          audio_url: audioUri,
-                          duration: targetDuration
-                        };
+                        const audioDown = await fetch(fileUrl, {
+                          headers: { 'ngrok-skip-browser-warning': 'true' }
+                        });
+                        if (audioDown.ok) {
+                          const rawBuffer = await audioDown.arrayBuffer();
+                          const pcmBuffer = convertFloat32WavToInt16Wav(rawBuffer);
+                          const audioUri = await bufferToAudioUri(pcmBuffer, `ai_gen_${Date.now()}_${trackIndex}.wav`);
+                          clearTimeout(timeoutId);
+                          console.info(`✅ [Gradio 5 ZeroGPU] Track ${trackIndex + 1}/${targetCount} Complete!`);
+                          return {
+                            id: `var-gpu-${Date.now()}-${trackIndex}`,
+                            variation_name: varNames[trackIndex] || `Variation ${trackIndex + 1}`,
+                            audio_url: audioUri,
+                            duration: targetDuration
+                          };
+                        }
                       }
                     } catch (_) {}
                   }
