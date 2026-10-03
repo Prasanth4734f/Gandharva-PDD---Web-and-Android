@@ -241,9 +241,9 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
 
   console.info(`⚡ Connected to AI Engine at: ${targetGpuUrl}`);
 
-  // --- Step 2: Direct AI GPU Generation ---
+  // --- Step 2: Direct AI GPU Generation (Gradio 5 & REST) ---
   try {
-    const generateGpuTrack = async (promptText, trackIndex = 0, timeoutMs = 85000) => {
+    const generateGpuTrack = async (promptText, trackIndex = 0, timeoutMs = 90000) => {
       if (onProgress) {
         onProgress(`Synthesizing Neural AI Track ${trackIndex + 1} of ${targetCount}...`, trackIndex + 1, targetCount);
       }
@@ -252,8 +252,72 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
       const uniqueSeed = Math.floor(Math.random() * 2147483647);
 
+      // Strategy A: Gradio 5 API Call (/gradio_api/call/generate_music)
       try {
-        const kaggleResp = await fetch(`${targetGpuUrl}/generate`, {
+        const gradioEndpoint = `${targetGpuUrl}/gradio_api/call/generate_music`;
+        const callResp = await fetch(gradioEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+          },
+          body: JSON.stringify({
+            data: [promptText, targetDuration]
+          }),
+          signal: controller.signal
+        });
+
+        if (callResp.ok) {
+          const callData = await callResp.json();
+          const eventId = callData?.event_id;
+
+          if (eventId) {
+            console.info(`⚡ [Gradio 5] Polling execution event: ${eventId}`);
+            const eventResp = await fetch(`${targetGpuUrl}/gradio_api/call/generate_music/${eventId}`, {
+              headers: { 'ngrok-skip-browser-warning': 'true' },
+              signal: controller.signal
+            });
+
+            if (eventResp.ok) {
+              const eventText = await eventResp.text();
+              const lines = eventText.split('\n');
+              for (const line of lines) {
+                if (line.startsWith('data:')) {
+                  const jsonStr = line.replace(/^data:\s*/, '').trim();
+                  if (jsonStr && jsonStr !== 'null') {
+                    try {
+                      const dataArr = JSON.parse(jsonStr);
+                      const fileObj = Array.isArray(dataArr) ? dataArr[0] : dataArr;
+                      const fileUrl = fileObj?.url || (fileObj?.path ? `${targetGpuUrl}/gradio_api/file=${fileObj.path}` : null);
+
+                      if (fileUrl) {
+                        const audioDown = await fetch(fileUrl);
+                        const rawBuffer = await audioDown.arrayBuffer();
+                        const pcmBuffer = convertFloat32WavToInt16Wav(rawBuffer);
+                        const audioUri = await bufferToAudioUri(pcmBuffer, `ai_gen_${Date.now()}_${trackIndex}.wav`);
+                        clearTimeout(timeoutId);
+                        console.info(`✅ [Gradio 5 ZeroGPU] Track ${trackIndex + 1}/${targetCount} Complete!`);
+                        return {
+                          id: `var-gpu-${Date.now()}-${trackIndex}`,
+                          variation_name: varNames[trackIndex] || `Variation ${trackIndex + 1}`,
+                          audio_url: audioUri,
+                          duration: targetDuration
+                        };
+                      }
+                    } catch (_) {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      } catch (gradioErr) {
+        console.warn('[Gradio 5 Direct Attempt Note]', gradioErr.message);
+      }
+
+      // Strategy B: Direct REST Endpoint (/generate)
+      try {
+        const directResp = await fetch(`${targetGpuUrl}/generate`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -267,26 +331,25 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
           }),
           signal: controller.signal
         });
-        clearTimeout(timeoutId);
 
-        if (kaggleResp && kaggleResp.ok) {
-          const rawBuffer = await kaggleResp.arrayBuffer();
-          // Ensure standard 16-bit PCM for universal cross-platform playback
+        if (directResp && directResp.ok) {
+          const rawBuffer = await directResp.arrayBuffer();
           const pcmBuffer = convertFloat32WavToInt16Wav(rawBuffer);
           const audioUrl = await bufferToAudioUri(pcmBuffer, `ai_gen_${Date.now()}_${trackIndex}.wav`);
-          console.info(`✅ [AI Engine] Track ${trackIndex + 1}/${targetCount} AI Synthesis Complete!`);
+          clearTimeout(timeoutId);
+          console.info(`✅ [Direct REST GPU] Track ${trackIndex + 1}/${targetCount} Complete!`);
           return {
             id: `var-gpu-${Date.now()}-${trackIndex}`,
             variation_name: varNames[trackIndex] || `Variation ${trackIndex + 1}`,
             audio_url: audioUrl,
             duration: targetDuration
           };
-        } else {
-          console.warn(`[GPU Endpoint returned ${kaggleResp.status}]`);
         }
-      } catch (e) {
-        console.warn(`[GPU Track ${trackIndex + 1} Error]`, e.message);
+      } catch (directErr) {
+        console.warn(`[Direct REST Track ${trackIndex + 1} Error]`, directErr.message);
       }
+
+      clearTimeout(timeoutId);
       return null;
     };
 
