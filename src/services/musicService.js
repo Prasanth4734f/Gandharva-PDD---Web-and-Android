@@ -288,7 +288,9 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
                     try {
                       const dataArr = JSON.parse(jsonStr);
                       const fileObj = Array.isArray(dataArr) ? dataArr[0] : dataArr;
-                      let fileUrl = fileObj?.url || (fileObj?.path ? `${targetGpuUrl}/gradio_api/file=${fileObj.path}` : null);
+                      let fileUrl = fileObj?.path 
+                        ? `${targetGpuUrl}/gradio_api/file=${fileObj.path}`
+                        : (fileObj?.url ? fileObj.url.replace('/gradio_a/gradio_api/', '/gradio_api/') : null);
 
                       if (fileUrl && fileUrl.startsWith('/')) {
                         fileUrl = `${targetGpuUrl}${fileUrl}`;
@@ -420,20 +422,37 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
     if (/(fight|action|war|fast|chase|mass|hero|hype|2040|anthem)/i.test(pLower)) {
       actIdx = 2;
       bpm = 128;
-    } else if (/(sad|alone|cry|heartbreak|grief|sorrow)/i.test(pLower)) {
-      actIdx = 3;
-      bpm = 72;
-    } else if (/(sensual|seductive|passion|chemistry|desire)/i.test(pLower)) {
+    } else if (/(sad|alone|cry|heartbreak|grief|sorrow|tear)/i.test(pLower)) {
       actIdx = 0;
-      bpm = 76;
-    } else if (/(happy|love|romance|victory|dawn|breezy|sweet)/i.test(pLower)) {
-      actIdx = 4;
-      bpm = 84;
+      bpm = 64;
+    } else if (/(lofi|chill|relax|peace|sleep)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 74;
+    } else if (/(dance|edm|party|club)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 128;
+    } else if (/(rage|angry|vengeance|revenge|metal)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 136;
+    } else if (/(phonk|drift|workout|gym)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 142;
+    } else if (/(folk|village|teenmaar|dhol)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 134;
+    } else if (/(spiritual|temple|sacred|god|divine|prayer)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 68;
+    } else if (/(happy|love|romance|sweet|intimate)/i.test(pLower)) {
+      actIdx = 0;
+      bpm = 82;
     }
 
     const fallbackVariations = [];
     for (let i = 0; i < targetCount; i++) {
       const wavBuffer = createSyntheticWavBuffer({
+        genre: pLower,
+        story: pLower,
         actIndex: (actIdx + i) % 5,
         variationIndex: i,
         bpm: bpm + (i * 4) + (seedOffset % 3),

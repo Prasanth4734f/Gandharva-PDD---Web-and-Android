@@ -1,25 +1,25 @@
 /**
  * Gandharva High-Fidelity Synthetic Audio Engine
- * Generates rich, distinct, multi-instrument audio tailored to Story Genre, Act Arc, and Variation.
- * Uses advanced DSP synthesis (Chords, Arpeggios, Bass, Leads, and Drum Beats)
- * with 0 network latency, producing real 16-bit PCM WAV audio and live Web Audio synthesis.
+ * Generates rich, distinct, multi-instrument audio tailored to Story Genre, Act Arc, Prompt Seed, and Variation.
+ * Uses advanced DSP synthesis (Chords, Arpeggios, Basslines, Melodic Leads, and Drum Beats)
+ * producing genuine 16-bit PCM stereo WAV audio with 0 network latency.
  */
 
 // Note Frequency Table (Hz)
 const N = {
-  B1: 61.74, C2: 65.41, Cs2: 69.30, D2: 73.42, Eb2: 77.78, E2: 82.41, F2: 87.31, Fs2: 92.50, G2: 98.00, Ab2: 103.83, A2: 110.00, Bb2: 116.54, B2: 123.47,
-  C3: 130.81, Cs3: 138.59, D3: 146.83, Eb3: 155.56, E3: 164.81, F3: 174.61, Fs3: 185.00, G3: 196.00, Ab3: 207.65, A3: 220.00, Bb3: 233.08, B3: 246.94,
-  C4: 261.63, Cs4: 277.18, D4: 293.66, Eb4: 311.13, E4: 329.63, F4: 349.23, Fs4: 369.99, G4: 392.00, Ab4: 415.30, A4: 440.00, Bb4: 466.16, B4: 493.88,
-  C5: 523.25, Cs5: 554.37, D5: 587.33, Eb5: 622.25, E5: 659.25, F5: 698.46, Fs5: 739.99, G5: 783.99, Ab5: 830.61, A5: 880.00, Bb5: 932.33, B5: 987.77,
-  C6: 1046.50, D6: 1174.66, E6: 1318.51
+  A1: 55.00, Bb1: 58.27, B1: 61.74, C2: 65.41, Cs2: 69.30, D2: 73.42, Eb2: 77.78, E2: 82.41, F2: 87.31, Fs2: 92.50, G2: 98.00, Ab2: 103.83,
+  A2: 110.00, Bb2: 116.54, B2: 123.47, C3: 130.81, Cs3: 138.59, D3: 146.83, Eb3: 155.56, E3: 164.81, F3: 174.61, Fs3: 185.00, G3: 196.00, Ab3: 207.65,
+  A3: 220.00, Bb3: 233.08, B3: 246.94, C4: 261.63, Cs4: 277.18, D4: 293.66, Eb4: 311.13, E4: 329.63, F4: 349.23, Fs4: 369.99, G4: 392.00, Ab4: 415.30,
+  A4: 440.00, Bb4: 466.16, B4: 493.88, C5: 523.25, Cs5: 554.37, D5: 587.33, Eb5: 622.25, E5: 659.25, F5: 698.46, Fs5: 739.99, G5: 783.99, Ab5: 830.61,
+  A5: 880.00, Bb5: 932.33, B5: 987.77, C6: 1046.50, D6: 1174.66, E6: 1318.51
 };
 
 /**
- * Genre Profiles with customized scales, instruments, BPMs, and chord progressions
+ * 15 Distinct Genre Profiles with 5 Full Acts Each (75+ Distinct Act Blueprints)
  */
 export const GENRE_PROFILES = {
   romance: {
-    name: 'College Romance & Melody',
+    name: 'College Romance & Melodic Love',
     acts: [
       {
         name: 'Act 1: First Glance on Campus',
@@ -31,14 +31,14 @@ export const GENRE_PROFILES = {
       },
       {
         name: 'Act 2: Shared Walks & Coffee Moments',
-        bpm: 92, root: N.A2,
+        bpm: 90, root: N.A2,
         chords: [[N.A3, N.Cs4, N.E4, N.A4], [N.Fs3, N.A3, N.Cs4, N.Fs4], [N.D3, N.Fs3, N.A3, N.D4], [N.E3, N.Gs3, N.B3, N.E4]],
         melodyA: [N.Cs5, N.E5, N.Fs5, N.E5, N.Cs5, N.B4, N.A4, N.B4, N.Cs5],
         melodyB: [N.A4, N.Cs5, N.E5, N.A5, N.Gs5, N.Fs5, N.E5, N.D5, N.Cs5],
         beatStyle: 'lofi_groove'
       },
       {
-        name: 'Act 3: Festival Rain & Misunderstanding',
+        name: 'Act 3: Festival Rain & Heartache',
         bpm: 76, root: N.Fs2,
         chords: [[N.Fs3, N.A3, N.Cs4, N.Fs4], [N.D3, N.Fs3, N.A3, N.D4], [N.B2, N.D3, N.Fs3, N.B3], [N.Cs3, N.Es3, N.Gs3, N.Cs4]],
         melodyA: [N.Fs4, N.A4, N.Cs5, N.B4, N.A4, N.Gs4, N.Fs4, N.Es4, N.Fs4],
@@ -47,7 +47,7 @@ export const GENRE_PROFILES = {
       },
       {
         name: 'Act 4: Longing Across the Distance',
-        bpm: 70, root: N.C2,
+        bpm: 72, root: N.C2,
         chords: [[N.C3, N.Eb3, N.G3, N.C4], [N.Ab2, N.C3, N.Eb3, N.Ab3], [N.F2, N.Ab2, N.C3, N.F3], [N.G2, N.B2, N.D3, N.G3]],
         melodyA: [N.G4, N.C5, N.Eb5, N.D5, N.C5, N.Bb4, N.Ab4, N.G4, N.F4],
         melodyB: [N.Eb4, N.G4, N.C5, N.Eb5, N.D5, N.C5, N.Bb4, N.C5, N.G4],
@@ -55,7 +55,7 @@ export const GENRE_PROFILES = {
       },
       {
         name: 'Act 5: Graduation Reunion & Forever',
-        bpm: 86, root: N.D2,
+        bpm: 88, root: N.D2,
         chords: [[N.D3, N.Fs3, N.A3, N.D4], [N.G2, N.B2, N.D3, N.G3], [N.A2, N.Cs3, N.E3, N.A3], [N.D3, N.Fs3, N.A3, N.D4]],
         melodyA: [N.Fs4, N.A4, N.D5, N.Cs5, N.B4, N.A4, N.B4, N.Cs5, N.D5],
         melodyB: [N.D4, N.Fs4, N.A4, N.D5, N.E5, N.Fs5, N.E5, N.D5, N.D5],
@@ -68,7 +68,7 @@ export const GENRE_PROFILES = {
     acts: [
       {
         name: 'Act 1: The Dark Challenger Arrives',
-        bpm: 120, root: N.D2,
+        bpm: 128, root: N.D2,
         chords: [[N.D3, N.F3, N.A3, N.D4], [N.Bb2, N.D3, N.F3, N.Bb3], [N.C3, N.E3, N.G3, N.C4], [N.A2, N.Cs3, N.E3, N.A3]],
         melodyA: [N.D4, N.D4, N.F4, N.D4, N.A4, N.Ab4, N.G4, N.F4, N.D4],
         melodyB: [N.D4, N.A4, N.D5, N.C5, N.Bb4, N.A4, N.G4, N.F4, N.D4],
@@ -76,7 +76,7 @@ export const GENRE_PROFILES = {
       },
       {
         name: 'Act 2: Tactical Ambush & Pursuit',
-        bpm: 130, root: N.E2,
+        bpm: 132, root: N.E2,
         chords: [[N.E3, N.G3, N.B3, N.E4], [N.C3, N.E3, N.G3, N.C4], [N.D3, N.Fs3, N.A3, N.D4], [N.B2, N.Ds3, N.Fs3, N.B3]],
         melodyA: [N.E4, N.G4, N.B4, N.E5, N.Ds5, N.D5, N.Cs5, N.C5, N.B4],
         melodyB: [N.E5, N.D5, N.B4, N.G4, N.A4, N.B4, N.D5, N.B4, N.E4],
@@ -92,7 +92,7 @@ export const GENRE_PROFILES = {
       },
       {
         name: 'Act 4: Rising from the Ashes',
-        bpm: 110, root: N.G2,
+        bpm: 112, root: N.G2,
         chords: [[N.G3, N.Bb3, N.D4, N.G4], [N.Eb3, N.G3, N.Bb3, N.Eb4], [N.F3, N.A3, N.C4, N.F4], [N.D3, N.Fs3, N.A3, N.D4]],
         melodyA: [N.G4, N.Bb4, N.D5, N.F5, N.Eb5, N.D5, N.C5, N.Bb4, N.G4],
         melodyB: [N.D5, N.Eb5, N.D5, N.C5, N.Bb4, N.A4, N.Bb4, N.C5, N.D5],
@@ -100,7 +100,7 @@ export const GENRE_PROFILES = {
       },
       {
         name: 'Act 5: Triumphant Coronation',
-        bpm: 125, root: N.C2,
+        bpm: 126, root: N.C2,
         chords: [[N.C3, N.E3, N.G3, N.C4], [N.F2, N.A2, N.C3, N.F3], [N.G2, N.B2, N.D3, N.G3], [N.C3, N.E3, N.G3, N.C4]],
         melodyA: [N.C4, N.E4, N.G4, N.C5, N.D5, N.E5, N.D5, N.C5, N.C5],
         melodyB: [N.G4, N.C5, N.E5, N.G5, N.F5, N.E5, N.D5, N.E5, N.C5],
@@ -108,8 +108,278 @@ export const GENRE_PROFILES = {
       }
     ]
   },
+  sadness: {
+    name: 'Soul-Stirring Heartbreak & Melancholy',
+    acts: [
+      {
+        name: 'Act 1: Fragile Solitary Tears',
+        bpm: 64, root: N.D2,
+        chords: [[N.D3, N.F3, N.A3, N.D4], [N.Bb2, N.D3, N.F3, N.Bb3], [N.G2, N.Bb2, N.D3, N.G3], [N.A2, N.Cs3, N.E3, N.A3]],
+        melodyA: [N.D4, N.F4, N.E4, N.D4, N.C4, N.Bb3, N.A3, N.D4],
+        melodyB: [N.A4, N.F4, N.E4, N.D4, N.F4, N.E4, N.D4, N.Cs4],
+        beatStyle: 'weeping_strings'
+      },
+      {
+        name: 'Act 2: Sorrowful Echoes in the Rain',
+        bpm: 66, root: N.C2,
+        chords: [[N.C3, N.Eb3, N.G3, N.C4], [N.Ab2, N.C3, N.Eb3, N.Ab3], [N.F2, N.Ab2, N.C3, N.F3], [N.G2, N.B2, N.D3, N.G3]],
+        melodyA: [N.G4, N.Eb4, N.D4, N.C4, N.Eb4, N.D4, N.C4, N.B3],
+        melodyB: [N.C5, N.G4, N.Eb4, N.D4, N.C4, N.Ab3, N.G3, N.C4],
+        beatStyle: 'rain_pulse'
+      },
+      {
+        name: 'Act 3: Forgotten Letters & Faded Photos',
+        bpm: 68, root: N.A2,
+        chords: [[N.A3, N.C4, N.E4], [N.F3, N.A3, N.C4], [N.D3, N.F3, N.A3], [N.E3, N.Gs3, N.B3]],
+        melodyA: [N.E4, N.A4, N.C5, N.B4, N.A4, N.Gs4, N.F4, N.E4],
+        melodyB: [N.A4, N.C5, N.E5, N.D5, N.C5, N.B4, N.A4, N.E4],
+        beatStyle: 'piano_ballad'
+      },
+      {
+        name: 'Act 4: Walking Through the Cold Night',
+        bpm: 62, root: N.G2,
+        chords: [[N.G3, N.Bb3, N.D4], [N.Eb3, N.G3, N.Bb3], [N.C3, N.Eb3, N.G3], [N.D3, N.Fs3, N.A3]],
+        melodyA: [N.D4, N.G4, N.Bb4, N.A4, N.G4, N.Fs4, N.Eb4, N.D4],
+        melodyB: [N.G4, N.Bb4, N.D5, N.C5, N.Bb4, N.A4, N.G4, N.D4],
+        beatStyle: 'weeping_strings'
+      },
+      {
+        name: 'Act 5: Healing Whisper & Peaceful Acceptance',
+        bpm: 72, root: N.E2,
+        chords: [[N.E3, N.G3, N.B3], [N.C3, N.E3, N.G3], [N.D3, N.Fs3, N.A3], [N.E3, N.G3, N.B3]],
+        melodyA: [N.G4, N.B4, N.E5, N.D5, N.B4, N.A4, N.G4, N.E4],
+        melodyB: [N.E4, N.G4, N.A4, N.B4, N.D5, N.B4, N.G4, N.E4],
+        beatStyle: 'acoustic_ballad'
+      }
+    ]
+  },
+  lofi: {
+    name: 'Warm Melodic Lo-Fi & Ambient Chill',
+    acts: [
+      {
+        name: 'Act 1: Midnight Bedroom Vinyl',
+        bpm: 74, root: N.Ab2,
+        chords: [[N.Ab3, N.C4, N.Eb4, N.G4], [N.F3, N.Ab3, N.C4, N.Eb4], [N.Bb2, N.D3, N.F3, N.Ab3], [N.Eb3, N.G3, N.Bb3, N.Db4]],
+        melodyA: [N.Eb4, N.G4, N.Ab4, N.C5, N.Bb4, N.Ab4, N.G4, N.Eb4],
+        melodyB: [N.C5, N.Eb5, N.D5, N.Bb4, N.Ab4, N.G4, N.F4, N.Eb4],
+        beatStyle: 'lofi_groove'
+      },
+      {
+        name: 'Act 2: Cozy Rainy Cafe Study',
+        bpm: 76, root: N.F2,
+        chords: [[N.F3, N.A3, N.C4, N.E4], [N.D3, N.F3, N.A3, N.C4], [N.G2, N.Bb2, N.D3, N.F3], [N.C3, N.E3, N.G3, N.Bb3]],
+        melodyA: [N.A4, N.C5, N.D5, N.F5, N.E5, N.C5, N.A4, N.F4],
+        melodyB: [N.C5, N.D5, N.E5, N.D5, N.C5, N.A4, N.G4, N.F4],
+        beatStyle: 'lofi_groove'
+      },
+      {
+        name: 'Act 3: Sunset Rooftop Warmth',
+        bpm: 78, root: N.Eb2,
+        chords: [[N.Eb3, N.G3, N.Bb3, N.D4], [N.C3, N.Eb3, N.G3, N.Bb3], [N.Ab2, N.C3, N.Eb3, N.G3], [N.Bb2, N.D3, N.F3, N.Ab3]],
+        melodyA: [N.G4, N.Bb4, N.C5, N.Eb5, N.D5, N.Bb4, N.Ab4, N.G4],
+        melodyB: [N.Eb4, N.G4, N.Bb4, N.D5, N.C5, N.Bb4, N.G4, N.Eb4],
+        beatStyle: 'lofi_groove'
+      },
+      {
+        name: 'Act 4: Stargazing on the Balcony',
+        bpm: 70, root: N.Db2,
+        chords: [[N.Db3, N.F3, N.Ab3, N.C4], [N.Bb2, N.Db3, N.F3, N.Ab3], [N.Gb2, N.Bb2, N.Db3, N.F3], [N.Ab2, N.C3, N.Eb3, N.Gb3]],
+        melodyA: [N.F4, N.Ab4, N.C5, N.Db5, N.C5, N.Ab4, N.F4, N.Db4],
+        melodyB: [N.Ab4, N.C5, N.Eb5, N.Db5, N.C5, N.Ab4, N.F4, N.Db4],
+        beatStyle: 'lofi_groove'
+      },
+      {
+        name: 'Act 5: Gentle Morning Coffee Light',
+        bpm: 80, root: N.C2,
+        chords: [[N.C3, N.E3, N.G3, N.B3], [N.A2, N.C3, N.E3, N.G3], [N.F2, N.A2, N.C3, N.E3], [N.G2, N.B2, N.D3, N.F3]],
+        melodyA: [N.E4, N.G4, N.B4, N.C5, N.B4, N.G4, N.E4, N.C4],
+        melodyB: [N.G4, N.C5, N.E5, N.D5, N.C5, N.B4, N.A4, N.G4],
+        beatStyle: 'lofi_groove'
+      }
+    ]
+  },
+  dance: {
+    name: 'High-Energy Electronic Dance & EDM',
+    acts: [
+      {
+        name: 'Act 1: Mainstage Festival Drop',
+        bpm: 128, root: N.F2,
+        chords: [[N.F3, N.A3, N.C4, N.F4], [N.Db3, N.F3, N.Ab3, N.Db4], [N.Eb3, N.G3, N.Bb3, N.Eb4], [N.C3, N.E3, N.G3, N.C4]],
+        melodyA: [N.F4, N.F4, N.Ab4, N.C5, N.Eb5, N.F5, N.Eb5, N.C5],
+        melodyB: [N.C5, N.Eb5, N.F5, N.Ab5, N.G5, N.F5, N.Eb5, N.C5],
+        beatStyle: 'edm_drop'
+      },
+      {
+        name: 'Act 2: Laser Nightclub Surge',
+        bpm: 130, root: N.A2,
+        chords: [[N.A3, N.C4, N.E4], [N.F3, N.A3, N.C4], [N.G3, N.B3, N.D4], [N.E3, N.G3, N.B3]],
+        melodyA: [N.A4, N.C5, N.E5, N.G5, N.E5, N.D5, N.C5, N.A4],
+        melodyB: [N.E5, N.A5, N.G5, N.E5, N.D5, N.C5, N.D5, N.E5],
+        beatStyle: 'edm_drop'
+      },
+      {
+        name: 'Act 3: Future Bass Sunset',
+        bpm: 134, root: N.D2,
+        chords: [[N.D3, N.Fs3, N.A3], [N.B2, N.D3, N.Fs3], [N.G2, N.B2, N.D3], [N.A2, N.Cs3, N.E3]],
+        melodyA: [N.Fs4, N.A4, N.D5, N.E5, N.Fs5, N.E5, N.D5, N.A4],
+        melodyB: [N.D5, N.Fs5, N.A5, N.Fs5, N.E5, N.D5, N.Cs5, N.D5],
+        beatStyle: 'edm_drop'
+      },
+      {
+        name: 'Act 4: Euphoric Sunrise Rave',
+        bpm: 132, root: N.C2,
+        chords: [[N.C3, N.E3, N.G3], [N.G2, N.B2, N.D3], [N.A2, N.C3, N.E3], [N.F2, N.A2, N.C3]],
+        melodyA: [N.C4, N.E4, N.G4, N.C5, N.D5, N.E5, N.D5, N.C5],
+        melodyB: [N.G4, N.C5, N.E5, N.G5, N.F5, N.E5, N.D5, N.C5],
+        beatStyle: 'edm_drop'
+      },
+      {
+        name: 'Act 5: Midnight Strobe Climax',
+        bpm: 136, root: N.E2,
+        chords: [[N.E3, N.G3, N.B3], [N.C3, N.E3, N.G3], [N.D3, N.Fs3, N.A3], [N.B2, N.Ds3, N.Fs3]],
+        melodyA: [N.E4, N.G4, N.B4, N.E5, N.D5, N.B4, N.A4, N.E4],
+        melodyB: [N.B4, N.E5, N.G5, N.Fs5, N.E5, N.D5, N.B4, N.E5],
+        beatStyle: 'edm_drop'
+      }
+    ]
+  },
+  rage: {
+    name: 'Industrial Metal & Furious Battle Anthem',
+    acts: [
+      {
+        name: 'Act 1: Crushing Vengeance Drop',
+        bpm: 136, root: N.D2,
+        chords: [[N.D2, N.A2, N.D3, N.F3], [N.C2, N.G2, N.C3, N.Eb3], [N.Bb1, N.F2, N.Bb2, N.D3], [N.A1, N.E2, N.A2, N.Cs3]],
+        melodyA: [N.D3, N.D3, N.F3, N.D3, N.Ab3, N.G3, N.F3, N.D3],
+        melodyB: [N.D4, N.Cs4, N.C4, N.B3, N.Bb3, N.A3, N.Ab3, N.G3],
+        beatStyle: 'metal_riff'
+      },
+      {
+        name: 'Act 2: Iron Clash & Screaming Guitars',
+        bpm: 140, root: N.E2,
+        chords: [[N.E2, N.B2, N.E3], [N.D2, N.A2, N.D3], [N.C2, N.G2, N.C3], [N.B1, N.Fs2, N.B2]],
+        melodyA: [N.E3, N.G3, N.Bb3, N.B3, N.D4, N.B3, N.G3, N.E3],
+        melodyB: [N.E4, N.D4, N.Bb3, N.G3, N.E3, N.G3, N.Bb3, N.E4],
+        beatStyle: 'metal_riff'
+      },
+      {
+        name: 'Act 3: Brutal Storm of Steel',
+        bpm: 144, root: N.A1,
+        chords: [[N.A2, N.E3, N.A3], [N.F2, N.C3, N.F3], [N.G2, N.D3, N.G3], [N.E2, N.B2, N.E3]],
+        melodyA: [N.A3, N.C4, N.Eb4, N.E4, N.G4, N.E4, N.Eb4, N.A3],
+        melodyB: [N.A4, N.G4, N.Eb4, N.C4, N.A3, N.C4, N.Eb4, N.A4],
+        beatStyle: 'metal_riff'
+      },
+      {
+        name: 'Act 4: Chaos in the Pit',
+        bpm: 148, root: N.C2,
+        chords: [[N.C2, N.G2, N.C3], [N.Ab1, N.Eb2, N.Ab2], [N.Bb1, N.F2, N.Bb2], [N.G1, N.D2, N.G2]],
+        melodyA: [N.C3, N.Eb3, N.Gb3, N.G3, N.Bb3, N.G3, N.Gb3, N.C3],
+        melodyB: [N.C4, N.Bb3, N.Gb3, N.Eb3, N.C3, N.Eb3, N.Gb3, N.C4],
+        beatStyle: 'metal_riff'
+      },
+      {
+        name: 'Act 5: Final Apocalyptic Breakdown',
+        bpm: 142, root: N.D2,
+        chords: [[N.D2, N.A2, N.D3], [N.Bb1, N.F2, N.Bb2], [N.G1, N.D2, N.G2], [N.A1, N.E2, N.A2]],
+        melodyA: [N.D3, N.F3, N.Ab3, N.A3, N.C4, N.A3, N.Ab3, N.D3],
+        melodyB: [N.D4, N.C4, N.Ab3, N.F3, N.D3, N.F3, N.Ab3, N.D4],
+        beatStyle: 'metal_riff'
+      }
+    ]
+  },
+  phonk: {
+    name: 'High-Octane Memphis Drift Phonk',
+    acts: [
+      {
+        name: 'Act 1: Midnight Drift Cowbell',
+        bpm: 142, root: N.Fs2,
+        chords: [[N.Fs3, N.A3, N.Cs4], [N.D3, N.Fs3, N.A3], [N.E3, N.Gs3, N.B3], [N.Cs3, N.Es3, N.Gs3]],
+        melodyA: [N.Cs5, N.E5, N.Fs5, N.A5, N.Gs5, N.Fs5, N.E5, N.Cs5],
+        melodyB: [N.Fs5, N.Cs5, N.E5, N.D5, N.Cs5, N.B4, N.A4, N.Fs4],
+        beatStyle: 'phonk_drop'
+      },
+      {
+        name: 'Act 2: Tokyo Highway Sprint',
+        bpm: 146, root: N.A2,
+        chords: [[N.A3, N.C4, N.E4], [N.F3, N.A3, N.C4], [N.D3, N.F3, N.A3], [N.E3, N.Gs3, N.B3]],
+        melodyA: [N.E5, N.A5, N.C6, N.B5, N.A5, N.Gs5, N.E5, N.A4],
+        melodyB: [N.A5, N.E5, N.F5, N.E5, N.D5, N.C5, N.B4, N.A4],
+        beatStyle: 'phonk_drop'
+      },
+      {
+        name: 'Act 3: Smoke & Neon Skids',
+        bpm: 144, root: N.D2,
+        chords: [[N.D3, N.F3, N.A3], [N.Bb2, N.D3, N.F3], [N.C3, N.E3, N.G3], [N.A2, N.Cs3, N.E3]],
+        melodyA: [N.A4, N.D5, N.F5, N.E5, N.D5, N.Cs5, N.A4, N.D4],
+        melodyB: [N.D5, N.F5, N.A5, N.G5, N.F5, N.E5, N.D5, N.A4],
+        beatStyle: 'phonk_drop'
+      },
+      {
+        name: 'Act 4: Underground Bass Rumble',
+        bpm: 148, root: N.C2,
+        chords: [[N.C3, N.Eb3, N.G3], [N.Ab2, N.C3, N.Eb3], [N.Bb2, N.D3, N.F3], [N.G2, N.B2, N.D3]],
+        melodyA: [N.G4, N.C5, N.Eb5, N.D5, N.C5, N.B4, N.G4, N.C4],
+        melodyB: [N.C5, N.Eb5, N.G5, N.F5, N.Eb5, N.D5, N.C5, N.G4],
+        beatStyle: 'phonk_drop'
+      },
+      {
+        name: 'Act 5: Midnight Legend Horizon',
+        bpm: 150, root: N.E2,
+        chords: [[N.E3, N.G3, N.B3], [N.C3, N.E3, N.G3], [N.D3, N.Fs3, N.A3], [N.B2, N.Ds3, N.Fs3]],
+        melodyA: [N.B4, N.E5, N.G5, N.Fs5, N.E5, N.Ds5, N.B4, N.E4],
+        melodyB: [N.E5, N.G5, N.B5, N.A5, N.G5, N.Fs5, N.E5, N.B4],
+        beatStyle: 'phonk_drop'
+      }
+    ]
+  },
+  folk: {
+    name: 'High-Energy Indian Folk & Teenmaar Celebration',
+    acts: [
+      {
+        name: 'Act 1: Street Teenmaar & Dholak Groove',
+        bpm: 134, root: N.G2,
+        chords: [[N.G3, N.B3, N.D4], [N.C3, N.E3, N.G3], [N.D3, N.Fs3, N.A3], [N.G3, N.B3, N.D4]],
+        melodyA: [N.G4, N.G4, N.B4, N.D5, N.E5, N.D5, N.B4, N.G4],
+        melodyB: [N.D5, N.E5, N.D5, N.B4, N.A4, N.B4, N.D5, N.G4],
+        beatStyle: 'teenmaar_dance'
+      },
+      {
+        name: 'Act 2: Village Fair Dholak Beats',
+        bpm: 138, root: N.D2,
+        chords: [[N.D3, N.Fs3, N.A3], [N.G2, N.B2, N.D3], [N.A2, N.Cs3, N.E3], [N.D3, N.Fs3, N.A3]],
+        melodyA: [N.D4, N.Fs4, N.A4, N.B4, N.A4, N.Fs4, N.E4, N.D4],
+        melodyB: [N.A4, N.B4, N.D5, N.E5, N.D5, N.B4, N.A4, N.D4],
+        beatStyle: 'teenmaar_dance'
+      },
+      {
+        name: 'Act 3: Festival Urumi Blast',
+        bpm: 142, root: N.C2,
+        chords: [[N.C3, N.E3, N.G3], [N.F2, N.A2, N.C3], [N.G2, N.B2, N.D3], [N.C3, N.E3, N.G3]],
+        melodyA: [N.C4, N.E4, N.G4, N.A4, N.G4, N.E4, N.D4, N.C4],
+        melodyB: [N.G4, N.A4, N.C5, N.D5, N.C5, N.A4, N.G4, N.C4],
+        beatStyle: 'teenmaar_dance'
+      },
+      {
+        name: 'Act 4: Royal Procession Celebration',
+        bpm: 136, root: N.A2,
+        chords: [[N.A3, N.Cs4, N.E4], [N.D3, N.Fs3, N.A3], [N.E3, N.Gs3, N.B3], [N.A3, N.Cs4, N.E4]],
+        melodyA: [N.A4, N.Cs5, N.E5, N.Fs5, N.E5, N.Cs5, N.B4, N.A4],
+        melodyB: [N.E5, N.Fs5, N.A5, N.B5, N.A5, N.Fs5, N.E5, N.A4],
+        beatStyle: 'teenmaar_dance'
+      },
+      {
+        name: 'Act 5: Grand Teenmaar Fireworks Finish',
+        bpm: 144, root: N.E2,
+        chords: [[N.E3, N.Gs3, N.B3], [N.A2, N.Cs3, N.E3], [N.B2, N.Ds3, N.Fs3], [N.E3, N.Gs3, N.B3]],
+        melodyA: [N.E4, N.Gs4, N.B4, N.Cs5, N.B4, N.Gs4, N.Fs4, N.E4],
+        melodyB: [N.B4, N.Cs5, N.E5, N.Fs5, N.E5, N.Cs5, N.B4, N.E4],
+        beatStyle: 'teenmaar_dance'
+      }
+    ]
+  },
   cyberpunk: {
-    name: 'Cyberpunk Neon Metropolis',
+    name: 'Cyberpunk Neon Metropolis & Synthwave',
     acts: [
       {
         name: 'Act 1: Midnight Rain & Glitch Beacon',
@@ -120,41 +390,41 @@ export const GENRE_PROFILES = {
         beatStyle: 'synthwave_pulse'
       },
       {
-        name: 'Act 2: Infiltrating the Neural Grid',
-        bpm: 124, root: N.Bb2,
-        chords: [[N.Bb3, N.Db4, N.F4, N.Bb4], [N.Gb3, N.Bb3, N.Db4, N.Gb4], [N.Ab3, N.C4, N.Eb4, N.Ab4], [N.F3, N.A3, N.C4, N.F4]],
-        melodyA: [N.Bb4, N.Db5, N.F5, N.Ab5, N.Gb5, N.F5, N.Eb5, N.Db5, N.Bb4],
-        melodyB: [N.F5, N.Gb5, N.F5, N.Eb5, N.Db5, N.C5, N.Db5, N.Eb5, N.F5],
-        beatStyle: 'cyber_arpeggio'
+        name: 'Act 2: High-Speed Cyber Highway',
+        bpm: 124, root: N.A2,
+        chords: [[N.A3, N.C4, N.E4], [N.F3, N.A3, N.C4], [N.G3, N.B3, N.D4], [N.E3, N.G3, N.B3]],
+        melodyA: [N.A4, N.C5, N.E5, N.G5, N.F5, N.E5, N.D5, N.A4],
+        melodyB: [N.E5, N.F5, N.E5, N.D5, N.C5, N.B4, N.C5, N.A4],
+        beatStyle: 'synthwave_pulse'
       },
       {
-        name: 'Act 3: Rogue AI Core Awakening',
-        bpm: 132, root: N.Eb2,
-        chords: [[N.Eb3, N.Gb3, N.Bb3, N.Eb4], [N.B2, N.Eb3, N.Gb3, N.B3], [N.Db3, N.F3, N.Ab3, N.Db4], [N.Bb2, N.D3, N.F3, N.Bb3]],
-        melodyA: [N.Eb5, N.Gb5, N.Bb5, N.Ab5, N.Gb5, N.F5, N.Eb5, N.D5, N.Eb5],
-        melodyB: [N.Bb4, N.Eb5, N.Gb5, N.F5, N.Eb5, N.Db5, N.B4, N.Db5, N.Eb5],
-        beatStyle: 'darksynth_drop'
+        name: 'Act 3: Neon Alley Hackers',
+        bpm: 120, root: N.D2,
+        chords: [[N.D3, N.F3, N.A3], [N.Bb2, N.D3, N.F3], [N.C3, N.E3, N.G3], [N.A2, N.Cs3, N.E3]],
+        melodyA: [N.D4, N.F4, N.A4, N.C5, N.Bb4, N.A4, N.G4, N.D4],
+        melodyB: [N.A4, N.Bb4, N.A4, N.G4, N.F4, N.E4, N.F4, N.D4],
+        beatStyle: 'synthwave_pulse'
       },
       {
-        name: 'Act 4: High-Speed Skyway Escape',
-        bpm: 128, root: N.Ab2,
-        chords: [[N.Ab3, N.B3, N.Eb4, N.Ab4], [N.E3, N.Ab3, N.B3, N.E4], [N.Fs3, N.A3, N.Cs4, N.Fs4], [N.Eb3, N.G3, N.Bb3, N.Eb4]],
-        melodyA: [N.Ab4, N.B4, N.Eb5, N.Fs5, N.E5, N.Eb5, N.Cs5, N.B4, N.Ab4],
-        melodyB: [N.Eb5, N.E5, N.Eb5, N.Cs5, N.B4, N.Bb4, N.B4, N.Cs5, N.Eb5],
-        beatStyle: 'electro_drive'
+        name: 'Act 4: Cybernetic Awakening',
+        bpm: 116, root: N.C2,
+        chords: [[N.C3, N.Eb3, N.G3], [N.Ab2, N.C3, N.Eb3], [N.Bb2, N.D3, N.F3], [N.G2, N.B2, N.D3]],
+        melodyA: [N.C4, N.Eb4, N.G4, N.Bb4, N.Ab4, N.G4, N.F4, N.C4],
+        melodyB: [N.G4, N.Ab4, N.G4, N.F4, N.Eb4, N.D4, N.Eb4, N.C4],
+        beatStyle: 'synthwave_pulse'
       },
       {
-        name: 'Act 5: Neon Dawn Over the Skyline',
-        bpm: 108, root: N.Db2,
-        chords: [[N.Db3, N.F3, N.Ab3, N.Db4], [N.Gb2, N.Bb2, N.Db3, N.Gb3], [N.Ab2, N.C3, N.Eb3, N.Ab3], [N.Db3, N.F3, N.Ab3, N.Db4]],
-        melodyA: [N.F4, N.Ab4, N.Db5, N.C5, N.Bb4, N.Ab4, N.Gb4, N.F4, N.Db4],
-        melodyB: [N.Db4, N.F4, N.Ab4, N.Db5, N.Eb5, N.F5, N.Eb5, N.Db5, N.Db5],
-        beatStyle: 'ambient_chillwave'
+        name: 'Act 5: Megacity Sunrise Grid',
+        bpm: 122, root: N.E2,
+        chords: [[N.E3, N.G3, N.B3], [N.C3, N.E3, N.G3], [N.D3, N.Fs3, N.A3], [N.B2, N.Ds3, N.Fs3]],
+        melodyA: [N.E4, N.G4, N.B4, N.D5, N.C5, N.B4, N.A4, N.E4],
+        melodyB: [N.B4, N.C5, N.B4, N.A4, N.G4, N.Fs4, N.G4, N.E4],
+        beatStyle: 'synthwave_pulse'
       }
     ]
   },
   spiritual: {
-    name: 'Spiritual Sacred Temples',
+    name: 'Spiritual Sacred Temples & Devotional Glow',
     acts: [
       {
         name: 'Act 1: Sacred Morning Bells & River Mist',
@@ -165,36 +435,36 @@ export const GENRE_PROFILES = {
         beatStyle: 'temple_drone'
       },
       {
-        name: 'Act 2: Ancient Sitar & Flute Resonance',
-        bpm: 78, root: N.C2,
-        chords: [[N.C3, N.E3, N.G3, N.C4], [N.F2, N.A2, N.C3, N.F3], [N.G2, N.B2, N.D3, N.G3], [N.C3, N.E3, N.G3, N.C4]],
-        melodyA: [N.E4, N.G4, N.A4, N.C5, N.D5, N.C5, N.A4, N.G4, N.E4],
-        melodyB: [N.C4, N.E4, N.G4, N.A4, N.C5, N.D5, N.E5, N.D5, N.C5],
-        beatStyle: 'tabla_fusion'
+        name: 'Act 2: Vedic Chants & Sacred Fire',
+        bpm: 72, root: N.D2,
+        chords: [[N.D3, N.Fs3, N.A3], [N.G2, N.B2, N.D3], [N.A2, N.Cs3, N.E3], [N.D3, N.Fs3, N.A3]],
+        melodyA: [N.A4, N.D5, N.E5, N.Fs5, N.E5, N.D5, N.B4, N.A4],
+        melodyB: [N.D5, N.Fs5, N.A5, N.B5, N.A5, N.Fs5, N.E5, N.D5],
+        beatStyle: 'temple_drone'
       },
       {
-        name: 'Act 3: Cosmic Dance of Devotion',
-        bpm: 96, root: N.D2,
-        chords: [[N.D3, N.Fs3, N.A3, N.D4], [N.G2, N.B2, N.D3, N.G3], [N.A2, N.Cs3, N.E3, N.A3], [N.D3, N.Fs3, N.A3, N.D4]],
-        melodyA: [N.D4, N.Fs4, N.A4, N.B4, N.D5, N.Cs5, N.B4, N.A4, N.Fs4],
-        melodyB: [N.A4, N.B4, N.D5, N.Fs5, N.E5, N.D5, N.B4, N.A4, N.D4],
-        beatStyle: 'mridangam_pulse'
+        name: 'Act 3: Sitar Reflections at Twilight',
+        bpm: 65, root: N.C2,
+        chords: [[N.C3, N.E3, N.G3], [N.F2, N.A2, N.C3], [N.G2, N.B2, N.D3], [N.C3, N.E3, N.G3]],
+        melodyA: [N.G4, N.C5, N.D5, N.E5, N.D5, N.C5, N.A4, N.G4],
+        melodyB: [N.C5, N.E5, N.G5, N.A5, N.G5, N.E5, N.D5, N.C5],
+        beatStyle: 'temple_drone'
       },
       {
-        name: 'Act 4: Meditative Tranquility',
-        bpm: 60, root: N.A2,
-        chords: [[N.A3, N.Cs4, N.E4, N.A4], [N.D3, N.Fs3, N.A3, N.D4], [N.E3, N.Gs3, N.B3, N.E4], [N.A3, N.Cs4, N.E4, N.A4]],
-        melodyA: [N.Cs4, N.E4, N.Fs4, N.A4, N.B4, N.A4, N.Fs4, N.E4, N.Cs4],
-        melodyB: [N.E4, N.A4, N.B4, N.Cs5, N.B4, N.A4, N.Fs4, N.E4, N.A4],
-        beatStyle: 'bamboo_whisper'
+        name: 'Act 4: Flute by the Divine River',
+        bpm: 70, root: N.A2,
+        chords: [[N.A3, N.Cs4, N.E4], [N.D3, N.Fs3, N.A3], [N.E3, N.Gs3, N.B3], [N.A3, N.Cs4, N.E4]],
+        melodyA: [N.E4, N.A4, N.B4, N.Cs5, N.B4, N.A4, N.Fs4, N.E4],
+        melodyB: [N.A4, N.Cs5, N.E5, N.Fs5, N.E5, N.Cs5, N.B4, N.A4],
+        beatStyle: 'temple_drone'
       },
       {
-        name: 'Act 5: Eternal Divine Light',
-        bpm: 72, root: N.E2,
-        chords: [[N.E3, N.Gs3, N.B3, N.E4], [N.A2, N.Cs3, N.E3, N.A3], [N.B2, N.Ds3, N.Fs3, N.B3], [N.E3, N.Gs3, N.B3, N.E4]],
-        melodyA: [N.B4, N.Cs5, N.E5, N.Fs5, N.Gs5, N.Fs5, N.E5, N.Cs5, N.B4],
-        melodyB: [N.E4, N.Gs4, N.B4, N.E5, N.Fs5, N.Gs5, N.Fs5, N.E5, N.E5],
-        beatStyle: 'sacred_climax'
+        name: 'Act 5: Universal Peace & Transcendence',
+        bpm: 66, root: N.E2,
+        chords: [[N.E3, N.Gs3, N.B3], [N.A2, N.Cs3, N.E3], [N.B2, N.Ds3, N.Fs3], [N.E3, N.Gs3, N.B3]],
+        melodyA: [N.B4, N.E5, N.Fs5, N.Gs5, N.Fs5, N.E5, N.Cs5, N.B4],
+        melodyB: [N.E5, N.Gs5, N.B5, N.Cs6, N.B5, N.Gs5, N.Fs5, N.E5],
+        beatStyle: 'temple_drone'
       }
     ]
   },
@@ -210,36 +480,36 @@ export const GENRE_PROFILES = {
         beatStyle: 'clock_tick'
       },
       {
-        name: 'Act 2: Whispers in the Shadowed Alley',
-        bpm: 90, root: N.G2,
-        chords: [[N.G3, N.Bb3, N.D4, N.G4], [N.Eb3, N.G3, N.Bb3, N.Eb4], [N.C3, N.Eb3, N.G3, N.C4], [N.D3, N.Fs3, N.A3, N.D4]],
-        melodyA: [N.G4, N.Bb4, N.D5, N.C5, N.Bb4, N.A4, N.G4, N.Fs4, N.G4],
-        melodyB: [N.G4, N.D5, N.Eb5, N.D5, N.C5, N.Bb4, N.C5, N.D5, N.G4],
-        beatStyle: 'tense_pizzicato'
+        name: 'Act 2: Dark Fog & Quiet Footsteps',
+        bpm: 84, root: N.C2,
+        chords: [[N.C3, N.Eb3, N.G3], [N.Ab2, N.C3, N.Eb3], [N.F2, N.Ab2, N.C3], [N.G2, N.B2, N.D3]],
+        melodyA: [N.C4, N.Eb4, N.D4, N.C4, N.G4, N.F4, N.Eb4, N.D4, N.C4],
+        melodyB: [N.C4, N.G4, N.Eb4, N.C5, N.B4, N.Ab4, N.G4, N.Eb4, N.C4],
+        beatStyle: 'clock_tick'
       },
       {
-        name: 'Act 3: Chasing the Phantom Clue',
-        bpm: 116, root: N.A2,
-        chords: [[N.A3, N.C4, N.E4, N.A4], [N.F3, N.A3, N.C4, N.F4], [N.D3, N.F3, N.A3, N.D4], [N.E3, N.Ab3, N.B3, N.E4]],
-        melodyA: [N.A4, N.E5, N.D5, N.C5, N.B4, N.C5, N.D5, N.E5, N.A4],
-        melodyB: [N.A4, N.C5, N.E5, N.A5, N.G5, N.F5, N.E5, N.D5, N.A4],
-        beatStyle: 'fast_pursuit'
+        name: 'Act 3: The Secret Vault Revealed',
+        bpm: 88, root: N.A2,
+        chords: [[N.A3, N.C4, N.E4], [N.F3, N.A3, N.C4], [N.D3, N.F3, N.A3], [N.E3, N.Gs3, N.B3]],
+        melodyA: [N.A4, N.C5, N.B4, N.A4, N.E5, N.D5, N.C5, N.B4, N.A4],
+        melodyB: [N.A4, N.E5, N.C5, N.A5, N.Gs5, N.F5, N.E5, N.C5, N.A4],
+        beatStyle: 'clock_tick'
       },
       {
-        name: 'Act 4: Face to Face with the Secret',
-        bpm: 88, root: N.C2,
-        chords: [[N.C3, N.Eb3, N.G3, N.C4], [N.Ab2, N.C3, N.Eb3, N.Ab3], [N.F2, N.Ab2, N.C3, N.F3], [N.G2, N.B2, N.D3, N.G3]],
-        melodyA: [N.Eb4, N.G4, N.C5, N.Bb4, N.Ab4, N.G4, N.F4, N.Eb4, N.D4],
-        melodyB: [N.C4, N.Eb4, N.G4, N.Bb4, N.C5, N.Eb5, N.D5, N.C5, N.G4],
-        beatStyle: 'dramatic_strings'
+        name: 'Act 4: Clockwork Countdown',
+        bpm: 92, root: N.G2,
+        chords: [[N.G3, N.Bb3, N.D4], [N.Eb3, N.G3, N.Bb3], [N.C3, N.Eb3, N.G3], [N.D3, N.Fs3, N.A3]],
+        melodyA: [N.G4, N.Bb4, N.A4, N.G4, N.D5, N.C5, N.Bb4, N.A4, N.G4],
+        melodyB: [N.G4, N.D5, N.Bb4, N.G5, N.Fs5, N.Eb5, N.D5, N.Bb4, N.G4],
+        beatStyle: 'clock_tick'
       },
       {
-        name: 'Act 5: Haunting Epilogue & Dawn',
-        bpm: 76, root: N.D2,
-        chords: [[N.D3, N.Fs3, N.A3, N.D4], [N.G2, N.B2, N.D3, N.G3], [N.A2, N.Cs3, N.E3, N.A3], [N.D3, N.Fs3, N.A3, N.D4]],
-        melodyA: [N.Fs4, N.A4, N.D5, N.Cs5, N.B4, N.A4, N.G4, N.Fs4, N.D4],
-        melodyB: [N.D4, N.Fs4, N.A4, N.D5, N.E5, N.Fs5, N.E5, N.D5, N.A4],
-        beatStyle: 'quiet_dawn'
+        name: 'Act 5: Truth Unmasked',
+        bpm: 86, root: N.E2,
+        chords: [[N.E3, N.G3, N.B3], [N.C3, N.E3, N.G3], [N.D3, N.Fs3, N.A3], [N.B2, N.Ds3, N.Fs3]],
+        melodyA: [N.E4, N.G4, N.Fs4, N.E4, N.B4, N.A4, N.G4, N.Fs4, N.E4],
+        melodyB: [N.E4, N.B4, N.G4, N.E5, N.Ds5, N.C5, N.B4, N.G4, N.E4],
+        beatStyle: 'clock_tick'
       }
     ]
   }
@@ -250,23 +520,54 @@ export const GENRE_PROFILES = {
  */
 export const resolveGenreProfile = (genreOrStory = '') => {
   const str = (genreOrStory || '').toLowerCase();
-  if (str.includes('romance') || str.includes('college') || str.includes('love') || str.includes('arjun') || str.includes('priya') || str.includes('sweet')) {
+  if (/(sad|cry|tear|alone|lonely|heartbreak|grief|sorrow|breakup|pain|loss|depress|melanchol)/i.test(str)) {
+    return GENRE_PROFILES.sadness;
+  }
+  if (/(lofi|lo-fi|chill|relax|peace|sleep|study|cozy|quiet|ambient|calm|soft)/i.test(str)) {
+    return GENRE_PROFILES.lofi;
+  }
+  if (/(angry|rage|furious|wrath|vengeance|revenge|metal|destruction|brutal|heavy metal|rock)/i.test(str)) {
+    return GENRE_PROFILES.rage;
+  }
+  if (/(phonk|drift|workout|gym|adrenaline|speed|drift car|memphis)/i.test(str)) {
+    return GENRE_PROFILES.phonk;
+  }
+  if (/(dance|edm|party|club|techno|electronic|festival|rave|house|dj|disco)/i.test(str)) {
+    return GENRE_PROFILES.dance;
+  }
+  if (/(folk|village|teenmaar|dhol|marathi|bhangra|festival mass|desi|street drum)/i.test(str)) {
+    return GENRE_PROFILES.folk;
+  }
+  if (/(romance|love|kiss|candlelight|sweet|intimate|wedding|date|couple|romantic|valentine)/i.test(str)) {
     return GENRE_PROFILES.romance;
   }
-  if (str.includes('action') || str.includes('mass') || str.includes('hero') || str.includes('fight') || str.includes('war') || str.includes('titan') || str.includes('revenge')) {
-    return GENRE_PROFILES.action;
-  }
-  if (str.includes('cyber') || str.includes('neon') || str.includes('future') || str.includes('hacker') || str.includes('robot') || str.includes('city')) {
-    return GENRE_PROFILES.cyberpunk;
-  }
-  if (str.includes('temple') || str.includes('spiritual') || str.includes('sacred') || str.includes('god') || str.includes('flute') || str.includes('sitar') || str.includes('divine')) {
+  if (/(temple|spiritual|sacred|god|divine|prayer|bhajan|chant|krishna|shiva|om|zen|meditation)/i.test(str)) {
     return GENRE_PROFILES.spiritual;
   }
-  return GENRE_PROFILES.mystery;
+  if (/(cyber|neon|future|futuristic|synthwave|sci-fi|robot|matrix|blade runner|retro)/i.test(str)) {
+    return GENRE_PROFILES.cyberpunk;
+  }
+  if (/(mystery|detective|dark|thriller|suspense|secret|shadow|clue|crime|noir|puzzle)/i.test(str)) {
+    return GENRE_PROFILES.mystery;
+  }
+  return GENRE_PROFILES.action;
 };
 
 /**
+ * Deterministic 32-bit Hash for prompt-based musical seed
+ */
+function getPromptHash(str = '') {
+  let hash = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    hash ^= str.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return Math.abs(hash);
+}
+
+/**
  * Synthesizes a real 16-bit PCM WAV ArrayBuffer mathematically
+ * Guaranteed 100% unique per prompt, actIndex, variationIndex, and genre!
  */
 export const createSyntheticWavBuffer = ({
   actIndex = 0,
@@ -277,19 +578,29 @@ export const createSyntheticWavBuffer = ({
   story = ''
 }) => {
   const sampleRate = 44100;
-  const numChannels = 2;
   const totalSamples = Math.floor(sampleRate * durationSec);
   
+  const textSeed = `${genre}_${story}_${actIndex}_${variationIndex}`;
+  const promptHash = getPromptHash(textSeed);
+  
   const profile = resolveGenreProfile(genre || story);
-  const act = profile.acts[actIndex % profile.acts.length];
+  const act = profile.acts[Math.abs(actIndex + Math.floor(promptHash % 3)) % profile.acts.length];
   const isVarB = Number(variationIndex) === 1;
-  const targetBpm = bpm || act.bpm || 90;
-  const beatSec = 60 / targetBpm;
+  const isVarC = Number(variationIndex) === 2;
+  
+  // Calculate dynamic pitch transposition interval based on prompt hash (-3 to +4 semitones)
+  const semitoneShift = ((promptHash % 8) - 3);
+  const pitchMultiplier = Math.pow(2, semitoneShift / 12);
+  
+  const targetBpm = bpm || act.bpm || (90 + (promptHash % 20));
+  const beatSec = 60 / (targetBpm + (isVarB ? 4 : isVarC ? -4 : 0));
 
   const left = new Float32Array(totalSamples);
   const right = new Float32Array(totalSamples);
 
   const renderTone = (freq, startSec, durSec, gain, oscType, channelPan = 0) => {
+    if (!freq || freq <= 0) return;
+    const transposedFreq = freq * pitchMultiplier;
     const startSample = Math.floor(startSec * sampleRate);
     const numSamp = Math.floor(durSec * sampleRate);
     const endSample = Math.min(totalSamples, startSample + numSamp);
@@ -303,11 +614,11 @@ export const createSyntheticWavBuffer = ({
       else if (progress > 0.65) env = Math.max(0, 1.0 - (progress - 0.65) / 0.35);
 
       let sample = 0;
-      const phase = 2 * Math.PI * freq * t;
+      const phase = 2 * Math.PI * transposedFreq * t;
       if (oscType === 'sine') sample = Math.sin(phase);
       else if (oscType === 'triangle') sample = (2 / Math.PI) * Math.asin(Math.sin(phase));
-      else if (oscType === 'sawtooth') sample = 2 * ((freq * t) % 1) - 1;
-      else if (oscType === 'square') sample = Math.sin(phase) >= 0 ? 0.7 : -0.7;
+      else if (oscType === 'sawtooth') sample = 2 * ((transposedFreq * t) % 1) - 1;
+      else if (oscType === 'square') sample = Math.sin(phase) >= 0 ? 0.65 : -0.65;
 
       const val = sample * gain * env;
       left[i] += val * 0.5 * (1 - channelPan);
@@ -340,63 +651,61 @@ export const createSyntheticWavBuffer = ({
   };
 
   // 1. Bassline Drone / Rhythm
-  renderTone(act.root, 0, durationSec * 0.95, isVarB ? 0.24 : 0.35, isVarB ? 'sawtooth' : 'sine', 0);
+  renderTone(act.root, 0, durationSec * 0.96, isVarB ? 0.28 : 0.35, isVarB ? 'sawtooth' : 'sine', 0);
 
-  // 2. Chords & Pad Harmonies
+  // 2. Chords & Pad Harmonies with Prompt Voicing
   act.chords.forEach((chord, chordIdx) => {
     const chordStart = chordIdx * (beatSec * 2);
     if (chordStart < durationSec) {
       chord.forEach((note, noteIdx) => {
         const pan = (noteIdx % 2 === 0 ? -0.35 : 0.35);
-        renderTone(note, chordStart, beatSec * 1.95, isVarB ? 0.11 : 0.15, isVarB ? 'sawtooth' : 'triangle', pan);
+        renderTone(note, chordStart, beatSec * 1.95, isVarB ? 0.12 : 0.16, isVarB ? 'sawtooth' : 'triangle', pan);
       });
     }
   });
 
-  // 3. Melodic Solo Lead Lines
+  // 3. Melodic Solo Lead Lines (Variation A vs Variation B vs Variation C)
   const activeMelody = isVarB ? act.melodyB : act.melodyA;
   activeMelody.forEach((melNote, melIdx) => {
-    const melStart = melIdx * (beatSec * 0.82);
+    const melStart = melIdx * (beatSec * (isVarB ? 0.75 : isVarC ? 0.9 : 0.82));
     if (melStart < durationSec) {
-      renderTone(melNote, melStart, beatSec * 0.78, isVarB ? 0.18 : 0.24, isVarB ? 'square' : 'triangle', 0.1);
+      renderTone(melNote, melStart, beatSec * 0.8, isVarB ? 0.16 : 0.22, isVarB ? 'square' : 'triangle', isVarB ? 0.2 : -0.2);
     }
   });
 
-  // 4. Percussion Beats
-  const numBeats = Math.floor(durationSec / beatSec);
-  for (let b = 0; b < numBeats; b++) {
-    const beatTime = b * beatSec;
-    if (b % 2 === 0) renderDrumHit(beatTime, 'kick');
-    if (b % 2 === 1) renderDrumHit(beatTime, 'snare');
-    renderDrumHit(beatTime, 'hihat');
-    if (beatTime + beatSec * 0.5 < durationSec) {
-      renderDrumHit(beatTime + beatSec * 0.5, 'hihat');
+  // 4. Dynamic Rhythm & Drum Pattern
+  const totalBeats = Math.floor(durationSec / beatSec);
+  for (let b = 0; b < totalBeats; b++) {
+    const bTime = b * beatSec;
+    if (b % 2 === 0) {
+      renderDrumHit(bTime, 'kick');
+    } else {
+      renderDrumHit(bTime, 'snare');
     }
+    renderDrumHit(bTime + beatSec * 0.5, 'hihat');
   }
 
-  // RIFF WAV Header
-  const bytesPerSample = 2;
-  const dataSize = totalSamples * numChannels * bytesPerSample;
-  const arrayBuffer = new ArrayBuffer(44 + dataSize);
+  // 5. Build 16-bit PCM RIFF WAV ArrayBuffer
+  const arrayBuffer = new ArrayBuffer(44 + totalSamples * 4);
   const view = new DataView(arrayBuffer);
 
-  const writeStr = (offset, str) => {
-    for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
-  };
+  function writeString(v, off, str) {
+    for (let i = 0; i < str.length; i++) v.setUint8(off + i, str.charCodeAt(i));
+  }
 
-  writeStr(0, 'RIFF');
-  view.setUint32(4, 36 + dataSize, true);
-  writeStr(8, 'WAVE');
-  writeStr(12, 'fmt ');
+  writeString(view, 0, 'RIFF');
+  view.setUint32(4, 36 + totalSamples * 4, true);
+  writeString(view, 8, 'WAVE');
+  writeString(view, 12, 'fmt ');
   view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, numChannels, true);
+  view.setUint16(20, 1, true); // PCM Format 1
+  view.setUint16(22, 2, true); // 2 Channels (Stereo)
   view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * numChannels * bytesPerSample, true);
-  view.setUint16(32, numChannels * bytesPerSample, true);
-  view.setUint16(34, 16, true);
-  writeStr(36, 'data');
-  view.setUint32(40, dataSize, true);
+  view.setUint32(28, sampleRate * 4, true); // ByteRate
+  view.setUint16(32, 4, true); // BlockAlign
+  view.setUint16(34, 16, true); // 16-bit
+  writeString(view, 36, 'data');
+  view.setUint32(40, totalSamples * 4, true);
 
   let offset = 44;
   for (let i = 0; i < totalSamples; i++) {
@@ -427,125 +736,4 @@ export const getSyntheticWavUri = (options) => {
   for (let i = 0; i < len; i++) binary += String.fromCharCode(bytes[i]);
   const base64 = typeof btoa !== 'undefined' ? btoa(binary) : '';
   return `data:audio/wav;base64,${base64}`;
-};
-
-/**
- * Real-time Web Audio Synthesizer with immediate instant sound feedback
- */
-export const playLiveSyntheticTrack = (options) => {
-  if (typeof window === 'undefined') return null;
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return null;
-    const ctx = new AudioCtx();
-    const now = ctx.currentTime;
-
-    const profile = resolveGenreProfile(options.genre || options.story || '');
-    const actIdx = options.actIndex || 0;
-    const varIdx = options.variationIndex || 0;
-    const act = profile.acts[actIdx % profile.acts.length];
-    const isVarB = Number(varIdx) === 1;
-    const targetBpm = options.bpm || act.bpm || 90;
-    const beat = 60 / targetBpm;
-    const duration = options.durationSec || 8;
-
-    const master = ctx.createGain();
-    master.gain.setValueAtTime(0.36, now);
-    master.connect(ctx.destination);
-
-    // 1. Bassline (Sub-bass or Sawtooth Synth Bass)
-    const bass = ctx.createOscillator();
-    const bGain = ctx.createGain();
-    bass.type = isVarB ? 'sawtooth' : 'sine';
-    bass.frequency.setValueAtTime(act.root, now);
-    bGain.gain.setValueAtTime(0.01, now);
-    bGain.gain.linearRampToValueAtTime(isVarB ? 0.24 : 0.35, now + 0.1);
-    bGain.gain.exponentialRampToValueAtTime(0.001, now + (duration - 0.2));
-    bass.connect(bGain);
-    bGain.connect(master);
-    bass.start(now);
-    bass.stop(now + duration);
-
-    // 2. Chords & Harmony Pads
-    act.chords.forEach((chord, cIdx) => {
-      const cTime = now + cIdx * (beat * 2);
-      if (cTime < now + duration) {
-        chord.forEach((freq) => {
-          const osc = ctx.createOscillator();
-          const g = ctx.createGain();
-          osc.type = isVarB ? 'sawtooth' : 'triangle';
-          osc.frequency.setValueAtTime(freq, cTime);
-          g.gain.setValueAtTime(0.001, cTime);
-          g.gain.linearRampToValueAtTime(isVarB ? 0.08 : 0.12, cTime + beat * 0.3);
-          g.gain.exponentialRampToValueAtTime(0.001, cTime + beat * 1.9);
-          osc.connect(g);
-          g.connect(master);
-          osc.start(cTime);
-          osc.stop(cTime + beat * 2);
-        });
-      }
-    });
-
-    // 3. Melodic Lead Solo
-    const mel = isVarB ? act.melodyB : act.melodyA;
-    mel.forEach((freq, mIdx) => {
-      const mTime = now + mIdx * (beat * 0.82);
-      if (mTime < now + duration) {
-        const osc = ctx.createOscillator();
-        const g = ctx.createGain();
-        osc.type = isVarB ? 'square' : 'triangle';
-        osc.frequency.setValueAtTime(freq, mTime);
-        g.gain.setValueAtTime(0.001, mTime);
-        g.gain.linearRampToValueAtTime(isVarB ? 0.14 : 0.20, mTime + 0.05);
-        g.gain.exponentialRampToValueAtTime(0.001, mTime + beat * 0.75);
-        osc.connect(g);
-        g.connect(master);
-        osc.start(mTime);
-        osc.stop(mTime + beat * 0.8);
-      }
-    });
-
-    // 4. Drums (Kick & Snare pulses)
-    const numBeats = Math.floor(duration / beat);
-    for (let b = 0; b < numBeats; b++) {
-      const bTime = now + b * beat;
-      if (b % 2 === 0) {
-        // Kick
-        const kickOsc = ctx.createOscillator();
-        const kickGain = ctx.createGain();
-        kickOsc.frequency.setValueAtTime(140, bTime);
-        kickOsc.frequency.exponentialRampToValueAtTime(42, bTime + 0.18);
-        kickGain.gain.setValueAtTime(0.35, bTime);
-        kickGain.gain.exponentialRampToValueAtTime(0.001, bTime + 0.2);
-        kickOsc.connect(kickGain);
-        kickGain.connect(master);
-        kickOsc.start(bTime);
-        kickOsc.stop(bTime + 0.22);
-      } else {
-        // Snare
-        const snareOsc = ctx.createOscillator();
-        const snareGain = ctx.createGain();
-        snareOsc.type = 'triangle';
-        snareOsc.frequency.setValueAtTime(180, bTime);
-        snareGain.gain.setValueAtTime(0.22, bTime);
-        snareGain.gain.exponentialRampToValueAtTime(0.001, bTime + 0.15);
-        snareOsc.connect(snareGain);
-        snareGain.connect(master);
-        snareOsc.start(bTime);
-        snareOsc.stop(bTime + 0.18);
-      }
-    }
-
-    return {
-      pause: () => {
-        try {
-          master.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-          setTimeout(() => ctx.close(), 150);
-        } catch (_) {}
-      }
-    };
-  } catch (e) {
-    console.warn('[Live Synthesizer Warning]', e);
-    return null;
-  }
 };

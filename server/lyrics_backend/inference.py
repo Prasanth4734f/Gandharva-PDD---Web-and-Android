@@ -31,27 +31,39 @@ def analyze_prompt(prompt: str) -> Dict:
     genres = {
         "lofi": "Lofi", "synthwave": "Synthwave", "rock": "Rock", "pop": "Pop",
         "cinematic": "Cinematic", "phonk": "Phonk", "edm": "EDM", "hip hop": "Lofi",
-        "rap": "Lofi", "acoustic": "Pop"
+        "rap": "Lofi", "acoustic": "Pop", "folk": "Folk", "metal": "Metal", "devotional": "Devotional"
     }
     moods = {
-        "sad": "Sad", "lonely": "Sad", "dark": "Sad", "melancholic": "Sad",
-        "happy": "Happy", "cheerful": "Happy", "upbeat": "Happy", "energetic": "Happy",
-        "romantic": "Romantic", "love": "Romantic", "sweet": "Romantic"
+        "sad": "Heartbreaking & Melancholic", "lonely": "Deep Sorrow & Loneliness", "dark": "Dark Suspense", "melancholic": "Melancholic Longing",
+        "crying": "Tearful Grief & Heartbreak", "cry": "Tearful Grief", "tears": "Emotional Sorrow", "grief": "Profound Grief", "heartbreak": "Devastating Heartbreak",
+        "happy": "Joyful & Euphoric", "cheerful": "Cheerful & Playful", "upbeat": "High-Spirited & Cheerful", "energetic": "High-Voltage Energy",
+        "party": "Festive Celebration", "dance": "Joyful Dance Frenzy", "celebrat": "Festive Celebration",
+        "romantic": "Soulful Romantic & Tender", "love": "Passionate Love & Devotion", "sweet": "Sweet Romantic Warmth", "sensual": "Sensual & Seductive",
+        "intimate": "Intimate & Sultry", "kiss": "Romantic Passion", "wedding": "Sacred Romantic Celebration",
+        "angry": "Fiery Rage & Wrath", "rage": "Ferocious Fury", "vengeance": "Dark Vengeance", "revenge": "Dark Retribution",
+        "chill": "Tranquil & Calming Lo-Fi", "relax": "Soothing & Peaceful", "peace": "Serene Peace & Stillness", "calm": "Gentle & Calming",
+        "meditat": "Deep Meditative Zen", "zen": "Tranquil Zen",
+        "devotional": "Sacred Spiritual Reverence", "god": "Divine Reverence", "spiritual": "Transcendent Spiritual", "temple": "Sacred Temple Ambience", "prayer": "Soulful Devotional",
+        "horror": "Terrifying Dread & Nightmare", "scary": "Chilling Horror", "creepy": "Eerie Psychological Suspense", "fear": "Tense Dread",
+        "hero": "Heroic Mass Anthem & Dominance", "mass": "Heroic Mass Elevation", "triumph": "Triumphant Victory", "victory": "Epic Triumphant Power",
+        "nostalg": "Bittersweet Rain Nostalgia", "childhood": "Bittersweet Childhood Memories", "rain": "Atmospheric Monsoon Rain"
     }
-    tempos = {"fast": "Fast", "energetic": "Fast", "slow": "Slow", "calm": "Slow", "chill": "Medium"}
-    styles = {"ambient": "Ambient", "acoustic": "Acoustic", "electronic": "Electronic", "orchestral": "Orchestral"}
+    tempos = {"fast": "Fast", "energetic": "Fast", "slow": "Slow", "calm": "Slow", "chill": "Medium", "speed": "Fast", "driving": "Fast"}
+    styles = {"ambient": "Ambient", "acoustic": "Acoustic", "electronic": "Electronic", "orchestral": "Orchestral", "folk": "Folk Acoustic"}
     instruments = {
-        "piano": "Piano", "guitar": "Acoustic Guitar", "violin": "Violin",
-        "flute": "Flute", "synth": "Synthesizer", "drums": "Drums"
+        "piano": "Acoustic Grand Piano", "felt piano": "Intimate Felt Piano", "guitar": "Acoustic Guitar", "electric guitar": "Distorted Electric Guitar",
+        "violin": "Soaring Solo Violin", "cello": "Weeping Cello", "flute": "Expressive Bansuri Flute", "bansuri": "Bansuri Woodwinds",
+        "synth": "Lush Analog Synthesizer", "drums": "Studio Drums", "dholak": "Live Dholak Percussion", "tabla": "Authentic Tabla",
+        "808": "Deep 808 Sub-Bass", "brass": "Cinematic Brass Horns", "taiko": "Thunderous Taiko Drums"
     }
 
-    detected_genre = "Lofi"
+    detected_genre = "Cinematic"
     for key, val in genres.items():
         if key in prompt_lower:
             detected_genre = val
             break
 
-    detected_mood = "Melancholic"
+    detected_mood = "Atmospheric & Expressive"
     for key, val in moods.items():
         if key in prompt_lower:
             detected_mood = val
@@ -74,7 +86,18 @@ def analyze_prompt(prompt: str) -> Dict:
         if key in prompt_lower:
             detected_insts.append(val)
     if not detected_insts:
-        detected_insts = ["Piano", "Acoustic Guitar", "Ambient Strings"]
+        if "sad" in detected_mood.lower() or "grief" in detected_mood.lower() or "sorrow" in detected_mood.lower():
+            detected_insts = ["Felt Grand Piano", "Weeping Cello", "Expressive Violin Quartet"]
+        elif "romantic" in detected_mood.lower() or "love" in detected_mood.lower():
+            detected_insts = ["Acoustic Nylon Guitar", "Warm Grand Piano", "Soaring Strings", "Expressive Flute"]
+        elif "rage" in detected_mood.lower() or "angry" in detected_mood.lower():
+            detected_insts = ["Distorted Electric Guitars", "Crushing Sub-Bass", "Heavy War Drums"]
+        elif "hero" in detected_mood.lower() or "mass" in detected_mood.lower():
+            detected_insts = ["Heavy 808 Sub-Bass", "Live Dholak Percussion", "Cinematic Brass Fanfares"]
+        elif "joy" in detected_mood.lower() or "festive" in detected_mood.lower():
+            detected_insts = ["Live Festive Dholak", "Acoustic Rhythm Guitar", "Celebratory Brass"]
+        else:
+            detected_insts = ["Grand Piano", "Acoustic Guitar", "Ambient Strings"]
 
     return {
         "genre": detected_genre,
@@ -90,10 +113,11 @@ async def enhance_music_prompt(prompt: str) -> str:
         import httpx
         url = "http://localhost:11434/api/chat"
         ai_prompt = (
-            "You are an elite AI music prompt engineer. Rewrite this music idea into a detailed, descriptive paragraph. "
-            "Describe the tempo (e.g. 75 BPM), instruments (e.g. acoustic guitar, strings), mood, and atmosphere. "
-            "DO NOT write lyrics or section cues. Just write one highly immersive paragraph. "
-            f"Prompt: {clean_prompt}"
+            "You are an elite AI music prompt engineer. Rewrite this musical concept into a rich, master-tier music generation prompt. "
+            "CRITICAL MANDATE: You MUST strictly preserve and amplify the EXACT emotion, mood, and sentiment of the user's idea (e.g. heartbreak, fury, joyful celebration, peaceful zen, romantic intimacy, deep sorrow). "
+            "Describe the tempo (BPM), key signature, instruments, dynamic emotional arc (intro, build, climax, outro), and pristine acoustic engineering. "
+            "DO NOT write lyrics or song titles. Just write one highly immersive, continuous paragraph. "
+            f"Original Prompt: \"{clean_prompt}\""
         )
         payload = {
             "model": "qwen3:8b",
@@ -120,16 +144,17 @@ async def enhance_music_prompt(prompt: str) -> str:
     insts = ", ".join(analysis["instruments"])
 
     enhancements = {
-        "Lofi": f"lo-fi hip-hop, {mood.lower()} vibe, {tempo.lower()} tempo, {insts}, retro vinyl crackle, subtle ambiance, warm high-fidelity studio mix, instrumental, no vocals",
-        "EDM": f"electronic dance music, EDM, {mood.lower()}, {tempo.lower()} tempo, {insts}, driving synthesizer lead, heavy synth bass, massive 4x4 rhythmic drum beat, premium club mix, instrumental, no vocals",
-        "Rock": f"alternative rock, {mood.lower()}, {tempo.lower()} tempo, {insts}, overdriven electric guitars, dynamic basslines, heavy drum kit, pristine studio recording, instrumental, no vocals",
-        "Pop": f"modern pop, {mood.lower()}, {tempo.lower()} tempo, {insts}, bright melodies, sparkling production, radio-ready studio mix, instrumental, no vocals",
-        "Cinematic": f"cinematic orchestral score, {mood.lower()}, {tempo.lower()} tempo, {insts}, rich sweeping strings, heroic brass swells, dynamic orchestral percussion, high-fidelity stereo, instrumental, no vocals",
-        "Phonk": f"heavy drift phonk, {mood.lower()}, {tempo.lower()} tempo, {insts}, fast dark cowbells, deep sliding heavy bassline, gritty electronic, high-fidelity car audio master, instrumental, no vocals"
+        "Lofi": f"lo-fi hip-hop soul carrying the exact emotion of '{clean_prompt}', {mood.lower()} emotional vibe, {tempo.lower()} tempo, featuring {insts}, warm dusty vinyl crackle, cozy tape saturation, crystal-clear studio acoustic mix, instrumental, no vocals",
+        "EDM": f"electronic dance music carrying the exact emotion of '{clean_prompt}', {mood.lower()} energy, {tempo.lower()} tempo, featuring {insts}, driving synthesizer leads, punchy bass transients, massive 4x4 rhythmic build and drop, club master, instrumental, no vocals",
+        "Rock": f"alternative cinematic rock carrying the exact emotion of '{clean_prompt}', {mood.lower()} atmosphere, {tempo.lower()} tempo, featuring {insts}, overdriven electric guitars, dynamic basslines, heavy drum kit, pristine studio recording, instrumental, no vocals",
+        "Pop": f"modern pop symphony carrying the exact emotion of '{clean_prompt}', {mood.lower()} emotional atmosphere, {tempo.lower()} tempo, featuring {insts}, bright melodies, sparkling harmonic production, radio-ready studio mix, instrumental, no vocals",
+        "Cinematic": f"master-tier cinematic orchestral composition carrying the exact emotion of '{clean_prompt}', {mood.lower()} emotional arc, {tempo.lower()} tempo, featuring {insts}, rich sweeping strings, expressive counterpoint, dynamic emotional climax, 24-bit high-fidelity stereo, instrumental, no vocals",
+        "Phonk": f"heavy drift phonk carrying the exact emotion of '{clean_prompt}', {mood.lower()} energy, {tempo.lower()} tempo, featuring {insts}, fast dark cowbells, deep sliding heavy bassline, gritty electronic textures, car audio master, instrumental, no vocals",
+        "Devotional": f"sacred Indian classical devotional symphony carrying the exact emotion of '{clean_prompt}', {mood.lower()} sacred essence, {tempo.lower()} tempo, featuring {insts}, temple bell resonances, soothing drone, transcendent spiritual climax, hall acoustics, instrumental, no vocals"
     }
 
-    enhancement = enhancements.get(genre, f"{genre.lower()} style, {mood.lower()} vibe, {tempo.lower()} tempo, {insts}, crystal-clear high-fidelity mix, instrumental, no vocals")
-    final_prompt = f"{clean_prompt}, {enhancement}, award-winning Billboard hit production, perfect instrumental arrangement"
+    enhancement = enhancements.get(genre, f"master-tier {genre.lower()} production carrying the exact emotion of '{clean_prompt}', {mood.lower()} emotional resonance, {tempo.lower()} tempo, featuring {insts}, crystal-clear high-fidelity mix, immersive depth, instrumental, no vocals")
+    final_prompt = f"{clean_prompt}. {enhancement}, pristine 24-bit studio mastering, zero noise distortion."
     return final_prompt
 
 def enhance_music_prompt_with_culture(prompt: str, language: str) -> str:

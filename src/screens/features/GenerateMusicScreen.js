@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, ActivityIndicator, Alert, Switch } from 'react-native';
 import { Music, Activity, ArrowLeftRight, Clock, SlidersHorizontal, Play, Pause, Download, Share2, Heart, RotateCcw, ChevronLeft, ShieldCheck, Sparkles, Wand2, Mic, Eye, EyeOff } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -59,6 +59,7 @@ const GenerateMusicScreen = ({ navigation, route }) => {
   const [magicCooldown, setMagicCooldown] = useState(0);
 
   const [sound, setSound] = useState(null);
+  const webAudioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [positionMillis, setPositionMillis] = useState(0);
   const [durationMillis, setDurationMillis] = useState(6000);
@@ -105,18 +106,43 @@ const GenerateMusicScreen = ({ navigation, route }) => {
     setIsGPUOnline(false);
   };
 
-
   React.useEffect(() => {
     verifyHealth();
   }, []);
 
+  // Stop any active audio (Web HTML5 + Native Expo-AV)
+  const stopCurrentAudio = async () => {
+    if (webAudioRef.current) {
+      try {
+        webAudioRef.current.pause();
+        webAudioRef.current.src = '';
+        webAudioRef.current = null;
+      } catch (_) {}
+    }
+    if (sound) {
+      try {
+        await sound.stopAsync();
+        await sound.unloadAsync();
+      } catch (_) {}
+      setSound(null);
+    }
+    setIsPlaying(false);
+  };
+
   // Cleanup sound on unmount
   React.useEffect(() => {
-    return sound
-      ? () => {
-        sound.unloadAsync();
+    return () => {
+      if (sound) {
+        try { sound.unloadAsync(); } catch (_) {}
       }
-      : undefined;
+      if (webAudioRef.current) {
+        try {
+          webAudioRef.current.pause();
+          webAudioRef.current.src = '';
+          webAudioRef.current = null;
+        } catch (_) {}
+      }
+    };
   }, [sound]);
 
   // Magic wand cooldown timer
@@ -138,37 +164,82 @@ const GenerateMusicScreen = ({ navigation, route }) => {
     ? musicResult.variations[selectedVarIndex]
     : null;
 
-  const playSound = async (audioUrl) => {
-    const target = audioUrl || (activeVariation ? activeVariation.audio_url : null);
-    if (!target) return;
+  const playSound = async (audioUrl, autoPlay = true) => {
+    const rawTarget = audioUrl || (activeVariation ? activeVariation.audio_url : null);
+    if (!rawTarget) return;
 
     try {
       setError(null);
-      if (Platform.OS !== 'web') {
-        try {
-          await Audio.setIsEnabledAsync(true);
-          await Audio.setAudioModeAsync({
-            allowsRecordingIOS: false,
-            playsInSilentModeIOS: true,
-            staysActiveInBackground: false,
-            shouldDuckAndroid: true,
+      const target = (await getPlaybackUri(rawTarget)) || rawTarget;
+      console.log(`[Audio Playback] Loading track: ${target}`);
+
+      // Strategy 1: Standard Web HTML5 Audio (Direct & Reliable across all web browsers)
+      if (Platform.OS === 'web' && typeof window !== 'undefined' && window.Audio) {
+        if (webAudioRef.current) {
+          try {
+            webAudioRef.current.pause();
+            webAudioRef.current.src = '';
+            webAudioRef.current = null;
+          } catch (_) {}
+        }
+
+        const audio = new window.Audio(target);
+        webAudioRef.current = audio;
+
+        audio.onloadedmetadata = () => {
+          if (audio.duration && !isNaN(audio.duration) && audio.duration !== Infinity) {
+            setDurationMillis(Math.floor(audio.duration * 1000));
+          }
+        };
+
+        audio.ontimeupdate = () => {
+          if (!isSeeking && audio.currentTime !== undefined) {
+            setPositionMillis(Math.floor(audio.currentTime * 1000));
+          }
+        };
+
+        audio.onplay = () => {
+          setIsPlaying(true);
+          setError(null);
+        };
+        audio.onpause = () => setIsPlaying(false);
+        audio.onended = () => {
+          setIsPlaying(false);
+          setPositionMillis(0);
+        };
+        audio.onerror = (e) => {
+          console.warn('[Web Audio Error]', e);
+        };
+
+        if (autoPlay) {
+          audio.play().then(() => {
+            setIsPlaying(true);
+            console.log('[Web Audio Playback] Playing successfully!');
+          }).catch((playErr) => {
+            console.info('[Web Autoplay Policy Notice] Tap Play button to listen:', playErr.message);
+            setIsPlaying(false);
           });
-        } catch (_) {}
+        }
+        return;
       }
 
-      if (sound) {
-        try {
-          await sound.stopAsync();
-          await sound.unloadAsync();
-        } catch (e) {}
-        setSound(null);
-      }
+      // Strategy 2: Native iOS & Android (Expo-AV Audio.Sound)
+      await stopCurrentAudio();
 
-      console.log(`[Audio Playback] Loading variation track: ${target}`);
+      try {
+        await Audio.setIsEnabledAsync(true);
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+          playsInSilentModeIOS: true,
+          staysActiveInBackground: false,
+          shouldDuckAndroid: true,
+        });
+      } catch (_) {}
 
+      console.log(`[Native Audio Playback] Loading track: ${target}`);
       const { sound: newSound, status } = await Audio.Sound.createAsync(
         { uri: target },
-        { shouldPlay: true, progressUpdateIntervalMillis: 100 },
+        { shouldPlay: autoPlay, progressUpdateIntervalMillis: 100 },
         (statusUpdate) => {
           if (!statusUpdate.isLoaded) return;
           if (statusUpdate.durationMillis) {
@@ -190,26 +261,33 @@ const GenerateMusicScreen = ({ navigation, route }) => {
           setDurationMillis(status.durationMillis);
         }
         setSound(newSound);
-        setIsPlaying(true);
-        console.log('[Audio Playback] Variation playing successfully!');
+        if (autoPlay && status.isPlaying) setIsPlaying(true);
+        console.log('[Native Audio Playback] Variation loaded successfully!');
       }
     } catch (err) {
-      console.error('[Audio] Playback failed:', err);
-      setError('Could not play audio track. Please tap Play to retry.');
+      console.error('[Audio] Playback note:', err);
+      if (!err.message?.includes('NotAllowedError') && !err.message?.includes('interrupted')) {
+        setError('Could not play audio track. Please tap Play to retry.');
+      }
     }
   };
 
   const handleSeek = async (millis) => {
     try {
       setPositionMillis(millis);
-      if (sound) {
+      if (webAudioRef.current) {
+        webAudioRef.current.currentTime = millis / 1000;
+        if (!isPlaying) {
+          webAudioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+        }
+      } else if (sound) {
         await sound.setPositionAsync(millis);
         if (!isPlaying) {
           await sound.playAsync();
           setIsPlaying(true);
         }
       } else if (activeVariation) {
-        await playSound(activeVariation.audio_url);
+        await playSound(activeVariation.audio_url, true);
       }
     } catch (e) {
       console.warn('[Audio Seek Error]', e);
@@ -227,16 +305,22 @@ const GenerateMusicScreen = ({ navigation, route }) => {
 
   const handleReplay = async () => {
     try {
-      if (!sound) {
-        if (activeVariation) {
-          await playSound(activeVariation.audio_url);
-        }
+      if (webAudioRef.current) {
+        webAudioRef.current.currentTime = 0;
+        setPositionMillis(0);
+        webAudioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
         return;
       }
-      await sound.setPositionAsync(0);
-      setPositionMillis(0);
-      await sound.playAsync();
-      setIsPlaying(true);
+      if (sound) {
+        await sound.setPositionAsync(0);
+        setPositionMillis(0);
+        await sound.playAsync();
+        setIsPlaying(true);
+        return;
+      }
+      if (activeVariation) {
+        await playSound(activeVariation.audio_url, true);
+      }
     } catch (e) {
       console.warn('[Replay Error]', e);
     }
@@ -245,32 +329,53 @@ const GenerateMusicScreen = ({ navigation, route }) => {
   const togglePlayback = async () => {
     const currentTrack = activeVariation || (musicResult && musicResult.variations ? musicResult.variations[selectedVarIndex] : null);
     const targetUrl = currentTrack ? currentTrack.audio_url : null;
+    if (!targetUrl) return;
 
-    if (!sound) {
-      await playSound(targetUrl);
+    if (Platform.OS === 'web') {
+      if (webAudioRef.current && !webAudioRef.current.error) {
+        if (!webAudioRef.current.paused) {
+          webAudioRef.current.pause();
+          setIsPlaying(false);
+          return;
+        } else {
+          try {
+            await webAudioRef.current.play();
+            setIsPlaying(true);
+            setError(null);
+            return;
+          } catch (err) {
+            console.warn('[Web Play Retry]', err);
+          }
+        }
+      }
+      // If audio isn't initialized or had error, start clean
+      await playSound(targetUrl, true);
       return;
     }
-    try {
-      const status = await sound.getStatusAsync();
-      if (!status.isLoaded) {
-        await playSound(targetUrl);
-        return;
-      }
-      if (status.isPlaying) {
-        await sound.pauseAsync();
-        setIsPlaying(false);
-      } else {
-        if (status.positionMillis >= (status.durationMillis || 1000) - 100) {
-          await sound.setPositionAsync(0);
-          setPositionMillis(0);
+
+    if (sound) {
+      try {
+        const status = await sound.getStatusAsync();
+        if (status.isLoaded) {
+          if (status.isPlaying) {
+            await sound.pauseAsync();
+            setIsPlaying(false);
+          } else {
+            if (status.positionMillis >= (status.durationMillis || 1000) - 100) {
+              await sound.setPositionAsync(0);
+              setPositionMillis(0);
+            }
+            await sound.playAsync();
+            setIsPlaying(true);
+          }
+          return;
         }
-        await sound.playAsync();
-        setIsPlaying(true);
+      } catch (e) {
+        console.warn('[Native Toggle Error]', e);
       }
-    } catch (e) {
-      console.warn('[Toggle Playback Error]', e);
-      await playSound(targetUrl);
     }
+
+    await playSound(targetUrl, true);
   };
 
   const handleSurpriseMe = () => {
@@ -338,11 +443,7 @@ const GenerateMusicScreen = ({ navigation, route }) => {
     }, 1000);
 
     // Stop playback if playing
-    if (sound) {
-      await sound.unloadAsync();
-      setSound(null);
-      setIsPlaying(false);
-    }
+    await stopCurrentAudio();
 
     try {
       const durationNum = parseInt(selectedDuration) || 10;

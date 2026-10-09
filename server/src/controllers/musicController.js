@@ -6,8 +6,12 @@
  */
 const logger = require('../utils/logger');
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
 const { generateCinematicMusic, getLastGpuContactTime, recordGpuSuccess, recordGpuFailure, getActiveGpuUrl, invalidateGpuUrlCache } = require('../services/aiGeneratorService');
 const { supabase } = require('../services/supabase');
+const PromptDirector = require('../services/prompt_director');
+const { createSyntheticWavBuffer } = require('../services/syntheticAudioEngine');
 
 const handleGenerateMusic = async (req, res) => {
   const { prompt, duration = 10, num_variations = 1, numVariations = 1 } = req.body;
@@ -20,7 +24,6 @@ const handleGenerateMusic = async (req, res) => {
   const targetVariations = Math.min(3, Math.max(1, parseInt(num_variations || numVariations || 1)));
 
   let baseUrl = `${req.protocol}://${req.get('host')}`;
-  // Ensure HTTPS for public tunnel URLs
   if (baseUrl.startsWith('http://') && (req.get('host') || '').includes('.')) {
     const host = req.get('host');
     if (host.includes('ngrok') || host.includes('loca.lt') || host.includes('cloudflare')) {
@@ -31,50 +34,32 @@ const handleGenerateMusic = async (req, res) => {
   console.log('\n--- 📥 NEW GENERATION REQUEST ---');
   console.log(`Prompt: "${prompt}" | Duration: ${targetDuration}s | Variations: ${targetVariations}`);
 
+  const varNames = targetVariations === 1 
+    ? ['Single Track'] 
+    : ['Variation A (Master)', 'Variation B (Dynamic Groove)', 'Variation C (Acoustic Reprise)'];
+  const variationsList = [];
+
   // ============================================================
-  // LEVEL 1: AI Generation (Kaggle MusicGen)
+  // LEVEL 1: Prompt Enhancement & Multi-Variation Generation
   // ============================================================
   try {
-    const enhancedPrompt = await PromptDirector.enhance(prompt);
-    const varNames = targetVariations === 1 ? ['Single Track'] : ['Variation A', 'Variation B', 'Variation C'];
-    const variationsList = [];
+    let enhancedPrompt = prompt;
+    try {
+      enhancedPrompt = await PromptDirector.enhance(prompt);
+    } catch (_) {
+      enhancedPrompt = prompt;
+    }
 
-    // Generate primary master track (Full high-fidelity audio)
-    const primaryResult = await generateCinematicMusic(enhancedPrompt, targetDuration);
-    logger.info(`[MusicGen Online] ✅ Master AI Track Generated: ${primaryResult.filename}`);
-
-    variationsList.push({
-      id: `ai-music-${Date.now()}-0`,
-      variation_name: varNames[0],
-      seed: primaryResult.seed || Math.floor(Math.random() * 2147483647),
-      audio_url: `${baseUrl}/public/generated/${primaryResult.filename}?v=${Date.now()}_0`,
-      duration: targetDuration,
-      created_at: new Date().toISOString()
-    });
-
-    // If multiple variations requested, generate remaining in parallel or background
-    if (targetVariations > 1) {
-      const remainingPromises = [];
-      for (let i = 1; i < targetVariations; i++) {
-        remainingPromises.push(
-          generateCinematicMusic(enhancedPrompt, targetDuration)
-            .then(res => ({
-              id: `ai-music-${Date.now()}-${i}`,
-              variation_name: varNames[i] || `Variation ${i + 1}`,
-              seed: res.seed || Math.floor(Math.random() * 2147483647),
-              audio_url: `${baseUrl}/public/generated/${res.filename}?v=${Date.now()}_${i}`,
-              duration: targetDuration,
-              created_at: new Date().toISOString()
-            }))
-            .catch(err => {
-              logger.warn(`[Multi-Variation] Sub-track ${i} fallback used: ${err.message}`);
-              return null;
-            })
-        );
-      }
-      const settled = await Promise.all(remainingPromises);
-      settled.forEach(item => {
-        if (item) variationsList.push(item);
+    for (let i = 0; i < targetVariations; i++) {
+      const trackResult = await generateCinematicMusic(enhancedPrompt, targetDuration, i);
+      variationsList.push({
+        id: `ai-music-${Date.now()}-${i}`,
+        variation_name: varNames[i] || `Variation ${i + 1}`,
+        seed: trackResult.seed || Math.floor(Math.random() * 2147483647),
+        audio_url: `${baseUrl}/public/generated/${trackResult.filename}?v=${Date.now()}_${i}`,
+        duration: targetDuration,
+        created_at: new Date().toISOString(),
+        source: trackResult.source || 'Gandharva AI'
       });
     }
 
@@ -86,57 +71,61 @@ const handleGenerateMusic = async (req, res) => {
       success: true,
       title: `AI: ${prompt.substring(0, 25).trim()}...`,
       audioUrl: variationsList[0].audio_url,
-      source: 'Kaggle AI (MusicGen Medium)',
+      source: variationsList[0].source || 'Gandharva AI Studio',
       isFallback: false
     });
   } catch (aiError) {
-    logger.warn(`[AI Engine Error] Primary AI generation unavailable: ${aiError.message}. Switching to local fallback library.`);
+    logger.warn(`[AI Engine Error] Generation fell back to local DSP engine: ${aiError.message}`);
     
     try {
-      const fs = require('fs');
-      const path = require('path');
-      const fallbackDir = path.join(__dirname, '../../assets/fallback_music');
-      const altFallbackDir = path.join(__dirname, '../../public/fallback');
-      const targetDir = fs.existsSync(fallbackDir) ? fallbackDir : altFallbackDir;
-      
-      if (fs.existsSync(targetDir)) {
-        const files = fs.readdirSync(targetDir).filter(f => f.endsWith('.mp3') || f.endsWith('.wav'));
-        if (files.length > 0) {
-          const selectedTrack = files[Math.floor(Math.random() * files.length)];
-          const fallbackUrl = `${baseUrl}/fallback/${selectedTrack}?v=${Date.now()}`;
-          
-          return res.status(200).json({
-            project_id: 'fallback-proj-' + Date.now(),
-            prompt: prompt,
-            enhanced_prompt: prompt,
-            variations: [{
-              id: `fallback-music-${Date.now()}-0`,
-              variation_name: 'Studio Fallback Track',
-              seed: 0,
-              audio_url: fallbackUrl,
-              duration: targetDuration,
-              created_at: new Date().toISOString(),
-              source: 'local_fallback',
-              isFallback: true,
-              is_fallback: true
-            }],
-            success: true,
-            title: `Studio: ${prompt.substring(0, 25).trim()}...`,
-            audioUrl: fallbackUrl,
-            source: 'local_fallback',
-            isFallback: true,
-            is_fallback: true
-          });
-        }
+      const localDir = path.join(__dirname, '../../public/generated');
+      if (!fs.existsSync(localDir)) {
+        fs.mkdirSync(localDir, { recursive: true });
       }
+
+      for (let i = 0; i < targetVariations; i++) {
+        const filename = `dsp_gen_${Date.now()}_${i}_${Math.floor(Math.random() * 1000)}.wav`;
+        const localPath = path.join(localDir, filename);
+        const dspBuffer = createSyntheticWavBuffer({
+          actIndex: i,
+          variationIndex: i,
+          durationSec: targetDuration,
+          genre: prompt,
+          story: prompt
+        });
+
+        fs.writeFileSync(localPath, dspBuffer);
+        variationsList.push({
+          id: `dsp-music-${Date.now()}-${i}`,
+          variation_name: varNames[i] || `Variation ${i + 1}`,
+          seed: Math.floor(Math.random() * 2147483647),
+          audio_url: `${baseUrl}/public/generated/${filename}?v=${Date.now()}_${i}`,
+          duration: targetDuration,
+          created_at: new Date().toISOString(),
+          source: 'Gandharva DSP Synthesizer',
+          isFallback: true
+        });
+      }
+
+      return res.status(200).json({
+        project_id: 'dsp-proj-' + Date.now(),
+        prompt: prompt,
+        enhanced_prompt: prompt,
+        variations: variationsList,
+        success: true,
+        title: `Studio: ${prompt.substring(0, 25).trim()}...`,
+        audioUrl: variationsList[0].audio_url,
+        source: 'Gandharva Studio DSP Synthesizer',
+        isFallback: true
+      });
     } catch (fallbackErr) {
-      logger.error(`[Local Fallback Error] ${fallbackErr.message}`);
+      logger.error(`[DSP Fallback Error] ${fallbackErr.message}`);
     }
 
-    return res.status(503).json({
+    return res.status(500).json({
       success: false,
-      error: 'Music generation is temporarily unavailable and no local fallback track is available.',
-      message: 'Music generation is temporarily unavailable and no local fallback track is available.'
+      error: 'Failed to synthesize audio tracks.',
+      message: 'Failed to synthesize audio tracks.'
     });
   }
 };

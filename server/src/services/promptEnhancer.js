@@ -2,8 +2,9 @@
  * PromptEnhancer Engine (GANDHARVA Studio Engine)
  * Intelligent Semantic Prompt Understanding & Master Music Production Synthesizer.
  * 
- * Deeply parses the user's prompt (mood, narrative, storyline, instruments, style, pacing)
- * and generates a bespoke, high-fidelity studio music prompt tailored specifically to the user's vision.
+ * Deeply parses the user's prompt (emotion, mood, narrative, storyline, instruments, style, pacing)
+ * and generates a bespoke, high-fidelity studio music prompt that strictly preserves and amplifies
+ * the exact emotion and spirit of the user's vision.
  */
 
 const COMPOSER_ARCHETYPES = {
@@ -86,31 +87,46 @@ const COMPOSER_ARCHETYPES = {
 };
 
 const INSTRUMENT_DICTIONARY = [
-  { match: /(flute|bansuri|woodwind)/i, name: "expressive Bansuri woodwinds", role: "melodic lead" },
-  { match: /(piano|grand piano|keys)/i, name: "intimate acoustic grand piano", role: "harmonic core" },
-  { match: /(violin|fiddle|strings)/i, name: "soaring orchestral violin ensemble", role: "emotional swells" },
+  { match: /(flute|bansuri|woodwind|bamboo)/i, name: "expressive Bansuri woodwinds", role: "melodic lead" },
+  { match: /(piano|grand piano|keys|felt piano)/i, name: "intimate acoustic grand piano", role: "harmonic core" },
+  { match: /(violin|fiddle|strings|string quartet)/i, name: "soaring orchestral violin ensemble", role: "emotional swells" },
   { match: /(cello|cellos)/i, name: "deep soulful acoustic cello", role: "low-mid warmth" },
-  { match: /(guitar|acoustic guitar)/i, name: "rich nylon & steel-string acoustic guitar", role: "rhythmic picking" },
+  { match: /(guitar|acoustic guitar|nylon guitar)/i, name: "rich nylon & steel-string acoustic guitar", role: "rhythmic picking" },
   { match: /(electric guitar|distorted guitar|rock guitar)/i, name: "gritty overdriven electric guitar riffs", role: "harmonic power" },
   { match: /(sitar)/i, name: "intricate classical sitar arpeggios", role: "classical texture" },
   { match: /(veena)/i, name: "majestic classical Veena plucks", role: "traditional resonance" },
-  { match: /(saxophone|sax|brass)/i, name: "warm velvet saxophone and brass swells", role: "rich overtones" },
-  { match: /(tabla|mridangam|dholak)/i, name: "authentic hand-played Indian percussion (Tabla & Dholak)", role: "rhythmic foundation" },
+  { match: /(saxophone|sax|brass|horns)/i, name: "warm velvet saxophone and brass swells", role: "rich overtones" },
+  { match: /(tabla|mridangam|dholak|ghatam)/i, name: "authentic hand-played Indian percussion (Tabla & Dholak)", role: "rhythmic foundation" },
   { match: /(808|sub bass|sub-bass|heavy bass)/i, name: "deep vibrating 808 sub-bass", role: "low-end weight" },
-  { match: /(synth|synthesizer|arpeggio)/i, name: "lush analog synthesizer pads and arpeggios", role: "modern soundscape" },
+  { match: /(synth|synthesizer|arpeggio|pad)/i, name: "lush analog synthesizer pads and arpeggios", role: "modern soundscape" },
   { match: /(harp)/i, name: "gentle concert harp glissandos", role: "ethereal shimmer" },
   { match: /(choir|vocal pads|choral)/i, name: "ethereal multi-voice choral harmonies", role: "spiritual atmosphere" },
-  { match: /(taiko|drums|cinematic percussion)/i, name: "thunderous cinematic taiko and orchestral drums", role: "percussive drive" }
+  { match: /(taiko|drums|cinematic percussion|dhol)/i, name: "thunderous cinematic taiko and orchestral drums", role: "percussive drive" }
 ];
 
 const THEMATIC_MOODS = [
   {
+    id: "deep_sadness_and_heartbreak",
+    match: /(sad|pain|cry|crying|tears?|grief|sorrow|loss|mourning|heartbreak|heartbroken|depress|agony|lonely|alone|broken|separation|goodbye|farewell|traged|mourn|regret|guilt|hurts?|ache|suffering|hopeless|despair|weep|weeping|broken[- ]heart|teardrop|melanchol|miss you|lost love)/i,
+    emotionLabel: "Profound Heartbreak, Sorrow & Emotional Longing",
+    genre: "Soul-Stirring Melancholic Cinematic Soundtrack",
+    bpm: "62-68 BPM",
+    key: "D Minor / C Minor",
+    intro: "opens with fragile, solitary felt piano notes and deep space between chords, evoking profound emotional vulnerability",
+    build: "develops with weeping cello countermelodies and a rising sorrowful violin quartet steeped in poignant grief and unhealed ache",
+    climax: "crests in an intensely moving, tear-inducing crescendo of soaring strings and melancholic acoustic plucks",
+    outro: "dissolves slowly into a solitary, lingering piano resonance surrounded by poignant quietude",
+    textures: "tear-soaked natural room reverb, intimate close-mic acoustic warmth, raw expressive dynamics",
+    defaultInstruments: ["intimate felt grand piano", "weeping acoustic cello", "expressive solo violin", "gentle acoustic guitar picking", "subtle ambient pad"]
+  },
+  {
     id: "sensual_intimate_romance",
-    match: /(sensual|seductive|hot romance|intimate|chemistry|desire|candlelight|lovers|penthouse|slow dance|bedroom|sultry)/i,
+    match: /(sensual|seductive|hot romance|intimate|chemistry|desire|candlelight|lovers|penthouse|slow dance|bedroom|sultry|erotic|alluring)/i,
+    emotionLabel: "Sensual Chemistry, Intimacy & Passionate Desire",
     genre: "Sensual & Seductive R&B Romantic Soundtrack",
     bpm: "74-78 BPM",
     key: "F-sharp Minor / D Minor",
-    intro: "sets an intimate atmosphere with velvet Rhodes chords, subtle vinyl saturation, and deep breathing room",
+    intro: "sets an intimate atmosphere with velvet Rhodes electric piano chords, subtle vinyl saturation, and deep breathing room",
     build: "unfolds a slow-burning groove with silky muted electric guitar riffs, warm 808 sub-bass, and sultry saxophone melodies",
     climax: "peaks in an intense, passionate surge of harmonic chemistry with soaring lead lines and warm stereo reverb",
     outro: "melts smoothly away into a whispering Rhodes chord and delicate bass decay",
@@ -118,21 +134,9 @@ const THEMATIC_MOODS = [
     defaultInstruments: ["Rhodes electric piano", "sultry tenor saxophone", "warm 808 sub-bass", "muted electric guitar", "soft trap percussion"]
   },
   {
-    id: "hero_mass_anthem",
-    match: /(hero|heroic|entry|mass|mass anthem|king|warrior|triumph|badass|attitude|swag|action|victory|fight|battle|hardcore|elevation|2040|hype)/i,
-    genre: "High-Octane Cinematic Mass Anthem",
-    bpm: "128-134 BPM",
-    key: "E Minor / A Minor",
-    intro: "strikes hard with punchy rhythm claps, dramatic low-brass stabs, and an ominous bass rise building immense anticipation",
-    build: "explodes into a driving groove with relentless heavy 808 kicks, sharp acoustic plucks, and syncopated brass fanfares",
-    climax: "delivers a colossal, stadium-shaking drop packed with wall-of-sound energy and triumphant horns",
-    outro: "concludes with a decisive, punchy sub-bass thud and echoing brass tail",
-    textures: "ultra-tight transient response, wide stereo mastering, aggressive sub-bass drive",
-    defaultInstruments: ["heavy 808 sub-bass", "punchy live percussion", "cinematic brass section", "distorted electric accents"]
-  },
-  {
-    id: "romantic_passion",
-    match: /(love|romantic|romance|passion|heart|sweet|kiss|wedding|soulmate|beloved|hug|date)/i,
+    id: "romantic_passion_and_love",
+    match: /(love|romantic|romance|passion|heart|sweet|kiss|wedding|soulmate|beloved|hug|date|crush|affection|tender|first love|falling in love|together)/i,
+    emotionLabel: "Pure Romance, Soulful Love & Tender Devotion",
     genre: "Lush Contemporary Romantic Symphony",
     bpm: "80-86 BPM",
     key: "E-flat Major / G Major",
@@ -141,37 +145,54 @@ const THEMATIC_MOODS = [
     climax: "blooms into an ecstatic, soaring romantic chorus filled with lush orchestral strings and uplifting chord cadences",
     outro: "finishes on a soothing, warm acoustic resolution that leaves a sweet romantic aftertaste",
     textures: "lush stereo chorus, warm low-end, sparkling high-frequency polish",
-    defaultInstruments: ["acoustic guitar", "grand piano", "soaring violin", "flute woodwinds", "warm bass"]
+    defaultInstruments: ["nylon acoustic guitar", "grand piano", "soaring violin", "flute woodwinds", "warm acoustic bass"]
   },
   {
-    id: "cyberpunk_synthwave",
-    match: /(cyber|cyberpunk|synthwave|retro|80s synth|future|futuristic|neon|techno|edm|electronic)/i,
-    genre: "Futuristic Cyberpunk Synthwave & Bass Drive",
-    bpm: "124-130 BPM",
-    key: "F Minor / D Minor",
-    intro: "boots up with sweeping analog filter sweeps, pulsing arpeggiated synths, and punchy vintage drum machine kicks",
-    build: "surges forward with a gritty running synth bassline, gated reverbed snares, and soaring neon synth leads",
-    climax: "ignites an adrenaline-fueled peak with intense sidechain compression, driving drum fills, and electrifying synth stabs",
-    outro: "ends with an abrupt low-pass filter sweep and echoing analog delay",
-    textures: "analog synthesizer grit, gated reverb, punchy transient dynamics",
-    defaultInstruments: ["analog synth leads", "running synth bass", "80s drum machines", "vocoder pads"]
+    id: "fiery_rage_and_vengeance",
+    match: /\b(angry|rage|furious|wrath|vengeance|revenge|hate|hatred|fury|aggressive|violence|destroy|destruction|brutal|dark power|monolithic|fiery|warrior wrath|retribution)\b/i,
+    emotionLabel: "Fiery Fury, Vengeance & Unstoppable Wrath",
+    genre: "Industrial Orchestral Metal & Dark War Anthem",
+    bpm: "132-142 BPM",
+    key: "D Minor (Drop D) / C Phrygian",
+    intro: "ignites with ominous distorted sub-drones, grinding metallic impacts, and menacing electric guitar whispers",
+    build: "accelerates furiously with thunderous taiko war drums, crushing heavy distorted guitar riffs, and screaming orchestral brass",
+    climax: "erupts into a ferocious, apocalyptic climax of raw sonic power, relentless double-kick impacts, and roaring symphonic chaos",
+    outro: "finishes with a heavy distorted chord decay, smoking feedback, and echoing war drum resonance",
+    textures: "heavy analog distortion, high-transient clipping, monolithic low-frequency impact",
+    defaultInstruments: ["distorted electric guitar walls", "crushing industrial bass", "thunderous taiko drums", "aggressive symphonic brass"]
   },
   {
-    id: "tragic_separation",
-    match: /(breakup|broken heart|divorce|lost love|goodbye|years apart|separation from love)/i,
-    genre: "Soul-Stirring Cinematic Melodrama",
-    bpm: "66-72 BPM",
-    key: "D Minor / B Minor",
-    intro: "opens with a fragile, solitary piano motif evoking tender nostalgic memories of the early days",
-    build: "gradually weaves in weeping cello lines and delicate violin counterpoints as emotional tension and tragic longing mount",
-    climax: "surges into a heart-wrenching orchestral crescendo where sweeping strings and acoustic plucks mourn what could have been",
-    outro: "gently dissolves into a solitary, echoing piano chord left hanging in reflective quietude",
-    textures: "natural room reverb, subtle vinyl warmth, intimate mic placement",
-    defaultInstruments: ["solo grand piano", "weeping cello", "expressive violin section", "warm ambient pads"]
+    id: "hero_mass_anthem",
+    match: /\b(hero|heroic|entry|mass|mass anthem|king|warrior|triumph|badass|attitude|swag|victory|elevation|hype|unstoppable|legend|conquer|champion|domination|stadium|punch)\b/i,
+    emotionLabel: "Electrifying Heroic Dominance, Swagger & Mass Elevation",
+    genre: "High-Octane Cinematic Mass Anthem",
+    bpm: "128-134 BPM",
+    key: "E Minor / A Minor",
+    intro: "strikes hard with punchy rhythm claps, dramatic low-brass stabs, and an ominous bass rise building immense anticipation",
+    build: "explodes into a driving groove with relentless heavy 808 kicks, sharp acoustic plucks, and syncopated brass fanfares",
+    climax: "delivers a colossal, stadium-shaking drop packed with wall-of-sound energy, triumphant horns, and roaring low end",
+    outro: "concludes with a decisive, punchy sub-bass thud and echoing brass tail",
+    textures: "ultra-tight transient response, wide stereo mastering, aggressive sub-bass drive",
+    defaultInstruments: ["heavy 808 sub-bass", "punchy live percussion", "cinematic brass section", "distorted electric accents", "energetic dholak"]
+  },
+  {
+    id: "uplifting_joy_and_celebration",
+    match: /(happy|joy|joyful|cheerful|celebrat|party|festiv|dance|ecstatic|excited|smile|smiling|sunshine|laughter|upbeat|bouncy|playful|carnival|bhangra|fun)/i,
+    emotionLabel: "Exuberant Joy, Euphoria & Festive Celebration",
+    genre: "Euphoric Festive Pop & Modern Celebration Symphony",
+    bpm: "124-132 BPM",
+    key: "G Major / C Major",
+    intro: "opens with bright acoustic guitar strums, cheerful clapping syncopations, and a buoyant melodic hook",
+    build: "rises with infectious live dance grooves, sparkling synthesizer plucks, and rich harmonic vocal pad layers",
+    climax: "soars into a burst of pure euphoria, featuring explosive brass fanfares, energetic percussion rolls, and irresistible dance momentum",
+    outro: "ends on a joyful, vibrant acoustic cadence with cheering room ambience and smiling high-end sparkle",
+    textures: "vibrant high-end clarity, wide joyful stereo spread, punchy and organic rhythm transients",
+    defaultInstruments: ["acoustic rhythm guitar", "lively live dholak/drums", "bright brass horns", "sparkling electric piano", "uplifting strings"]
   },
   {
     id: "childhood_rain_nostalgia",
-    match: /(walking in heavy rain|childhood nostalgia|old memories|lonely puddle|monsoon nostalgia)/i,
+    match: /(nostalg|childhood|memories|old days|past|monsoon|rain|walking in (?:the )?rain|puddle|reminisc|vintage|bittersweet|years ago|looking back|homesick)/i,
+    emotionLabel: "Bittersweet Rain Nostalgia & Cherished Childhood Memories",
     genre: "Atmospheric Melancholic Acoustic Journey",
     bpm: "70-76 BPM",
     key: "F Major / D Minor",
@@ -183,21 +204,9 @@ const THEMATIC_MOODS = [
     defaultInstruments: ["felt grand piano", "bamboo bansuri", "acoustic fingerstyle guitar", "chamber strings"]
   },
   {
-    id: "deep_sadness",
-    match: /(sad|pain|cry|tear|grief|sorrow|loss of someone|mourning|heartbroken|depressed)/i,
-    genre: "Intimate Cinematic Soundtrack",
-    bpm: "64-68 BPM",
-    key: "C Minor / G Minor",
-    intro: "starts with a sparse, haunting piano progression that leaves space between every note for emotional weight",
-    build: "layers a mournful solo cello and soft string quartet that rise in passionate, grief-laden counterpoint",
-    climax: "peaks in a breathtaking, tear-inducing climax of soaring violins and sub-bass resonance",
-    outro: "tapers off into a gentle, solitary piano resolution with lingering emotional depth",
-    textures: "extended reverb tails, intimate close-mic clarity, deep acoustic resonance",
-    defaultInstruments: ["grand piano", "solo cello", "soft string quartet", "subtle ambient drone"]
-  },
-  {
-    id: "lofi_peaceful",
-    match: /(lofi|lo-fi|chill|relax|peace|peaceful|sleep|study|night|ambient|calm|zen)/i,
+    id: "lofi_peaceful_serenity",
+    match: /(lofi|lo-fi|chill|relax|peace|peaceful|sleep|study|night|ambient|calm|zen|serene|tranquil|meditat|soothing|healing|gentle|quiet|cozy)/i,
+    emotionLabel: "Deep Tranquility, Inner Peace & Soothing Relaxation",
     genre: "Warm Melodic Lo-Fi & Ambient Soul",
     bpm: "72-78 BPM",
     key: "A-flat Major / C Minor",
@@ -209,8 +218,9 @@ const THEMATIC_MOODS = [
     defaultInstruments: ["vintage Rhodes piano", "lazy boom-bap drums", "warm sub-bass", "muted guitar", "jazz saxophone"]
   },
   {
-    id: "devotional_spiritual",
-    match: /(devotional|god|spiritual|bhajan|temple|sacred|divine|prayer|chant|krishna|shiva|mantra)/i,
+    id: "devotional_spiritual_bhakti",
+    match: /(devotional|god|spiritual|bhajan|temple|sacred|divine|prayer|chant|krishna|shiva|mantra|holy|blessing|worship|sanctuary|puja|aarti|bhakti)/i,
+    emotionLabel: "Sacred Spiritual Reverence, Divine Peace & Bhakti",
     genre: "Sacred Indian Classical & Devotional Symphony",
     bpm: "78-84 BPM",
     key: "C Major / D Major (Bhairavi / Kalyani Raga Colors)",
@@ -223,7 +233,8 @@ const THEMATIC_MOODS = [
   },
   {
     id: "horror_dark_suspense",
-    match: /(horror|scary|dark|creepy|ghost|haunted|fear|suspense|monster|thriller|nightmare|eerie)/i,
+    match: /(horror|scary|dark|creepy|ghost|haunted|fear|suspense|monster|thriller|nightmare|eerie|spooky|chilling|paranormal|ominous|shadows|jump[- ]scare|dissonant)/i,
+    emotionLabel: "Chilling Psychological Suspense, Dread & Terror",
     genre: "Dark Atmospheric Psychological Suspense Score",
     bpm: "58-64 BPM",
     key: "C Minor / D-sharp Diminished",
@@ -235,8 +246,37 @@ const THEMATIC_MOODS = [
     defaultInstruments: ["dissonant strings", "low sub drone", "unsettling music box", "metallic percussion"]
   },
   {
+    id: "cyberpunk_synthwave",
+    match: /(cyber|cyberpunk|synthwave|retro|80s synth|future|futuristic|neon|techno|edm|electronic|android|dystopia|hologram|space|spaceship|galaxy|sci[- ]fi)/i,
+    emotionLabel: "High-Tech Cybernetic Adrenaline & Neon Mystery",
+    genre: "Futuristic Cyberpunk Synthwave & Bass Drive",
+    bpm: "124-130 BPM",
+    key: "F Minor / D Minor",
+    intro: "boots up with sweeping analog filter sweeps, pulsing arpeggiated synths, and punchy vintage drum machine kicks",
+    build: "surges forward with a gritty running synth bassline, gated reverbed snares, and soaring neon synth leads",
+    climax: "ignites an adrenaline-fueled peak with intense sidechain compression, driving drum fills, and electrifying synth stabs",
+    outro: "ends with an abrupt low-pass filter sweep and echoing analog delay",
+    textures: "analog synthesizer grit, gated reverb, punchy transient dynamics",
+    defaultInstruments: ["analog synth leads", "running synth bass", "80s drum machines", "vocoder pads"]
+  },
+  {
+    id: "phonk_drift_workout",
+    match: /(phonk|drift|workout|gym|adrenaline|speed|fast car|racing|drift car|motivation|hardcore|intense workout|chase)/i,
+    emotionLabel: "Aggressive Motivation, Adrenaline & Raw Drive",
+    genre: "High-Octane Phonk & Drift Bass Master",
+    bpm: "138-146 BPM",
+    key: "F-sharp Minor / D Minor",
+    intro: "initiates with dark menacing cowbell melodies, filtered low-frequency rumble, and rising engine rev textures",
+    build: "drops into a relentless high-speed groove with sliding 808 sub-bass, fast Memphis trap rhythms, and crisp rimshots",
+    climax: "unleashes maximum velocity with distorted sub-bass saturation, lightning-fast hi-hat rolls, and dark brass stabs",
+    outro: "cuts out with a sharp bass slide and trailing echo",
+    textures: "aggressive clipping transients, car audio bass saturation, dark lo-fi cowbells",
+    defaultInstruments: ["distorted cowbells", "sliding 808 sub-bass", "fast trap percussion", "dark brass"]
+  },
+  {
     id: "folk_village_celebration",
-    match: /(village|folk|rural|traditional|teenmaar|dhol|marathi|bhangra|dance|celebration|festival|party)/i,
+    match: /(village|folk|rural|traditional|teenmaar|dhol|marathi|bhangra|dance|celebration|festival|party|carnival)/i,
+    emotionLabel: "Earthy Village Energy, Festivity & Raw Celebration",
     genre: "High-Energy Folk Fusion & Festive Dance",
     bpm: "132-138 BPM",
     key: "G Major / A Major",
@@ -246,14 +286,92 @@ const THEMATIC_MOODS = [
     outro: "ends with a celebratory syncopated drum flourish and cheering crowd ambiance",
     textures: "live festival ambience, crisp acoustic attacks, wide energetic stereo field",
     defaultInstruments: ["live Dholak & Dhol", "folk flute", "acoustic rhythm guitar", "festival brass horns"]
+  },
+  {
+    id: "familial_sacrifice_melodrama",
+    match: /(mother|father|sacrifice|family|struggle|hardship|devotion of a mother|tearful goodbye|unconditional love|parent)/i,
+    emotionLabel: "Deep Familial Devotion, Sacrificial Love & Poignancy",
+    genre: "Deeply Moving Cinematic Melodrama",
+    bpm: "66-72 BPM",
+    key: "D Minor to F Major",
+    intro: "opens with tender acoustic guitar notes and a soft, warm piano motif portraying selfless devotion and love",
+    build: "gradually elevates with sweeping symphonic strings and an emotive solo bansuri or cello highlighting hardships endured",
+    climax: "swells into a breathtaking, heart-stirring crescendo of orchestral majesty that celebrates unwavering love",
+    outro: "fades into a peaceful, deeply comforting acoustic lullaby resonance",
+    textures: "warm emotional harmonics, pristine symphonic depth, gentle acoustic warmth",
+    defaultInstruments: ["tender grand piano", "solo bansuri/cello", "symphonic string section", "warm acoustic guitar"]
   }
 ];
 
 class PromptEnhancer {
   /**
-   * Intelligently parses user prompt and synthesizes a 100% tailored master production prompt.
+   * Intelligently parses user prompt for emotion, mood, tempo, and instruments.
    * @param {string} rawPrompt 
-   * @returns {string} Highly descriptive master music generation prompt
+   * @returns {object} Analysis result
+   */
+  static analyzePrompt(rawPrompt) {
+    if (!rawPrompt || typeof rawPrompt !== 'string') {
+      return {
+        genre: "Cinematic",
+        moodName: "Cinematic",
+        emotionLabel: "Cinematic Emotion",
+        suggestedBpm: "96 BPM",
+        suggestedKey: "D Minor"
+      };
+    }
+
+    const input = rawPrompt.trim();
+
+    // 1. Detect Dominant Thematic Mood via Scored Matching
+    let matchedMood = null;
+    let highestScore = 0;
+
+    for (const mood of THEMATIC_MOODS) {
+      const regex = new RegExp(mood.match.source, 'gi');
+      const matches = input.match(regex);
+      if (matches && matches.length > 0) {
+        let score = matches.length * 10;
+        matches.forEach(m => { score += m.length; });
+        if (score > highestScore) {
+          highestScore = score;
+          matchedMood = mood;
+        }
+      }
+    }
+
+    if (!matchedMood) {
+      matchedMood = {
+        genre: "Original Modern Cinematic Studio Production",
+        moodName: "Emotional Cinematic",
+        emotionLabel: "Deep Narrative Emotion & Dynamic Atmosphere",
+        bpm: "92-98 BPM",
+        key: "D Minor",
+        intro: `opens with an evocative thematic introduction reflecting "${input}"`,
+        build: "gradually layers rich acoustic and electronic harmonies, building profound emotional momentum and narrative depth",
+        climax: "culminates in a vibrant, emotionally charged studio master peak",
+        outro: "resolves smoothly with pristine natural decay and balanced stereo space",
+        textures: "balanced dynamic range, wide stereo imaging, broadcast-grade clarity",
+        defaultInstruments: ["grand piano", "acoustic string ensemble", "sub-bass", "studio percussion"]
+      };
+    }
+
+    const bpmMatch = input.match(/(\d{2,3})\s*bpm/i);
+    const keyMatch = input.match(/\b(key of\s+[A-G][b#]?\s*(?:minor|major|m)?|[A-G][b#]?\s+(?:minor|major))\b/i);
+
+    return {
+      genre: matchedMood.genre,
+      moodName: matchedMood.emotionLabel || matchedMood.id,
+      emotionLabel: matchedMood.emotionLabel || "Rich Expressive Emotion",
+      suggestedBpm: bpmMatch ? `${bpmMatch[1]} BPM` : matchedMood.bpm,
+      suggestedKey: keyMatch ? keyMatch[0] : matchedMood.key,
+      thematicMood: matchedMood
+    };
+  }
+
+  /**
+   * Intelligently parses user prompt and synthesizes a 100% emotion-preserving master production prompt.
+   * @param {string} rawPrompt 
+   * @returns {string} Highly descriptive master music generation prompt faithfully carrying the user's emotion
    */
   static enhance(rawPrompt) {
     if (!rawPrompt || !rawPrompt.trim()) {
@@ -284,48 +402,24 @@ class PromptEnhancer {
       }
     }
 
-    // 3. Detect Explicit BPM / Key if mentioned in text
-    const bpmMatch = input.match(/(\d{2,3})\s*bpm/i);
-    const keyMatch = input.match(/\b(key of\s+[A-G][b#]?\s*(?:minor|major|m)?|[A-G][b#]?\s+(?:minor|major))\b/i);
-
-    // 4. Find Best Thematic Mood Match
-    let matchedMood = null;
-    for (const mood of THEMATIC_MOODS) {
-      if (mood.match.test(input)) {
-        matchedMood = mood;
-        break;
-      }
-    }
-
-    if (!matchedMood) {
-      matchedMood = {
-        genre: "Original Modern Cinematic Studio Production",
-        bpm: "96-104 BPM",
-        key: "D Minor",
-        intro: `opens with a captivating thematic introduction centered around the concept of "${input}"`,
-        build: "gradually layers rich acoustic and electronic harmonies, building dynamic momentum and narrative depth",
-        climax: "culminates in a vibrant, emotionally charged studio master peak",
-        outro: "resolves smoothly with pristine natural decay and balanced stereo space",
-        textures: "balanced dynamic range, wide stereo imaging, broadcast-grade clarity",
-        defaultInstruments: ["grand piano", "acoustic string ensemble", "sub-bass", "studio percussion"]
-      };
-    }
-
-    const chosenBpm = bpmMatch ? `${bpmMatch[1]} BPM` : matchedMood.bpm;
-    const chosenKey = keyMatch ? keyMatch[0] : matchedMood.key;
+    // 3. Analyze Emotion and Mood
+    const analysis = this.analyzePrompt(input);
+    const matchedMood = analysis.thematicMood;
+    const chosenBpm = analysis.suggestedBpm;
+    const chosenKey = analysis.suggestedKey;
 
     // Combine detected instruments with mood instruments
     const finalInstrumentsList = [...new Set([...detectedInstruments, ...matchedMood.defaultInstruments])];
     const instrumentsStr = finalInstrumentsList.slice(0, 5).join(", ");
 
-    // Assemble Narrative Enhancement
+    // Assemble Narrative Enhancement with Uncompromising Emotional Fidelity
     const enhancedParagraph = [
-      `A master-tier ${matchedMood.genre} crafted specifically around: "${input}".`,
+      `A master-tier ${matchedMood.genre} carrying the exact emotion of "${input}" with ${matchedMood.emotionLabel}.`,
       composerContext ? composerContext.trim() : "",
       `Movement & Harmonic Structure: Composed at ${chosenBpm} in ${chosenKey}.`,
-      `Progression: The piece ${matchedMood.intro}. It ${matchedMood.build}. At its summit, the arrangement ${matchedMood.climax}. Finally, it ${matchedMood.outro}.`,
+      `Emotional Arc & Progression: The piece ${matchedMood.intro}. It ${matchedMood.build}. At its summit, the arrangement ${matchedMood.climax}. Finally, it ${matchedMood.outro}.`,
       `Featured Instrumentation: ${instrumentsStr}.`,
-      `Acoustic Engineering: ${matchedMood.textures}, pristine 24-bit studio mastering, zero noise distortion, immersive depth.`
+      `Acoustic Engineering: ${matchedMood.textures}, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.`
     ].filter(Boolean).join(" ");
 
     return enhancedParagraph;

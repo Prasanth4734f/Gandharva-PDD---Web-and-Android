@@ -690,13 +690,14 @@ const StoryToAlbumScreen = ({ navigation }) => {
       // 100% Guaranteed High-Fidelity Distinct Audio per Act & Variation
       if (!aceBgmUrl) {
         try {
+          const sceneContext = `${t.title || ''} ${t.emotion || ''} ${bp?.genre || ''} ${bp?.story || story || ''}`;
           const wavBuffer1 = createSyntheticWavBuffer({
             actIndex: idx,
             variationIndex: 0,
-            bpm: t.suggested_bpm || (90 + idx * 6),
+            bpm: t.suggested_bpm || (88 + idx * 6),
             durationSec: 8,
-            genre: bp?.genre || 'Cinematic',
-            story: bp?.story || story || ''
+            genre: t.emotion || bp?.genre || 'Cinematic',
+            story: sceneContext
           });
           aceBgmUrl = await bufferToAudioUri(wavBuffer1, `story_act_${idx + 1}_var1.wav`);
         } catch (_) {
@@ -706,13 +707,14 @@ const StoryToAlbumScreen = ({ navigation }) => {
 
       if (!mgenBgmUrl) {
         try {
+          const sceneContext = `${t.title || ''} ${t.emotion || ''} ${bp?.genre || ''} ${bp?.story || story || ''}`;
           const wavBuffer2 = createSyntheticWavBuffer({
             actIndex: idx,
             variationIndex: 1,
-            bpm: (t.suggested_bpm || (90 + idx * 6)) + 4,
+            bpm: (t.suggested_bpm || (88 + idx * 6)) + 6,
             durationSec: 8,
-            genre: bp?.genre || 'Cinematic',
-            story: bp?.story || story || ''
+            genre: t.emotion || bp?.genre || 'Cinematic',
+            story: sceneContext
           });
           mgenBgmUrl = await bufferToAudioUri(wavBuffer2, `story_act_${idx + 1}_var2.wav`);
         } catch (_) {

@@ -47,7 +47,8 @@ class GandharvaModelClient {
 
         if (mode === 'PROMPT_DIRECTOR') {
           apiEndpoint = `${HF_SPACE_URL}/api/enhance_prompt`;
-          reqData = [promptText, options.genre || "Synthwave / Cyberpunk", options.mood || "Cinematic"];
+          const analysis = PromptEnhancer.analyzePrompt(promptText);
+          reqData = [promptText, options.genre || analysis.genre, options.mood || analysis.moodName];
         } else if (mode === 'NIE_BLUEPRINT') {
           apiEndpoint = `${HF_SPACE_URL}/api/generate_blueprint`;
           reqData = [promptText, options.genre || "Cinematic Drama", options.track_count || 4];
