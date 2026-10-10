@@ -93,27 +93,41 @@ const SignupScreen = ({ navigation }) => {
     }
   };
 
+  const notifyUser = (title, message) => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.alert(`${title}\n${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
   const handleSendOtp = async () => {
     const cleanEmail = email.trim().toLowerCase();
     if (!cleanEmail || !cleanEmail.includes('@')) {
-      Alert.alert('Missing Email', 'Please enter a valid email address.');
+      notifyUser('Missing Email', 'Please enter a valid email address.');
       return;
     }
 
     setLoading(true);
     try {
-      const res = await sendEmailVerificationCode(cleanEmail);
+      const res = await sendEmailVerificationCode(cleanEmail, username);
       setLoading(false);
 
       if (res.success) {
         setSentCode(res.code || '');
-        setOtp('');
+        if (res.code) {
+          setOtp(res.code);
+        } else {
+          setOtp('');
+        }
         setOtpSent(true);
         setCountdown(60);
+      } else {
+        notifyUser('Error', res.error || 'Failed to dispatch verification code.');
       }
     } catch (err) {
       setLoading(false);
-      Alert.alert('Error', err.message || 'Failed to dispatch verification code.');
+      notifyUser('Error', err.message || 'Failed to dispatch verification code.');
     }
   };
 
@@ -122,7 +136,7 @@ const SignupScreen = ({ navigation }) => {
     const cleanOtp = otp.trim();
 
     if (!cleanOtp) {
-      Alert.alert('Missing Code', 'Please enter the 6-digit verification code.');
+      notifyUser('Missing Code', 'Please enter the 6-digit verification code.');
       return;
     }
 
@@ -134,11 +148,11 @@ const SignupScreen = ({ navigation }) => {
       if (res.success) {
         routeUser(res.role || (cleanEmail === 'prasanthm4734h@gmail.com' ? 'admin' : 'artist'));
       } else {
-        Alert.alert('Verification Failed', res.error || 'Invalid OTP code.');
+        notifyUser('Verification Failed', res.error || 'Invalid OTP code.');
       }
     } catch (err) {
       setVerifying(false);
-      Alert.alert('Error', err.message || 'Verification could not be completed.');
+      notifyUser('Error', err.message || 'Verification could not be completed.');
     }
   };
 

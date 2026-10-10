@@ -363,8 +363,6 @@ const handleHealthCheck = async (req, res) => {
   return res.status(200).json(_lastHealthCheckResult);
 };
 
-const PromptDirector = require('../services/prompt_director');
-
 const handleEnhancePrompt = async (req, res) => {
   const { prompt } = req.body;
   if (!prompt) return res.status(400).json({ success: false, message: 'Prompt required' });

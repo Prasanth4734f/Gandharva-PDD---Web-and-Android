@@ -192,11 +192,23 @@ const LoginScreen = ({ navigation }) => {
     };
   }, []);
 
+  const notifyUser = (title, message) => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      window.alert(`${title}\n${message}`);
+    } else {
+      Alert.alert(title, message);
+    }
+  };
+
   // 1. Send OTP Action
   const handleSendOtp = async () => {
     const cleanEmail = email.trim().toLowerCase();
+    setIsErrorTriggered(false);
+    setOtpErrorMessage('');
+
     if (!cleanEmail || !cleanEmail.includes('@')) {
-      Alert.alert('Missing Email', 'Please enter a valid email address.');
+      setOtpErrorMessage('Please enter a valid email address.');
+      notifyUser('Missing Email', 'Please enter a valid email address.');
       return;
     }
 
@@ -209,18 +221,28 @@ const LoginScreen = ({ navigation }) => {
         return;
       }
 
-      const res = await sendEmailVerificationCode(cleanEmail);
+      const res = await sendEmailVerificationCode(cleanEmail, name);
       setLoading(false);
 
       if (res.success) {
         setSentCode(res.code || '');
-        setOtp('');
+        if (res.code) {
+          setOtp(res.code);
+        } else {
+          setOtp('');
+        }
         setOtpSent(true);
         setCountdown(60);
+        setShowOtpToast(true);
+        setTimeout(() => setShowOtpToast(false), 4000);
+      } else {
+        setOtpErrorMessage(res.error || 'Failed to dispatch verification code.');
+        notifyUser('Error', res.error || 'Failed to dispatch verification code.');
       }
     } catch (err) {
       setLoading(false);
-      Alert.alert('Error', err.message || 'Failed to dispatch verification code.');
+      setOtpErrorMessage(err.message || 'Failed to dispatch verification code.');
+      notifyUser('Error', err.message || 'Failed to dispatch verification code.');
     }
   };
 
@@ -237,7 +259,8 @@ const LoginScreen = ({ navigation }) => {
     const cleanOtp = otp.trim();
 
     if (!cleanOtp || cleanOtp.length < 6) {
-      Alert.alert('Incomplete Code', 'Please enter the complete 6-digit OTP code.');
+      setOtpErrorMessage('Please enter the complete 6-digit OTP code.');
+      notifyUser('Incomplete Code', 'Please enter the complete 6-digit OTP code.');
       return;
     }
 
@@ -307,7 +330,9 @@ const LoginScreen = ({ navigation }) => {
       {showOtpToast && (
         <View style={styles.toastPopup} pointerEvents="none">
           <Mail color="#00E5FF" size={18} />
-          <Text style={styles.toastPopupText}>Verification Code Sent!</Text>
+          <Text style={styles.toastPopupText}>
+            {sentCode ? `Verification Code: ${sentCode}` : 'Verification Code Sent!'}
+          </Text>
         </View>
       )}
 
@@ -417,6 +442,26 @@ const LoginScreen = ({ navigation }) => {
                 </View>
                 <View style={[styles.underline, emailFocused && styles.underlineActive]} />
 
+                {/* Inline Error Message Banner */}
+                {otpErrorMessage ? (
+                  <View style={{
+                    marginTop: 14,
+                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    borderColor: 'rgba(239, 68, 68, 0.4)',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 8
+                  }}>
+                    <Text style={{ color: '#FCA5A5', fontSize: 12, fontWeight: '600', flex: 1 }}>
+                      {otpErrorMessage}
+                    </Text>
+                  </View>
+                ) : null}
+
                 {/* OTP Verification Section (Displays when OTP is Sent) */}
                 {otpSent ? (
                   <View style={{ marginTop: 20, position: 'relative' }}>
@@ -442,6 +487,32 @@ const LoginScreen = ({ navigation }) => {
                       <KeyRound color={otpFocused ? '#00E5FF' : '#A0AEC0'} size={18} />
                     </View>
                     <View style={[styles.underline, otpFocused && styles.underlineActive]} />
+
+                    {/* Auto-fill Code Badge if Code is Available */}
+                    {sentCode ? (
+                      <TouchableOpacity 
+                        onPress={() => setOtp(sentCode)}
+                        activeOpacity={0.7}
+                        style={{
+                          marginTop: 10,
+                          paddingVertical: 5,
+                          paddingHorizontal: 12,
+                          backgroundColor: 'rgba(0, 229, 255, 0.12)',
+                          borderRadius: 20,
+                          borderWidth: 1,
+                          borderColor: 'rgba(0, 229, 255, 0.35)',
+                          alignSelf: 'center',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: 6
+                        }}
+                      >
+                        <CheckCircle2 color="#00E5FF" size={13} />
+                        <Text style={{ color: '#00E5FF', fontSize: 12, fontWeight: '700' }}>
+                          Code: {sentCode} (Tap to Fill)
+                        </Text>
+                      </TouchableOpacity>
+                    ) : null}
 
                     {/* Change Details / Resend Link */}
                     <View style={styles.otpHelperRow}>

@@ -22,7 +22,8 @@ router.post('/auth/send-otp', otpLimiter, async (req, res) => {
     return res.json({
       success: true,
       message: `Verification code sent to ${email}`,
-      email: result.email
+      email: result.email,
+      code: result.code
     });
   } catch (err) {
     console.error('send-otp error:', err);
