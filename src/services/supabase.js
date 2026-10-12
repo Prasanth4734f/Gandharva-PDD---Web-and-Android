@@ -254,12 +254,34 @@ export const authenticateUser = async (email, password) => {
   return { success: false, error: 'User not found. Please register as a new user.' };
 };
 
+const extractErrorMessage = (err, fallback = 'Failed to dispatch verification code.') => {
+  if (!err) return fallback;
+  if (typeof err === 'string') {
+    const trimmed = err.trim();
+    if (trimmed && trimmed !== '{}' && trimmed !== '[object Object]') return trimmed;
+    return fallback;
+  }
+  if (typeof err === 'object') {
+    if (typeof err.message === 'string' && err.message.trim() && err.message !== '{}') {
+      return err.message.trim();
+    }
+    if (typeof err.error_description === 'string' && err.error_description.trim()) {
+      return err.error_description.trim();
+    }
+    if (typeof err.error === 'string' && err.error.trim()) {
+      return err.error.trim();
+    }
+  }
+  return fallback;
+};
+
 // 1. Send Authentic Email Verification Code (OTP) to User's Email
 export const sendEmailVerificationCode = async (email, name = '') => {
   const cleanEmail = email.trim().toLowerCase();
   const baseUrl = getServerBaseUrl();
 
   // 1. Dispatch through Backend Email Service
+  let backendErrDetail = null;
   try {
     const response = await fetch(`${baseUrl}/api/auth/send-otp`, {
       method: 'POST',
@@ -267,30 +289,40 @@ export const sendEmailVerificationCode = async (email, name = '') => {
       body: JSON.stringify({ email: cleanEmail, name })
     });
 
-    const data = await response.json();
-    if (response.ok && data.success) {
+    let data = null;
+    try {
+      data = await response.json();
+    } catch (_) {}
+
+    if (response.ok && data?.success) {
       console.log(`[Email Dispatch] Real OTP email dispatched to ${cleanEmail}`);
       return { success: true, email: cleanEmail };
-    } else {
-      console.warn('[Email Dispatch Backend Error]:', data.error);
-      return { success: false, error: data.error || 'Failed to dispatch verification code.' };
     }
-  } catch (backendErr) {
-    console.warn('[Email Dispatch Connection Error]:', backendErr.message);
 
-    // 2. Secondary Direct Supabase OTP Dispatch
-    try {
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email: cleanEmail,
-        options: { shouldCreateUser: true }
-      });
-      if (!error) {
-        return { success: true, email: cleanEmail };
-      }
-      return { success: false, error: error.message || backendErr.message };
-    } catch (supaErr) {
-      return { success: false, error: backendErr.message || 'Unable to connect to authentication server.' };
+    if (response.status === 401) {
+      backendErrDetail = 'Vercel Deployment Protection is active on this preview deployment URL. Please disable Vercel Authentication under Project Settings > Deployment Protection in Vercel, or use the main production domain.';
+    } else {
+      backendErrDetail = extractErrorMessage(data?.error, `Authentication server returned error (HTTP ${response.status})`);
     }
+    console.warn('[Email Dispatch Backend Error]:', backendErrDetail);
+  } catch (backendErr) {
+    backendErrDetail = backendErr.message || 'Unable to connect to authentication server.';
+    console.warn('[Email Dispatch Connection Error]:', backendErrDetail);
+  }
+
+  // 2. Secondary Direct Supabase OTP Dispatch
+  try {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email: cleanEmail,
+      options: { shouldCreateUser: true }
+    });
+    if (!error) {
+      return { success: true, email: cleanEmail };
+    }
+    const supaErr = extractErrorMessage(error, null);
+    return { success: false, error: supaErr || backendErrDetail || 'Unable to dispatch verification code. Please check your credentials.' };
+  } catch (supaErr) {
+    return { success: false, error: backendErrDetail || 'Unable to connect to authentication server.' };
   }
 };
 
@@ -308,13 +340,17 @@ export const verifyEmailVerificationCode = async (email, enteredCode, fullName =
       body: JSON.stringify({ email: cleanEmail, code: cleanCode, name: fullName })
     });
 
-    const data = await response.json();
-    if (response.ok && data.success) {
+    let data = null;
+    try {
+      data = await response.json();
+    } catch (_) {}
+
+    if (response.ok && data?.success) {
       const userName = fullName.trim() || cleanEmail.split('@')[0];
       const result = await registerUser(cleanEmail, 'OTP_Verified_Session_2026', userName);
       return { success: true, user: result.user, role: data.role || result.user.role, session: result.session };
     } else if (data && data.error) {
-      return { success: false, error: data.error };
+      return { success: false, error: extractErrorMessage(data.error, 'Invalid verification code.') };
     }
   } catch (beErr) {
     console.warn(`[Backend Verify Note]: ${beErr.message}`);
@@ -332,7 +368,7 @@ export const verifyEmailVerificationCode = async (email, enteredCode, fullName =
       const result = await registerUser(cleanEmail, 'OTP_Verified_Session_2026', userName);
       return { success: true, user: result.user, role: result.user.role, session: result.session };
     } else if (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: extractErrorMessage(error, 'Invalid or expired verification code.') };
     }
   } catch (e) {}
 

@@ -192,10 +192,17 @@ const LoginScreen = ({ navigation }) => {
   }, []);
 
   const notifyUser = (title, message) => {
+    let text = message;
+    if (typeof message === 'object') {
+      text = message?.message || message?.error || JSON.stringify(message);
+    }
+    if (!text || text === '{}' || text === '[object Object]') {
+      text = 'An unexpected error occurred while communicating with the server. Please check your connection and try again.';
+    }
     if (Platform.OS === 'web' && typeof window !== 'undefined') {
-      window.alert(`${title}\n${message}`);
+      window.alert(`${title}\n${text}`);
     } else {
-      Alert.alert(title, message);
+      Alert.alert(title, text);
     }
   };
 
