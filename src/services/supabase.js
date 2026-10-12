@@ -290,8 +290,10 @@ export const sendEmailVerificationCode = async (email, name = '') => {
     });
 
     let data = null;
+    let rawText = '';
     try {
-      data = await response.json();
+      rawText = await response.text();
+      data = JSON.parse(rawText);
     } catch (_) {}
 
     if (response.ok && data?.success) {
@@ -301,8 +303,12 @@ export const sendEmailVerificationCode = async (email, name = '') => {
 
     if (response.status === 401) {
       backendErrDetail = 'Vercel Deployment Protection is active on this preview deployment URL. Please disable Vercel Authentication under Project Settings > Deployment Protection in Vercel, or use the main production domain.';
+    } else if (data?.error) {
+      backendErrDetail = extractErrorMessage(data.error, `Authentication server returned error (HTTP ${response.status})`);
+    } else if (rawText && rawText.includes('FUNCTION_INVOCATION_FAILED')) {
+      backendErrDetail = 'Vercel serverless function initialization failed (FUNCTION_INVOCATION_FAILED).';
     } else {
-      backendErrDetail = extractErrorMessage(data?.error, `Authentication server returned error (HTTP ${response.status})`);
+      backendErrDetail = extractErrorMessage(rawText, `Authentication server returned error (HTTP ${response.status})`);
     }
     console.warn('[Email Dispatch Backend Error]:', backendErrDetail);
   } catch (backendErr) {

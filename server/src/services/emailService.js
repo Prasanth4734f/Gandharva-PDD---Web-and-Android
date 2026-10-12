@@ -1,15 +1,10 @@
 const nodemailer = require('nodemailer');
 const { supabase } = require('./supabase');
 
-const dns = require('dns');
-try {
-  dns.setDefaultResultOrder('ipv4first');
-} catch (_) {}
-
 // Active OTP Code storage: Map<email, { code, expiresAt, name }>
 const otpStore = new Map();
 
-// High-speed Pooled Mail Transporter for Sub-second Delivery
+// High-speed Mail Transporter
 let transporter = null;
 
 function getTransporter() {
@@ -19,23 +14,29 @@ function getTransporter() {
   const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD || 'pdzghmxvgbpwhexf';
   const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
   const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
-  const secure = smtpPort === 465;
 
-  transporter = nodemailer.createTransport({
-    host: smtpHost,
-    port: smtpPort,
-    secure,
-    connectionTimeout: 8000,
-    greetingTimeout: 8000,
-    socketTimeout: 8000,
-    auth: {
-      user: smtpUser.trim(),
-      pass: smtpPass.trim()
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  });
+  if (smtpHost === 'smtp.gmail.com' || smtpUser.includes('@gmail.com')) {
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: smtpUser.trim(),
+        pass: smtpPass.trim()
+      }
+    });
+  } else {
+    transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: {
+        user: smtpUser.trim(),
+        pass: smtpPass.trim()
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    });
+  }
 
   return transporter;
 }
