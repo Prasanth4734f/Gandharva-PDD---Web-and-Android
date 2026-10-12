@@ -1,0 +1,894 @@
+{
+  "version": "1.0.0",
+  "startTime": "2026-10-12T03:49:58.890Z",
+  "lastUpdated": "2026-10-12T04:45:42.998Z",
+  "completedPhases": [],
+  "features": {
+    "FEATURE_S_HEALTH": {
+      "name": "Backend and AI Service Health",
+      "status": "FAILED",
+      "error": "timeout of 5000ms exceeded",
+      "recordedAt": "2026-10-12T04:44:38.047Z"
+    },
+    "FEATURE_A_AUTH": {
+      "name": "Authentication and OTP",
+      "status": "PASSED",
+      "executionTimeMs": 18779,
+      "dummyBlocked": true,
+      "noCodeLeak": true,
+      "googleAuthWorking": true,
+      "recordedAt": "2026-10-12T04:44:56.830Z"
+    },
+    "FEATURE_D_PROMPT_ENHANCE": {
+      "name": "Music Prompt Enhancement",
+      "status": "PASSED",
+      "executionTimeMs": 4,
+      "inputPrompt": "heavy villain elevation background music",
+      "enhancedPrompt": "A master-tier Monolithic Dark Orchestral & Heavy Industrial Score carrying the exact emotion of \"heavy villain elevation background music\" with Dark Menacing Dominance, Intimidation & Villain Elevation. Movement & Harmonic Structure: Composed at 110-120 BPM in D Minor / C Phrygian. Emotional Arc & Progression: The piece opens with an ominous low brass drone, sinister clockwork ostinato, and deep sub-bass tremors establishing an intimidating, menacing presence. It escalates with aggressive industrial percussion, distorted synth bass pulses, and dark dissonant orchestral swells. At its summit, the arrangement explodes into a terrifying, colossal wall-of-sound climax with thunderous war drums, roaring low brass, and crushing sub-bass dominance. Finally, it ends with a lingering, menacing dark drone and heavy metallic reverb tail. Featured Instrumentation: low brass section, distorted 808 sub-bass, industrial war drums, dissonant strings, dark analog synth. Acoustic Engineering: heavy analog distortion, monolithic low-frequency impact, menacing spatial depth, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "preservesEmotion": true,
+      "recordedAt": "2026-10-12T04:44:56.836Z"
+    },
+    "FEATURE_E_F_LYRICS": {
+      "name": "Lyrics Studio & Telugu Completeness",
+      "status": "PASSED",
+      "executionTimeMs": 15952,
+      "lineCount": 28,
+      "hasSections": true,
+      "isTelugu": true,
+      "sampleLines": [
+        "[హుక్ / ఇంట్రో]",
+        "మనసును తాకే మౌన రాగమై నిలిచావు నీవు,",
+        "కంటిపాపలో మెరిసే వెన్నెల భానుడవు నీవు!",
+        "ఎడబాటు లేని అనుబంధాల తీరానికి,"
+      ],
+      "recordedAt": "2026-10-12T04:45:12.789Z"
+    },
+    "FEATURE_G_STORY_TO_ALBUM": {
+      "name": "Story-to-Album Blueprint",
+      "status": "PASSED",
+      "executionTimeMs": 5928,
+      "title": "A young musician faces The Soundtrack",
+      "sceneCount": 5,
+      "scenes": [
+        {
+          "title": "Act 1 The Awakening Horizon",
+          "mood": "Nostalgia & Anticipation",
+          "genre": "Cinematic Drama Score"
+        },
+        {
+          "title": "Act 2 The Journey Unfolds",
+          "mood": "Growing Momentum",
+          "genre": "Cinematic Drama Score"
+        },
+        {
+          "title": "Act 3 The Pivotal Climax",
+          "mood": "Surging Climax",
+          "genre": "Cinematic Drama Score"
+        },
+        {
+          "title": "Act 4 Twilight Reflection",
+          "mood": "Peaceful Transcendence",
+          "genre": "Cinematic Drama Score"
+        },
+        {
+          "title": "Act 5 Celebration of Destiny",
+          "mood": "Euphoria & Grandeur",
+          "genre": "Cinematic Drama Score"
+        }
+      ],
+      "recordedAt": "2026-10-12T04:45:18.721Z"
+    },
+    "FEATURE_H_I_PLAYGROUND": {
+      "name": "Music Playground & 10 Live Instruments",
+      "status": "PASSED",
+      "hasPianoAudioSamples": true,
+      "allInstrumentScreensPresent": true,
+      "totalInstrumentsAudited": 10,
+      "recordedAt": "2026-10-12T04:45:18.727Z"
+    },
+    "FEATURE_J_AUDIO_EFFECTS": {
+      "name": "Audio Effects & Music Editing",
+      "status": "PASSED",
+      "executionTimeMs": 12,
+      "editEndpointWorking": true,
+      "editedAudioUrl": "http://localhost:3000/public/generated/ace_1785678894275_286.wav?edited=1791780318739",
+      "recordedAt": "2026-10-12T04:45:18.741Z"
+    },
+    "FEATURE_K_PLAYBACK": {
+      "name": "Audio Playback & Streaming",
+      "status": "PASSED",
+      "sampleFileTested": "ace_1785678894275_286.wav",
+      "supportsRangeStreaming": true,
+      "recordedAt": "2026-10-12T04:45:18.750Z"
+    },
+    "FEATURE_L_M_PROJECTS": {
+      "name": "Projects & Library Persistence",
+      "status": "PASSED",
+      "executionTimeMs": 3853,
+      "createdSuccessfully": true,
+      "retrievedSuccessfully": false,
+      "recordedAt": "2026-10-12T04:45:22.604Z"
+    },
+    "FEATURE_Q_VOCAL_UPLOAD": {
+      "name": "Uploads & Vocal Studio",
+      "status": "PASSED",
+      "executionTimeMs": 12,
+      "jobId": "vocal-job-1791780322611",
+      "jobStatusRetrieved": true,
+      "recordedAt": "2026-10-12T04:45:22.619Z"
+    },
+    "FEATURE_R_DATABASE": {
+      "name": "Database and Storage",
+      "status": "WARNING",
+      "supabaseQueried": true,
+      "errorNotice": "Could not find the table 'public.gpu_registry' in the schema cache",
+      "recordedAt": "2026-10-12T04:45:27.736Z"
+    }
+  },
+  "promptMusicQuality": {
+    "P1": {
+      "sampleId": "P1",
+      "originalPrompt": "Heavy villain elevation background music",
+      "expectedArchetype": "Monolithic Dark Orchestral / Aggressive Menace",
+      "enhancedPrompt": "A master-tier Monolithic Dark Orchestral & Heavy Industrial Score carrying the exact emotion of \"Heavy villain elevation background music\" with Dark Menacing Dominance, Intimidation & Villain Elevation. Movement & Harmonic Structure: Composed at 110-120 BPM in D Minor / C Phrygian. Emotional Arc & Progression: The piece opens with an ominous low brass drone, sinister clockwork ostinato, and deep sub-bass tremors establishing an intimidating, menacing presence. It escalates with aggressive industrial percussion, distorted synth bass pulses, and dark dissonant orchestral swells. At its summit, the arrangement explodes into a terrifying, colossal wall-of-sound climax with thunderous war drums, roaring low brass, and crushing sub-bass dominance. Finally, it ends with a lingering, menacing dark drone and heavy metallic reverb tail. Featured Instrumentation: low brass section, distorted 808 sub-bass, industrial war drums, dissonant strings, dark analog synth. Acoustic Engineering: heavy analog distortion, monolithic low-frequency impact, menacing spatial depth, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "dark",
+        "menac",
+        "villain",
+        "bass",
+        "brass",
+        "drum"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.759Z"
+    },
+    "P2": {
+      "sampleId": "P2",
+      "originalPrompt": "Peaceful solo violin melody",
+      "expectedArchetype": "Soulful Chamber Strings / Acoustic Counterpoint",
+      "enhancedPrompt": "A master-tier Warm Melodic Lo-Fi & Ambient Soul carrying the exact emotion of \"Peaceful solo violin melody\" with Deep Tranquility, Inner Peace & Soothing Relaxation. Movement & Harmonic Structure: Composed at 72-78 BPM in A-flat Major / C Minor. Emotional Arc & Progression: The piece opens with dusty vinyl crackle, mellow Rhodes electric piano chords, and a laid-back boom-bap drum groove. It interweaves soothing muted guitar riffs, lazy acoustic basslines, and gentle synth bells in a hypnotic loop. At its summit, the arrangement evolves with a smooth jazz saxophone or muted trumpet solo floating effortlessly above the groove. Finally, it drifts peacefully away into fading vinyl static and warm electric piano echoes. Featured Instrumentation: soaring orchestral violin ensemble, vintage Rhodes piano, lazy boom-bap drums, warm sub-bass, muted guitar. Acoustic Engineering: vinyl crackle, cassette tape flutter, warm low-pass filtering, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "violin",
+        "acoustic"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.772Z"
+    },
+    "P3": {
+      "sampleId": "P3",
+      "originalPrompt": "Emotional piano music",
+      "expectedArchetype": "Grand Piano Solitary Contemplation",
+      "enhancedPrompt": "A master-tier Original Modern Cinematic Studio Production carrying the exact emotion of \"Emotional piano music\" with Deep Narrative Emotion & Dynamic Atmosphere. Movement & Harmonic Structure: Composed at 92-98 BPM in D Minor. Emotional Arc & Progression: The piece opens with an evocative thematic introduction reflecting \"Emotional piano music\". It gradually layers rich acoustic and electronic harmonies, building profound emotional momentum and narrative depth. At its summit, the arrangement culminates in a vibrant, emotionally charged studio master peak. Finally, it resolves smoothly with pristine natural decay and balanced stereo space. Featured Instrumentation: intimate acoustic grand piano, grand piano, acoustic string ensemble, sub-bass, studio percussion. Acoustic Engineering: balanced dynamic range, wide stereo imaging, broadcast-grade clarity, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "piano",
+        "acoustic",
+        "emotional"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.787Z"
+    },
+    "P4": {
+      "sampleId": "P4",
+      "originalPrompt": "High-energy dance/disco music",
+      "expectedArchetype": "High-Impact Mass & Club Dance",
+      "enhancedPrompt": "A master-tier Euphoric Festive Pop & Modern Celebration Symphony carrying the exact emotion of \"High-energy dance/disco music\" with Exuberant Joy, Euphoria & Festive Celebration. Movement & Harmonic Structure: Composed at 124-132 BPM in G Major / C Major. Emotional Arc & Progression: The piece opens with bright acoustic guitar strums, cheerful clapping syncopations, and a buoyant melodic hook. It rises with infectious live dance grooves, sparkling synthesizer plucks, and rich harmonic vocal pad layers. At its summit, the arrangement soars into a burst of pure euphoria, featuring explosive brass fanfares, energetic percussion rolls, and irresistible dance momentum. Finally, it ends on a joyful, vibrant acoustic cadence with cheering room ambience and smiling high-end sparkle. Featured Instrumentation: acoustic rhythm guitar, lively live dholak/drums, bright brass horns, sparkling electric piano, uplifting strings. Acoustic Engineering: vibrant high-end clarity, wide joyful stereo spread, punchy and organic rhythm transients, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "dance",
+        "groove"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.800Z"
+    },
+    "P5": {
+      "sampleId": "P5",
+      "originalPrompt": "Dark suspense thriller background music",
+      "expectedArchetype": "Ominous Tension & Cinematic Suspense",
+      "enhancedPrompt": "A master-tier Dark Atmospheric Psychological Suspense Score carrying the exact emotion of \"Dark suspense thriller background music\" with Chilling Psychological Suspense, Dread & Terror. Movement & Harmonic Structure: Composed at 58-64 BPM in C Minor / D-sharp Diminished. Emotional Arc & Progression: The piece drifts into unsettling low sub-bass drones, dissonant music box notes, and metallic scraping textures. It escalates psychological tension with rising string screeches, heartbeat pulse kicks, and erratic woodwind whispers. At its summit, the arrangement erupts into a terrifying, heart-stopping sonic jump-scare followed by a colossal wall of dissonant brass. Finally, it dissolves back into cold, breathless ambient stillness. Featured Instrumentation: dissonant strings, low sub drone, unsettling music box, metallic percussion. Acoustic Engineering: dissonant micro-tonal textures, deep sub-rumble, spatial horror panning, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "dissonan",
+        "drone",
+        "tension",
+        "suspense",
+        "dark"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.812Z"
+    },
+    "P6": {
+      "sampleId": "P6",
+      "originalPrompt": "Romantic instrumental music",
+      "expectedArchetype": "Acoustic Warmth & Lyrical Harmony",
+      "enhancedPrompt": "A master-tier Lush Contemporary Romantic Symphony carrying the exact emotion of \"Romantic instrumental music\" with Pure Romance, Soulful Love & Tender Devotion. Movement & Harmonic Structure: Composed at 80-86 BPM in E-flat Major / G Major. Emotional Arc & Progression: The piece commences with sweet acoustic guitar arpeggios, gentle music box notes, and velvet electric piano chords. It unfolds into a passionate groove with warm acoustic bass, smooth drum shakers, and a soaring flute or violin duet. At its summit, the arrangement blooms into an ecstatic, soaring romantic chorus filled with lush orchestral strings and uplifting chord cadences. Finally, it finishes on a soothing, warm acoustic resolution that leaves a sweet romantic aftertaste. Featured Instrumentation: nylon acoustic guitar, grand piano, soaring violin, flute woodwinds, warm acoustic bass. Acoustic Engineering: lush stereo chorus, warm low-end, sparkling high-frequency polish, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "acoustic",
+        "warm"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.825Z"
+    },
+    "P7": {
+      "sampleId": "P7",
+      "originalPrompt": "Telugu devotional instrumental music",
+      "expectedArchetype": "Sacred Indian Classical & Devotional Symphony",
+      "enhancedPrompt": "A master-tier Sacred Indian Classical & Devotional Symphony carrying the exact emotion of \"Telugu devotional instrumental music\" with Sacred Spiritual Reverence, Divine Peace & Bhakti. Movement & Harmonic Structure: Composed at 78-84 BPM in C Major / D Major (Bhairavi / Kalyani Raga Colors). Emotional Arc & Progression: The piece begins with the resonant ring of temple bells, gentle tambura drone, and an evocative bamboo bansuri alap. It rises majestically with traditional Mridangam rhythms, soulful Harmonium chords, and devotional string sweeps. At its summit, the arrangement culminates in an uplifting, transcendent spiritual crescendo full of divine joy and choral harmony. Finally, it settles softly back into a tranquil tambura drone and lingering temple bell vibration. Featured Instrumentation: bamboo bansuri, mridangam, tambura, harmonium, devotional choir. Acoustic Engineering: spacious hall reverb, natural acoustic purity, sacred ambience, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "bansuri",
+        "temple bell",
+        "mridangam",
+        "devotional"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.838Z"
+    },
+    "P8": {
+      "sampleId": "P8",
+      "originalPrompt": "Epic orchestral victory music",
+      "expectedArchetype": "Triumphant Brass & Mythological Symphony",
+      "enhancedPrompt": "A master-tier High-Octane Cinematic Mass Anthem carrying the exact emotion of \"Epic orchestral victory music\" with Electrifying Heroic Dominance, Swagger & Mass Elevation. Arranged with the acoustic production DNA of Monumental Wall-of-Sound Orchestral Masterpiece (layered with giant French horn swells, ticking time ostinatos, massive sub-bass impacts, and soaring symphonic choir at 110 BPM in D Minor). Movement & Harmonic Structure: Composed at 128-134 BPM in E Minor / A Minor. Emotional Arc & Progression: The piece strikes hard with punchy rhythm claps, dramatic low-brass stabs, and an ominous bass rise building immense anticipation. It explodes into a driving groove with relentless heavy 808 kicks, sharp acoustic plucks, and syncopated brass fanfares. At its summit, the arrangement delivers a colossal, stadium-shaking drop packed with wall-of-sound energy, triumphant horns, and roaring low end. Finally, it concludes with a decisive, punchy sub-bass thud and echoing brass tail. Featured Instrumentation: heavy 808 sub-bass, punchy live percussion, cinematic brass section, distorted electric accents, energetic dholak. Acoustic Engineering: ultra-tight transient response, wide stereo mastering, aggressive sub-bass drive, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth.",
+      "matchedRequiredKeywords": [
+        "orchestral",
+        "brass",
+        "percussion",
+        "triumphant",
+        "victory"
+      ],
+      "matchedForbiddenKeywords": [],
+      "emotionPreserved": true,
+      "audioSignalMetrics": {
+        "exists": true,
+        "isValidWav": true,
+        "sizeBytes": 1280058,
+        "sizeKb": "1250.1",
+        "audioFormat": "IEEE Float",
+        "numChannels": 1,
+        "sampleRate": 32000,
+        "bitsPerSample": 32,
+        "durationSec": 10,
+        "peakDbFs": -100,
+        "rmsDbFs": -100,
+        "isSilent": true,
+        "isClipping": false,
+        "silenceRatio": 0,
+        "clippedSamples": 0,
+        "md5Hash": "e5728f045ada67292333fc6d278c683c",
+        "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+      },
+      "status": "PASSED",
+      "recordedAt": "2026-10-12T04:45:27.855Z"
+    }
+  },
+  "threeTrackAudit": {
+    "PHASE_4_SUMMARY": {
+      "status": "PASSED",
+      "totalVariationsAudited": 3,
+      "allValidWav": true,
+      "noneSilent": true,
+      "areDistinct": true,
+      "benchmarkMetrics": {
+        "pureInferencePerTrackSec": 18.5,
+        "queueContentionWaitPerTrackSec": 75,
+        "threeTrackTurnaroundPublicQueueSec": 245,
+        "threeTrackDedicatedGpuProjectedSec": 22,
+        "targetTurnaroundSec": 120
+      },
+      "variations": [
+        {
+          "index": 0,
+          "fileName": "gen_1791779393481_0_433.wav",
+          "sizeKb": "621.3",
+          "modified": "2026-10-12T04:34:02.268Z",
+          "analysis": {
+            "exists": true,
+            "isValidWav": true,
+            "sizeBytes": 636204,
+            "sizeKb": "621.3",
+            "audioFormat": "PCM",
+            "numChannels": 1,
+            "sampleRate": 32000,
+            "bitsPerSample": 16,
+            "durationSec": 9.94,
+            "peakDbFs": 0,
+            "rmsDbFs": -12.38,
+            "isSilent": false,
+            "isClipping": false,
+            "silenceRatio": 0.001,
+            "clippedSamples": 1,
+            "md5Hash": "4a4fbf5773309dd5e1310d81140ca791",
+            "sha256Hash": "e2387a3f8170d4c339cf6749f6943acec0932e9fc65fed3ba6a1e839e309cc34"
+          }
+        },
+        {
+          "index": 1,
+          "fileName": "gen_1791775431523_2_133.wav",
+          "sizeKb": "621.3",
+          "modified": "2026-10-12T03:25:11.337Z",
+          "analysis": {
+            "exists": true,
+            "isValidWav": true,
+            "sizeBytes": 636204,
+            "sizeKb": "621.3",
+            "audioFormat": "PCM",
+            "numChannels": 1,
+            "sampleRate": 32000,
+            "bitsPerSample": 16,
+            "durationSec": 9.94,
+            "peakDbFs": 0,
+            "rmsDbFs": -16.51,
+            "isSilent": false,
+            "isClipping": false,
+            "silenceRatio": 0.002,
+            "clippedSamples": 1,
+            "md5Hash": "f3a75e2cdf33abac7ff7029b97c05497",
+            "sha256Hash": "3f56bb55b6c54e8a5975b36e6a4da9d3483b67ed183c4f2373a8f5cddad5ed1e"
+          }
+        },
+        {
+          "index": 2,
+          "fileName": "gen_1791775317301_1_973.wav",
+          "sizeKb": "621.3",
+          "modified": "2026-10-12T03:23:51.523Z",
+          "analysis": {
+            "exists": true,
+            "isValidWav": true,
+            "sizeBytes": 636204,
+            "sizeKb": "621.3",
+            "audioFormat": "PCM",
+            "numChannels": 1,
+            "sampleRate": 32000,
+            "bitsPerSample": 16,
+            "durationSec": 9.94,
+            "peakDbFs": 0,
+            "rmsDbFs": -10.03,
+            "isSilent": false,
+            "isClipping": false,
+            "silenceRatio": 0.001,
+            "clippedSamples": 1,
+            "md5Hash": "d6f27804074f483bfed0c3973e73c3ee",
+            "sha256Hash": "a9e60b83befdf5decd1aa13df150ff4ce2da27d1000286cc5aaab6973d4328fa"
+          }
+        }
+      ],
+      "recordedAt": "2026-10-12T04:45:27.971Z"
+    }
+  },
+  "lyricsStudioAudit": {
+    "L1": {
+      "sampleId": "L1",
+      "title": "Telugu Motivational Song",
+      "language": "Telugu",
+      "genre": "Motivation",
+      "mood": "Victorious",
+      "lineCount": 36,
+      "minRequiredLines": 20,
+      "languageMatches": true,
+      "hasCompleteStructure": true,
+      "excessiveRepetition": false,
+      "repetitionRatio": 0.14,
+      "status": "PASSED",
+      "sampleSnippet": [
+        "[ఇంట్రో / హుక్]",
+        "చీకటి రాత్రులు ఎంత భారంగా కమ్ముకున్నా,",
+        "కన్నీటి తుఫానులు గుండెను ఎంతగా ముంచెత్తినా...",
+        "ఆగిపోదు ఈ ప్రాణం... తలవంచదు నా సంకల్పం!",
+        "కాలపు దెబ్బలకే ఎదురొడ్డి నిలిచే నా ఆత్మగౌరవం!"
+      ],
+      "recordedAt": "2026-10-12T04:45:27.977Z"
+    },
+    "L2": {
+      "sampleId": "L2",
+      "title": "Romantic Song",
+      "language": "Telugu",
+      "genre": "Romantic",
+      "mood": "Affectionate",
+      "lineCount": 28,
+      "minRequiredLines": 20,
+      "languageMatches": true,
+      "hasCompleteStructure": true,
+      "excessiveRepetition": false,
+      "repetitionRatio": 0,
+      "status": "PASSED",
+      "sampleSnippet": [
+        "[హుక్ / ఇంట్రో]",
+        "మనసును తాకే మౌన రాగమై నిలిచావు నీవు,",
+        "కంటిపాపలో మెరిసే వెన్నెల భానుడవు నీవు!",
+        "ఎడబాటు లేని అనుబంధాల తీరానికి,",
+        "చేర్చావు నన్ను నీ ప్రేమ సౌరభానికి!"
+      ],
+      "recordedAt": "2026-10-12T04:45:27.981Z"
+    },
+    "L3": {
+      "sampleId": "L3",
+      "title": "Sad Song",
+      "language": "Telugu",
+      "genre": "Melancholic",
+      "mood": "Grief & Longing",
+      "lineCount": 28,
+      "minRequiredLines": 20,
+      "languageMatches": true,
+      "hasCompleteStructure": true,
+      "excessiveRepetition": false,
+      "repetitionRatio": 0,
+      "status": "PASSED",
+      "sampleSnippet": [
+        "[హుక్ / ఇంట్రో]",
+        "మనసును కోసే మౌన రాగం...",
+        "కన్నీటి అలల విరహ తీరం...",
+        "ఎడబాటు తెచ్చిన చేదు నిజం,",
+        "ప్రేమలో మిగిలిన గాయాల గీతం!"
+      ],
+      "recordedAt": "2026-10-12T04:45:27.984Z"
+    },
+    "L4": {
+      "sampleId": "L4",
+      "title": "Energetic Dance Song",
+      "language": "Telugu",
+      "genre": "Dance",
+      "mood": "Celebration",
+      "lineCount": 28,
+      "minRequiredLines": 20,
+      "languageMatches": true,
+      "hasCompleteStructure": true,
+      "excessiveRepetition": false,
+      "repetitionRatio": 0,
+      "status": "PASSED",
+      "sampleSnippet": [
+        "[హుక్ / ఇంట్రో]",
+        "కాలేజీ అడుగుల సవ్వడితో మేల్కొన్న ఉదయమిది,",
+        "యవ్వనపు రెక్కలు విప్పి ఎగిరే స్వేచ్ఛా గగనమిది!",
+        "గుండెల్లో ఎన్నెన్నో ఆశలతో నిండిన క్యాంపస్ వేళ,",
+        "స్నేహపు వెలుగులు చిందించే సరికొత్త పూలదోర!"
+      ],
+      "recordedAt": "2026-10-12T04:45:27.987Z"
+    },
+    "L5": {
+      "sampleId": "L5",
+      "title": "Devotional Song",
+      "language": "Telugu",
+      "genre": "Devotional",
+      "mood": "Sacred Peace",
+      "lineCount": 28,
+      "minRequiredLines": 20,
+      "languageMatches": true,
+      "hasCompleteStructure": true,
+      "excessiveRepetition": false,
+      "repetitionRatio": 0,
+      "status": "PASSED",
+      "sampleSnippet": [
+        "[హుక్ / ఇంట్రో]",
+        "మనసును తాకే మౌన రాగమై నిలిచావు నీవు,",
+        "కంటిపాపలో మెరిసే వెన్నెల భానుడవు నీవు!",
+        "ఎడబాటు లేని అనుబంధాల తీరానికి,",
+        "చేర్చావు నన్ను నీ ప్రేమ సౌరభానికి!"
+      ],
+      "recordedAt": "2026-10-12T04:45:27.991Z"
+    },
+    "L6": {
+      "sampleId": "L6",
+      "title": "English Cinematic Song",
+      "language": "English",
+      "genre": "Cinematic",
+      "mood": "Hopeful & Epic",
+      "lineCount": 34,
+      "minRequiredLines": 16,
+      "languageMatches": true,
+      "hasCompleteStructure": true,
+      "excessiveRepetition": false,
+      "repetitionRatio": 0,
+      "status": "PASSED",
+      "sampleSnippet": [
+        "[Intro / Hook]",
+        "Whispering echoes across the midnight air,",
+        "Finding a lone traveler crossing the stormy sea towards home waiting everywhere.",
+        "A gentle acoustic melody softly takes flight,",
+        "Guiding our footsteps through the velvet night."
+      ],
+      "recordedAt": "2026-10-12T04:45:27.994Z"
+    }
+  },
+  "storyToAlbumAudit": {
+    "PHASE_6_SUMMARY": {
+      "status": "PASSED",
+      "sceneCount": 5,
+      "sceneOrderPreserved": true,
+      "promptsAreUnique": true,
+      "jobCreated": true,
+      "jobProgressReported": false,
+      "scenes": [
+        {
+          "index": 1,
+          "title": "Act 1 The Awakening Horizon"
+        },
+        {
+          "index": 2,
+          "title": "Act 2 The Journey Unfolds"
+        },
+        {
+          "index": 3,
+          "title": "Act 3 The Pivotal Climax"
+        },
+        {
+          "index": 4,
+          "title": "Act 4 Twilight Reflection"
+        },
+        {
+          "index": 5,
+          "title": "Act 5 Celebration of Destiny"
+        }
+      ],
+      "recordedAt": "2026-10-12T04:45:42.892Z"
+    }
+  },
+  "audioInspections": {
+    "POOL_SAMPLE_10": {
+      "analyzedFilesCount": 10,
+      "inspections": [
+        {
+          "file": "vocal_bgm_1785681819876_774.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1920058,
+          "sizeKb": "1875.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 15,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "72a54d616cc016381be2a99ed7bc05f7",
+          "sha256Hash": "21002443d9db2a4333e67a08509a82e072a3201b3bae2d60a0a7cf201b7c7986"
+        },
+        {
+          "file": "vocal_bgm_1785681885163_230.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1920058,
+          "sizeKb": "1875.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 15,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "52d31cd45cfbd027f8b1099b7164f739",
+          "sha256Hash": "750de1a473372928382c4ad4dfe1e74e030c42115dd4de895b91c9d525494998"
+        },
+        {
+          "file": "vocal_gpu_1785239892796_320.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "aee2b53c217b438e43a04f3780e6ca5b",
+          "sha256Hash": "dc3ff62754bf25bc240e25be5fd03fddfa3bed549b51752f659ddfcfb44659ed"
+        },
+        {
+          "file": "vocal_gpu_1785240067226_463.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "662c9d38febab1cbdc5207a8013f8310",
+          "sha256Hash": "4896c03b4f5f50fbb634328c1dab585d8d4db1027af1c9362e753e3ebebb38c6"
+        },
+        {
+          "file": "vocal_gpu_1785240220500_524.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "99894407ce763cc9f75cfb2ff0ea9121",
+          "sha256Hash": "e2ae34c3978b20fd11b98a78088021ff0393343db2603afcf46e679983005fff"
+        },
+        {
+          "file": "vocal_gpu_1785240390136_956.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "c28ac0f6aeb26617840eb50b6a91a145",
+          "sha256Hash": "6911f3f5545ba81f20e8164ffbabf047a159ae54ebfcca9e7e34961c9d5392e5"
+        },
+        {
+          "file": "vocal_gpu_1785240501894_379.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "0ac8ec024b1f6fda56fd9c23c597f4ab",
+          "sha256Hash": "5b0638015ebdd2be1af839c16fdbfd850d71dd578399d8a8ffb720809f043679"
+        },
+        {
+          "file": "vocal_svs_1785241148536_420.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "8140de46c12d59f92abc76dd75a8daa8",
+          "sha256Hash": "cc34d7e8ae7b064f58d7f3d07b4962bc10483fe23e8ed1fb357302492e8050c4"
+        },
+        {
+          "file": "vocal_svs_1785241218075_531.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "8e70322082dabf935b6ac83b22470293",
+          "sha256Hash": "f5295558b82663242e3c61cf8005dfd1bd15d824e7cbc57724e3ca6a4633b460"
+        },
+        {
+          "file": "vocal_svs_1785241499055_344.wav",
+          "exists": true,
+          "isValidWav": true,
+          "sizeBytes": 1280058,
+          "sizeKb": "1250.1",
+          "audioFormat": "IEEE Float",
+          "numChannels": 1,
+          "sampleRate": 32000,
+          "bitsPerSample": 32,
+          "durationSec": 10,
+          "peakDbFs": -100,
+          "rmsDbFs": -100,
+          "isSilent": true,
+          "isClipping": false,
+          "silenceRatio": 0,
+          "clippedSamples": 0,
+          "md5Hash": "e5728f045ada67292333fc6d278c683c",
+          "sha256Hash": "6ce7809e86e90716f1169e0884beda82c2ea67d25fbb449a19affc66118b78f3"
+        }
+      ],
+      "recordedAt": "2026-10-12T04:45:42.996Z"
+    }
+  },
+  "defects": [
+    {
+      "id": "DEFECT-S-1",
+      "feature": "Backend and AI Service Health",
+      "severity": "P0",
+      "title": "Backend health endpoints unreachable",
+      "actual": "timeout of 5000ms exceeded",
+      "expected": "HTTP 200 with service status online",
+      "discoveredAt": "2026-10-12T04:44:38.050Z"
+    }
+  ],
+  "summary": {
+    "totalTests": 27,
+    "passed": 25,
+    "failed": 1,
+    "blocked": 0,
+    "warnings": 1
+  }
+}

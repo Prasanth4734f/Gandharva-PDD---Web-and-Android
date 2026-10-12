@@ -50,8 +50,30 @@ const handleGenerateMusic = async (req, res) => {
       enhancedPrompt = prompt;
     }
 
+    const varModifiers = [
+      enhancedPrompt,
+      `${enhancedPrompt}, distinct rhythmic variation, driving percussion, dynamic arrangement`,
+      `${enhancedPrompt}, acoustic reprise, rich melodic swells, delicate counterpoint`
+    ];
+
+    // Generate all requested variations sequentially to respect ZeroGPU allocation locks
     for (let i = 0; i < targetVariations; i++) {
-      const trackResult = await generateCinematicMusic(enhancedPrompt, targetDuration, i);
+      let trackResult = null;
+      try {
+        trackResult = await generateCinematicMusic(varModifiers[i] || enhancedPrompt, targetDuration, i);
+      } catch (err) {
+        logger.warn(`[AI Engine] Variation ${i + 1} attempt failed: ${err.message}. Executing targeted retry...`);
+        try {
+          trackResult = await generateCinematicMusic(varModifiers[i] || enhancedPrompt, targetDuration, i);
+        } catch (retryErr) {
+          logger.error(`[AI Engine] Retry for variation ${i + 1} failed: ${retryErr.message}`);
+        }
+      }
+
+      if (!trackResult || !trackResult.filename) {
+        throw new Error(`Generation failed for ${varNames[i] || 'Variation ' + (i + 1)}. Only genuine AI tracks are accepted.`);
+      }
+
       variationsList.push({
         id: `ai-music-${Date.now()}-${i}`,
         variation_name: varNames[i] || `Variation ${i + 1}`,
@@ -75,57 +97,13 @@ const handleGenerateMusic = async (req, res) => {
       isFallback: false
     });
   } catch (aiError) {
-    logger.warn(`[AI Engine Error] Generation fell back to local DSP engine: ${aiError.message}`);
-    
-    try {
-      const localDir = path.join(__dirname, '../../public/generated');
-      if (!fs.existsSync(localDir)) {
-        fs.mkdirSync(localDir, { recursive: true });
-      }
-
-      for (let i = 0; i < targetVariations; i++) {
-        const filename = `dsp_gen_${Date.now()}_${i}_${Math.floor(Math.random() * 1000)}.wav`;
-        const localPath = path.join(localDir, filename);
-        const dspBuffer = createSyntheticWavBuffer({
-          actIndex: i,
-          variationIndex: i,
-          durationSec: targetDuration,
-          genre: prompt,
-          story: prompt
-        });
-
-        fs.writeFileSync(localPath, dspBuffer);
-        variationsList.push({
-          id: `dsp-music-${Date.now()}-${i}`,
-          variation_name: varNames[i] || `Variation ${i + 1}`,
-          seed: Math.floor(Math.random() * 2147483647),
-          audio_url: `${baseUrl}/public/generated/${filename}?v=${Date.now()}_${i}`,
-          duration: targetDuration,
-          created_at: new Date().toISOString(),
-          source: 'Gandharva DSP Synthesizer',
-          isFallback: true
-        });
-      }
-
-      return res.status(200).json({
-        project_id: 'dsp-proj-' + Date.now(),
-        prompt: prompt,
-        enhanced_prompt: prompt,
-        variations: variationsList,
-        success: true,
-        title: `Studio: ${prompt.substring(0, 25).trim()}...`,
-        audioUrl: variationsList[0].audio_url,
-        source: 'Gandharva Studio DSP Synthesizer',
-        isFallback: true
-      });
-    } catch (fallbackErr) {
-      logger.error(`[DSP Fallback Error] ${fallbackErr.message}`);
-    }
-
-    return res.status(500).json({
+    logger.error(`[AI Engine Error] ${aiError.message}`);
+    // Priority 2 Task 11 & Test F: Report real failure without disguised fallback audio
+    return res.status(503).json({
       success: false,
-      error: 'Failed to synthesize audio tracks.',
-      message: 'Failed to synthesize audio tracks.'
+      error: aiError.message || 'AI Music Generation service unavailable.',
+      message: aiError.message || 'AI Music Generation service unavailable.',
+      isFallback: false
     });
   }
 };

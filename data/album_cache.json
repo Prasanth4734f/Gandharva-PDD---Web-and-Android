@@ -4567,6 +4567,1002 @@
         ],
         "created_at": "2026-09-09T21:37:54.648Z"
       }
+    ],
+    [
+      "album-1791777329765",
+      {
+        "id": "album-1791777329765",
+        "title": "A young musician faces The Soundtrack",
+        "story": "A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs successfully on a grand stage.",
+        "genre": "Cinematic Drama Score",
+        "subgenre": "Original Story Soundtrack",
+        "language": "English",
+        "cover_url": "https://image.pollinations.ai/prompt/A%20master-tier%20Deeply%20Moving%20Cinematic%20Melodrama%20carrying%20the%20exact%20emotion%20of%20Album%20cover%20visual%20description%20for%20album%20titled%20A%20young%20musician%20faces%20The%20Soundtrack.%20Story%20A%20young%20musician%20faces%20repeated%20failures%2C%20receives%20support%20from%20family%2C%20discovers%20confidence%2C%20and%20eventually%20performs%20successfully%20on%20a%20grand%20stage..%20Genre%20Cinematic%20Drama%20Score.%20Visual%20Style%20Cinematic%20Film%20Still.%20with%20Deep%20Familial%20Devotion%2C%20Sacrificial%20Love%20%20Poignancy.%20Movement%20%20Harmonic%20Structure%20Composed%20at%2066-72%20BPM%20in%20D%20Minor%20to%20F%20Major.%20Emotional%20Arc%20%20Progression%20The%20piece%20opens%20with%20tender%20acoustic%20guitar%20notes%20and%20a%20soft%2C%20warm%20piano%20motif%20portraying%20selfless%20devotion%20and%20love.%20It%20gradually%20elevates%20with%20sweeping%20symphonic%20strings%20and%20an%20emotive%20solo%20bansuri%20or%20cello%20highlighting%20hardships%20endured.%20At%20its%20summit%2C%20the%20arrangement%20swells%20into%20a%20breathtaking%2C%20heart-stirring%20crescendo%20of%20orchestral%20majesty%20that%20celebrates%20unwavering%20love.%20Finally%2C%20it%20fades%20into%20a%20peaceful%2C%20deeply%20comforting%20acoustic%20lullaby%20resonance.%20Featured%20Instrumentation%20tender%20grand%20piano%2C%20solo%20bansuricello%2C%20symphonic%20string%20section%2C%20warm%20acoustic%20guitar.%20Acoustic%20Engineering%20warm%20emotional%20harmonics%2C%20pristine%20symphonic%20depth%2C%20gentle%20acoustic%20warmth%2C%20pristine%2024-bit%20studio%20mastering%2C%20zero%20noise%20distortion%2C%20immersive%20emotional%20depth.%2C%20Hasselblad%2035mm%20photography%2C%208k%20resolution%2C%20cinematic%20lighting%2C%20volumetric%20atmosphere%2C%20hyperrealistic%20details%2C%20masterpiece%20composition%2C%20highly%20detailed%20textures%2C%20no%20text%2C%20no%20watermark%2C%20no%20logos%2C%208k%20resolution%2C%20ultra%20detailed%20album%20cover%20art%2C%20award%20winning%20photography%2C%20masterpiece%2C%20photorealistic%2C%20no%20text%2C%20no%20watermark?width=1024&height=1024&model=flux&enhance=true&nologo=true&seed=29781",
+        "cover_style": "Cinematic Film Still",
+        "cover_prompt": "A master-tier Deeply Moving Cinematic Melodrama carrying the exact emotion of Album cover visual description for album titled A young musician faces The Soundtrack. Story A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs successfully on a grand stage.. Genre Cinematic Drama Score. Visual Style Cinematic Film Still. with Deep Familial Devotion, Sacrificial Love  Poignancy. Movement  Harmonic Structure Composed at 66-72 BPM in D Minor to F Major. Emotional Arc  Progression The piece opens with tender acoustic guitar notes and a soft, warm piano motif portraying selfless devotion and love. It gradually elevates with sweeping symphonic strings and an emotive solo bansuri or cello highlighting hardships endured. At its summit, the arrangement swells into a breathtaking, heart-stirring crescendo of orchestral majesty that celebrates unwavering love. Finally, it fades into a peaceful, deeply comforting acoustic lullaby resonance. Featured Instrumentation tender grand piano, solo bansuricello, symphonic string section, warm acoustic guitar. Acoustic Engineering warm emotional harmonics, pristine symphonic depth, gentle acoustic warmth, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth., Hasselblad 35mm photography, 8k resolution, cinematic lighting, volumetric atmosphere, hyperrealistic details, masterpiece composition, highly detailed textures, no text, no watermark, no logos, 8k resolution, ultra detailed album cover art, award winning photography, masterpiece, photorealistic, no text, no watermark",
+        "color_palette": [
+          "#0F172A",
+          "#D97706",
+          "#2563EB",
+          "#F8FAFC"
+        ],
+        "dominant_instruments": [
+          "Grand Piano",
+          "Acoustic Cello",
+          "Violin Strings",
+          "Sub-bass"
+        ],
+        "tracks": [
+          {
+            "id": "track-album-1791777329765-1",
+            "sceneId": "scene_1",
+            "track_number": 1,
+            "title": "Act 1 The Awakening Horizon",
+            "scene_description": "The story begins with an evocative premise that sets the emotional stakes in motion.",
+            "emotion": "Nostalgia & Anticipation",
+            "suggested_bpm": 78,
+            "bpm": 78,
+            "key_signature": "C Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 1 The Awakening Horizon (The story begins with an evocative premise that sets the emotional stakes in motion.)\",\"mood\":\"Nostalgia & Anticipation\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777337003_0_340.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777337003_0_340.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-1",
+                "sceneId": "scene_1",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777337003_0_340.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777337003_0_340.wav",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-1",
+                "sceneId": "scene_1",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_02.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_02.mp3",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777329765-2",
+            "sceneId": "scene_2",
+            "track_number": 2,
+            "title": "Act 2 The Journey Unfolds",
+            "scene_description": "Characters navigate unexpected turns, deepening their purpose and relationships.",
+            "emotion": "Growing Momentum",
+            "suggested_bpm": 92,
+            "bpm": 92,
+            "key_signature": "G Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 2 The Journey Unfolds (Characters navigate unexpected turns, deepening their purpose and relationships.)\",\"mood\":\"Growing Momentum\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777337623_0_990.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777337623_0_990.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-2",
+                "sceneId": "scene_2",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777337623_0_990.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777337623_0_990.wav",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-2",
+                "sceneId": "scene_2",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_03.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_03.mp3",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777329765-3",
+            "sceneId": "scene_3",
+            "track_number": 3,
+            "title": "Act 3 The Pivotal Climax",
+            "scene_description": "The decisive turning point where obstacles are confronted with unwavering determination.",
+            "emotion": "Surging Climax",
+            "suggested_bpm": 115,
+            "bpm": 115,
+            "key_signature": "A Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 3 The Pivotal Climax (The decisive turning point where obstacles are confronted with unwavering determination.)\",\"mood\":\"Surging Climax\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777339068_0_367.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777339068_0_367.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-3",
+                "sceneId": "scene_3",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777339068_0_367.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777339068_0_367.wav",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-3",
+                "sceneId": "scene_3",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_04.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_04.mp3",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777329765-4",
+            "sceneId": "scene_4",
+            "track_number": 4,
+            "title": "Act 4 Twilight Reflection",
+            "scene_description": "Processing the consequences of the trial with newfound wisdom and inner peace.",
+            "emotion": "Peaceful Transcendence",
+            "suggested_bpm": 80,
+            "bpm": 80,
+            "key_signature": "E Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 4 Twilight Reflection (Processing the consequences of the trial with newfound wisdom and inner peace.)\",\"mood\":\"Peaceful Transcendence\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777340161_0_122.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777340161_0_122.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-4",
+                "sceneId": "scene_4",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777340161_0_122.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777340161_0_122.wav",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-4",
+                "sceneId": "scene_4",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_05.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_05.mp3",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777329765-5",
+            "sceneId": "scene_5",
+            "track_number": 5,
+            "title": "Act 5 Celebration of Destiny",
+            "scene_description": "A grand finale celebrating harmony, triumph, and lasting transformation.",
+            "emotion": "Euphoria & Grandeur",
+            "suggested_bpm": 128,
+            "bpm": 128,
+            "key_signature": "D Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 5 Celebration of Destiny (A grand finale celebrating harmony, triumph, and lasting transformation.)\",\"mood\":\"Euphoria & Grandeur\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777340688_0_31.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777340688_0_31.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-5",
+                "sceneId": "scene_5",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777340688_0_31.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777340688_0_31.wav",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-5",
+                "sceneId": "scene_5",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_06.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_06.mp3",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-10-12T03:55:29.765Z"
+      }
+    ],
+    [
+      "album-1791777449043",
+      {
+        "id": "album-1791777449043",
+        "title": "A young musician faces The Soundtrack",
+        "story": "A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs successfully on a grand stage.",
+        "genre": "Cinematic Drama Score",
+        "subgenre": "Original Story Soundtrack",
+        "language": "English",
+        "cover_url": "https://image.pollinations.ai/prompt/A%20master-tier%20Deeply%20Moving%20Cinematic%20Melodrama%20carrying%20the%20exact%20emotion%20of%20Album%20cover%20visual%20description%20for%20album%20titled%20A%20young%20musician%20faces%20The%20Soundtrack.%20Story%20A%20young%20musician%20faces%20repeated%20failures%2C%20receives%20support%20from%20family%2C%20discovers%20confidence%2C%20and%20eventually%20performs%20successfully%20on%20a%20grand%20stage..%20Genre%20Cinematic%20Drama%20Score.%20Visual%20Style%20Cinematic%20Film%20Still.%20with%20Deep%20Familial%20Devotion%2C%20Sacrificial%20Love%20%20Poignancy.%20Movement%20%20Harmonic%20Structure%20Composed%20at%2066-72%20BPM%20in%20D%20Minor%20to%20F%20Major.%20Emotional%20Arc%20%20Progression%20The%20piece%20opens%20with%20tender%20acoustic%20guitar%20notes%20and%20a%20soft%2C%20warm%20piano%20motif%20portraying%20selfless%20devotion%20and%20love.%20It%20gradually%20elevates%20with%20sweeping%20symphonic%20strings%20and%20an%20emotive%20solo%20bansuri%20or%20cello%20highlighting%20hardships%20endured.%20At%20its%20summit%2C%20the%20arrangement%20swells%20into%20a%20breathtaking%2C%20heart-stirring%20crescendo%20of%20orchestral%20majesty%20that%20celebrates%20unwavering%20love.%20Finally%2C%20it%20fades%20into%20a%20peaceful%2C%20deeply%20comforting%20acoustic%20lullaby%20resonance.%20Featured%20Instrumentation%20tender%20grand%20piano%2C%20solo%20bansuricello%2C%20symphonic%20string%20section%2C%20warm%20acoustic%20guitar.%20Acoustic%20Engineering%20warm%20emotional%20harmonics%2C%20pristine%20symphonic%20depth%2C%20gentle%20acoustic%20warmth%2C%20pristine%2024-bit%20studio%20mastering%2C%20zero%20noise%20distortion%2C%20immersive%20emotional%20depth.%2C%20Hasselblad%2035mm%20photography%2C%208k%20resolution%2C%20cinematic%20lighting%2C%20volumetric%20atmosphere%2C%20hyperrealistic%20details%2C%20masterpiece%20composition%2C%20highly%20detailed%20textures%2C%20no%20text%2C%20no%20watermark%2C%20no%20logos%2C%208k%20resolution%2C%20ultra%20detailed%20album%20cover%20art%2C%20award%20winning%20photography%2C%20masterpiece%2C%20photorealistic%2C%20no%20text%2C%20no%20watermark?width=1024&height=1024&model=flux&enhance=true&nologo=true&seed=49056",
+        "cover_style": "Cinematic Film Still",
+        "cover_prompt": "A master-tier Deeply Moving Cinematic Melodrama carrying the exact emotion of Album cover visual description for album titled A young musician faces The Soundtrack. Story A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs successfully on a grand stage.. Genre Cinematic Drama Score. Visual Style Cinematic Film Still. with Deep Familial Devotion, Sacrificial Love  Poignancy. Movement  Harmonic Structure Composed at 66-72 BPM in D Minor to F Major. Emotional Arc  Progression The piece opens with tender acoustic guitar notes and a soft, warm piano motif portraying selfless devotion and love. It gradually elevates with sweeping symphonic strings and an emotive solo bansuri or cello highlighting hardships endured. At its summit, the arrangement swells into a breathtaking, heart-stirring crescendo of orchestral majesty that celebrates unwavering love. Finally, it fades into a peaceful, deeply comforting acoustic lullaby resonance. Featured Instrumentation tender grand piano, solo bansuricello, symphonic string section, warm acoustic guitar. Acoustic Engineering warm emotional harmonics, pristine symphonic depth, gentle acoustic warmth, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth., Hasselblad 35mm photography, 8k resolution, cinematic lighting, volumetric atmosphere, hyperrealistic details, masterpiece composition, highly detailed textures, no text, no watermark, no logos, 8k resolution, ultra detailed album cover art, award winning photography, masterpiece, photorealistic, no text, no watermark",
+        "color_palette": [
+          "#0F172A",
+          "#D97706",
+          "#2563EB",
+          "#F8FAFC"
+        ],
+        "dominant_instruments": [
+          "Grand Piano",
+          "Acoustic Cello",
+          "Violin Strings",
+          "Sub-bass"
+        ],
+        "tracks": [
+          {
+            "id": "track-album-1791777449043-1",
+            "sceneId": "scene_1",
+            "track_number": 1,
+            "title": "Act 1 The Awakening Horizon",
+            "scene_description": "The story begins with an evocative premise that sets the emotional stakes in motion.",
+            "emotion": "Nostalgia & Anticipation",
+            "suggested_bpm": 78,
+            "bpm": 78,
+            "key_signature": "C Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 1 The Awakening Horizon (The story begins with an evocative premise that sets the emotional stakes in motion.)\",\"mood\":\"Nostalgia & Anticipation\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777454831_0_363.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777454831_0_363.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-1",
+                "sceneId": "scene_1",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777454831_0_363.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777454831_0_363.wav",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-1",
+                "sceneId": "scene_1",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_02.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_02.mp3",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777449043-2",
+            "sceneId": "scene_2",
+            "track_number": 2,
+            "title": "Act 2 The Journey Unfolds",
+            "scene_description": "Characters navigate unexpected turns, deepening their purpose and relationships.",
+            "emotion": "Growing Momentum",
+            "suggested_bpm": 92,
+            "bpm": 92,
+            "key_signature": "G Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 2 The Journey Unfolds (Characters navigate unexpected turns, deepening their purpose and relationships.)\",\"mood\":\"Growing Momentum\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777455304_0_861.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777455304_0_861.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-2",
+                "sceneId": "scene_2",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777455304_0_861.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777455304_0_861.wav",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-2",
+                "sceneId": "scene_2",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_03.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_03.mp3",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777449043-3",
+            "sceneId": "scene_3",
+            "track_number": 3,
+            "title": "Act 3 The Pivotal Climax",
+            "scene_description": "The decisive turning point where obstacles are confronted with unwavering determination.",
+            "emotion": "Surging Climax",
+            "suggested_bpm": 115,
+            "bpm": 115,
+            "key_signature": "A Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 3 The Pivotal Climax (The decisive turning point where obstacles are confronted with unwavering determination.)\",\"mood\":\"Surging Climax\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777455706_0_737.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777455706_0_737.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-3",
+                "sceneId": "scene_3",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777455706_0_737.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777455706_0_737.wav",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-3",
+                "sceneId": "scene_3",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_04.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_04.mp3",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777449043-4",
+            "sceneId": "scene_4",
+            "track_number": 4,
+            "title": "Act 4 Twilight Reflection",
+            "scene_description": "Processing the consequences of the trial with newfound wisdom and inner peace.",
+            "emotion": "Peaceful Transcendence",
+            "suggested_bpm": 80,
+            "bpm": 80,
+            "key_signature": "E Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 4 Twilight Reflection (Processing the consequences of the trial with newfound wisdom and inner peace.)\",\"mood\":\"Peaceful Transcendence\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777456911_0_27.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777456911_0_27.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-4",
+                "sceneId": "scene_4",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777456911_0_27.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777456911_0_27.wav",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-4",
+                "sceneId": "scene_4",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_05.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_05.mp3",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791777449043-5",
+            "sceneId": "scene_5",
+            "track_number": 5,
+            "title": "Act 5 Celebration of Destiny",
+            "scene_description": "A grand finale celebrating harmony, triumph, and lasting transformation.",
+            "emotion": "Euphoria & Grandeur",
+            "suggested_bpm": 128,
+            "bpm": 128,
+            "key_signature": "D Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 5 Celebration of Destiny (A grand finale celebrating harmony, triumph, and lasting transformation.)\",\"mood\":\"Euphoria & Grandeur\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791777457659_0_168.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791777457659_0_168.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-5",
+                "sceneId": "scene_5",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791777457659_0_168.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791777457659_0_168.wav",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-5",
+                "sceneId": "scene_5",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_06.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_06.mp3",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-10-12T03:57:29.044Z"
+      }
+    ],
+    [
+      "album-1791780342871",
+      {
+        "id": "album-1791780342871",
+        "title": "A young musician faces The Soundtrack",
+        "story": "A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs successfully on a grand stage.",
+        "genre": "Cinematic Drama Score",
+        "subgenre": "Original Story Soundtrack",
+        "language": "English",
+        "cover_url": "https://image.pollinations.ai/prompt/A%20master-tier%20Deeply%20Moving%20Cinematic%20Melodrama%20carrying%20the%20exact%20emotion%20of%20Album%20cover%20visual%20description%20for%20album%20titled%20A%20young%20musician%20faces%20The%20Soundtrack.%20Story%20A%20young%20musician%20faces%20repeated%20failures%2C%20receives%20support%20from%20family%2C%20discovers%20confidence%2C%20and%20eventually%20performs%20successfully%20on%20a%20grand%20stage..%20Genre%20Cinematic%20Drama%20Score.%20Visual%20Style%20Cinematic%20Film%20Still.%20with%20Deep%20Familial%20Devotion%2C%20Sacrificial%20Love%20%20Poignancy.%20Movement%20%20Harmonic%20Structure%20Composed%20at%2066-72%20BPM%20in%20D%20Minor%20to%20F%20Major.%20Emotional%20Arc%20%20Progression%20The%20piece%20opens%20with%20tender%20acoustic%20guitar%20notes%20and%20a%20soft%2C%20warm%20piano%20motif%20portraying%20selfless%20devotion%20and%20love.%20It%20gradually%20elevates%20with%20sweeping%20symphonic%20strings%20and%20an%20emotive%20solo%20bansuri%20or%20cello%20highlighting%20hardships%20endured.%20At%20its%20summit%2C%20the%20arrangement%20swells%20into%20a%20breathtaking%2C%20heart-stirring%20crescendo%20of%20orchestral%20majesty%20that%20celebrates%20unwavering%20love.%20Finally%2C%20it%20fades%20into%20a%20peaceful%2C%20deeply%20comforting%20acoustic%20lullaby%20resonance.%20Featured%20Instrumentation%20tender%20grand%20piano%2C%20solo%20bansuricello%2C%20symphonic%20string%20section%2C%20warm%20acoustic%20guitar.%20Acoustic%20Engineering%20warm%20emotional%20harmonics%2C%20pristine%20symphonic%20depth%2C%20gentle%20acoustic%20warmth%2C%20pristine%2024-bit%20studio%20mastering%2C%20zero%20noise%20distortion%2C%20immersive%20emotional%20depth.%2C%20Hasselblad%2035mm%20photography%2C%208k%20resolution%2C%20cinematic%20lighting%2C%20volumetric%20atmosphere%2C%20hyperrealistic%20details%2C%20masterpiece%20composition%2C%20highly%20detailed%20textures%2C%20no%20text%2C%20no%20watermark%2C%20no%20logos%2C%208k%20resolution%2C%20ultra%20detailed%20album%20cover%20art%2C%20award%20winning%20photography%2C%20masterpiece%2C%20photorealistic%2C%20no%20text%2C%20no%20watermark?width=1024&height=1024&model=flux&enhance=true&nologo=true&seed=42887",
+        "cover_style": "Cinematic Film Still",
+        "cover_prompt": "A master-tier Deeply Moving Cinematic Melodrama carrying the exact emotion of Album cover visual description for album titled A young musician faces The Soundtrack. Story A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs successfully on a grand stage.. Genre Cinematic Drama Score. Visual Style Cinematic Film Still. with Deep Familial Devotion, Sacrificial Love  Poignancy. Movement  Harmonic Structure Composed at 66-72 BPM in D Minor to F Major. Emotional Arc  Progression The piece opens with tender acoustic guitar notes and a soft, warm piano motif portraying selfless devotion and love. It gradually elevates with sweeping symphonic strings and an emotive solo bansuri or cello highlighting hardships endured. At its summit, the arrangement swells into a breathtaking, heart-stirring crescendo of orchestral majesty that celebrates unwavering love. Finally, it fades into a peaceful, deeply comforting acoustic lullaby resonance. Featured Instrumentation tender grand piano, solo bansuricello, symphonic string section, warm acoustic guitar. Acoustic Engineering warm emotional harmonics, pristine symphonic depth, gentle acoustic warmth, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth., Hasselblad 35mm photography, 8k resolution, cinematic lighting, volumetric atmosphere, hyperrealistic details, masterpiece composition, highly detailed textures, no text, no watermark, no logos, 8k resolution, ultra detailed album cover art, award winning photography, masterpiece, photorealistic, no text, no watermark",
+        "color_palette": [
+          "#0F172A",
+          "#D97706",
+          "#2563EB",
+          "#F8FAFC"
+        ],
+        "dominant_instruments": [
+          "Grand Piano",
+          "Acoustic Cello",
+          "Violin Strings",
+          "Sub-bass"
+        ],
+        "tracks": [
+          {
+            "id": "track-album-1791780342871-1",
+            "sceneId": "scene_1",
+            "track_number": 1,
+            "title": "Act 1 The Awakening Horizon",
+            "scene_description": "The story begins with an evocative premise that sets the emotional stakes in motion.",
+            "emotion": "Nostalgia & Anticipation",
+            "suggested_bpm": 78,
+            "bpm": 78,
+            "key_signature": "C Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 1 The Awakening Horizon (The story begins with an evocative premise that sets the emotional stakes in motion.)\",\"mood\":\"Nostalgia & Anticipation\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791780365632_0_17.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791780365632_0_17.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-1",
+                "sceneId": "scene_1",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791780365632_0_17.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791780365632_0_17.wav",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-1",
+                "sceneId": "scene_1",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_02.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_02.mp3",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791780342871-2",
+            "sceneId": "scene_2",
+            "track_number": 2,
+            "title": "Act 2 The Journey Unfolds",
+            "scene_description": "Characters navigate unexpected turns, deepening their purpose and relationships.",
+            "emotion": "Growing Momentum",
+            "suggested_bpm": 92,
+            "bpm": 92,
+            "key_signature": "G Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 2 The Journey Unfolds (Characters navigate unexpected turns, deepening their purpose and relationships.)\",\"mood\":\"Growing Momentum\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791780398966_0_379.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791780398966_0_379.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-2",
+                "sceneId": "scene_2",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791780398966_0_379.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791780398966_0_379.wav",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-2",
+                "sceneId": "scene_2",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_03.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_03.mp3",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791780342871-3",
+            "sceneId": "scene_3",
+            "track_number": 3,
+            "title": "Act 3 The Pivotal Climax",
+            "scene_description": "The decisive turning point where obstacles are confronted with unwavering determination.",
+            "emotion": "Surging Climax",
+            "suggested_bpm": 115,
+            "bpm": 115,
+            "key_signature": "A Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 3 The Pivotal Climax (The decisive turning point where obstacles are confronted with unwavering determination.)\",\"mood\":\"Surging Climax\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791780400043_0_294.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791780400043_0_294.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-3",
+                "sceneId": "scene_3",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791780400043_0_294.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791780400043_0_294.wav",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-3",
+                "sceneId": "scene_3",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_04.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_04.mp3",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791780342871-4",
+            "sceneId": "scene_4",
+            "track_number": 4,
+            "title": "Act 4 Twilight Reflection",
+            "scene_description": "Processing the consequences of the trial with newfound wisdom and inner peace.",
+            "emotion": "Peaceful Transcendence",
+            "suggested_bpm": 80,
+            "bpm": 80,
+            "key_signature": "E Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 4 Twilight Reflection (Processing the consequences of the trial with newfound wisdom and inner peace.)\",\"mood\":\"Peaceful Transcendence\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791780401153_0_345.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791780401153_0_345.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-4",
+                "sceneId": "scene_4",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791780401153_0_345.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791780401153_0_345.wav",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-4",
+                "sceneId": "scene_4",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_05.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_05.mp3",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791780342871-5",
+            "sceneId": "scene_5",
+            "track_number": 5,
+            "title": "Act 5 Celebration of Destiny",
+            "scene_description": "A grand finale celebrating harmony, triumph, and lasting transformation.",
+            "emotion": "Euphoria & Grandeur",
+            "suggested_bpm": 128,
+            "bpm": 128,
+            "key_signature": "D Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 5 Celebration of Destiny (A grand finale celebrating harmony, triumph, and lasting transformation.)\",\"mood\":\"Euphoria & Grandeur\",\"genre\":\"Cinematic Drama Score\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791780401711_0_933.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791780401711_0_933.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-5",
+                "sceneId": "scene_5",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791780401711_0_933.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791780401711_0_933.wav",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-5",
+                "sceneId": "scene_5",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_06.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_06.mp3",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic Drama Score soundtrack (Original Story Soundtrack). Story context: A young musician faces repeated failures, receives support from family, discovers confidence, and eventually performs.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-10-12T04:45:42.871Z"
+      }
+    ],
+    [
+      "album-1791782639917",
+      {
+        "id": "album-1791782639917",
+        "title": "An ambitious young woman The Soundtrack",
+        "story": "An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing financial strain and cultural isolation in a bustling metro, she almost gives up. A mentor reignites her confidence, leading her team to detect a rare gravitational wave ripple. She returns home to celebrate with her village, honored as a pioneering scientist.",
+        "genre": "Cinematic",
+        "subgenre": "Original Story Soundtrack",
+        "language": "English",
+        "cover_url": "https://image.pollinations.ai/prompt/A%20master-tier%20High-Energy%20Folk%20Fusion%20%20Festive%20Dance%20carrying%20the%20exact%20emotion%20of%20Album%20cover%20visual%20description%20for%20album%20titled%20An%20ambitious%20young%20woman%20The%20Soundtrack.%20Story%20An%20ambitious%20young%20woman%20leaves%20her%20rural%20village%20in%20Andhra%20Pradesh%20to%20pursue%20computational%20astrophysics.%20Facing%20financial%20strain%20and%20cultural%20isolation%20in%20a%20bustling%20metro%2C%20she%20almost%20gives%20up.%20A%20mentor%20reignites%20her%20confidence%2C%20leading%20her%20team%20to%20detect%20a%20rare%20gravitational%20wave%20ripple.%20She%20returns%20home%20to%20celebrate%20with%20her%20village%2C%20honored%20as%20a%20pioneering%20scientist..%20Genre%20Cinematic.%20Visual%20Style%20Cinematic%20Film%20Still.%20with%20Earthy%20Village%20Energy%2C%20Festivity%20%20Raw%20Celebration.%20Movement%20%20Harmonic%20Structure%20Composed%20at%20132-138%20BPM%20in%20G%20Major%20%20A%20Major.%20Emotional%20Arc%20%20Progression%20The%20piece%20kicks%20off%20with%20a%20live%20rhythmic%20whistle%2C%20infectious%20handclaps%2C%20and%20an%20explosive%20Dhol%20%20Teenmaar%20drum%20groove.%20It%20develops%20with%20fast%20acoustic%20guitar%20strumming%2C%20vibrant%20street%20horns%2C%20and%20playful%20folk%20flute%20melodies.%20At%20its%20summit%2C%20the%20arrangement%20peaks%20in%20an%20all-out%20joyful%20dance%20frenzy%20with%20thunderous%20live%20percussion%20and%20soaring%20festival%20horns.%20Finally%2C%20it%20ends%20with%20a%20celebratory%20syncopated%20drum%20flourish%20and%20cheering%20crowd%20ambiance.%20Featured%20Instrumentation%20live%20Dholak%20%20Dhol%2C%20folk%20flute%2C%20acoustic%20rhythm%20guitar%2C%20festival%20brass%20horns.%20Acoustic%20Engineering%20live%20festival%20ambience%2C%20crisp%20acoustic%20attacks%2C%20wide%20energetic%20stereo%20field%2C%20pristine%2024-bit%20studio%20mastering%2C%20zero%20noise%20distortion%2C%20immersive%20emotional%20depth.%2C%20Hasselblad%2035mm%20photography%2C%208k%20resolution%2C%20cinematic%20lighting%2C%20volumetric%20atmosphere%2C%20hyperrealistic%20details%2C%20masterpiece%20composition%2C%20highly%20detailed%20textures%2C%20no%20text%2C%20no%20watermark%2C%20no%20logos%2C%208k%20resolution%2C%20ultra%20detailed%20album%20cover%20art%2C%20award%20winning%20photography%2C%20masterpiece%2C%20photorealistic%2C%20no%20text%2C%20no%20watermark?width=1024&height=1024&model=flux&enhance=true&nologo=true&seed=39931",
+        "cover_style": "Cinematic Film Still",
+        "cover_prompt": "A master-tier High-Energy Folk Fusion  Festive Dance carrying the exact emotion of Album cover visual description for album titled An ambitious young woman The Soundtrack. Story An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing financial strain and cultural isolation in a bustling metro, she almost gives up. A mentor reignites her confidence, leading her team to detect a rare gravitational wave ripple. She returns home to celebrate with her village, honored as a pioneering scientist.. Genre Cinematic. Visual Style Cinematic Film Still. with Earthy Village Energy, Festivity  Raw Celebration. Movement  Harmonic Structure Composed at 132-138 BPM in G Major  A Major. Emotional Arc  Progression The piece kicks off with a live rhythmic whistle, infectious handclaps, and an explosive Dhol  Teenmaar drum groove. It develops with fast acoustic guitar strumming, vibrant street horns, and playful folk flute melodies. At its summit, the arrangement peaks in an all-out joyful dance frenzy with thunderous live percussion and soaring festival horns. Finally, it ends with a celebratory syncopated drum flourish and cheering crowd ambiance. Featured Instrumentation live Dholak  Dhol, folk flute, acoustic rhythm guitar, festival brass horns. Acoustic Engineering live festival ambience, crisp acoustic attacks, wide energetic stereo field, pristine 24-bit studio mastering, zero noise distortion, immersive emotional depth., Hasselblad 35mm photography, 8k resolution, cinematic lighting, volumetric atmosphere, hyperrealistic details, masterpiece composition, highly detailed textures, no text, no watermark, no logos, 8k resolution, ultra detailed album cover art, award winning photography, masterpiece, photorealistic, no text, no watermark",
+        "color_palette": [
+          "#0F172A",
+          "#D97706",
+          "#2563EB",
+          "#F8FAFC"
+        ],
+        "dominant_instruments": [
+          "Grand Piano",
+          "Acoustic Cello",
+          "Violin Strings",
+          "Sub-bass"
+        ],
+        "tracks": [
+          {
+            "id": "track-album-1791782639917-1",
+            "sceneId": "scene_1",
+            "track_number": 1,
+            "title": "Act 1 The Awakening Horizon",
+            "scene_description": "The story begins with an evocative premise that sets the emotional stakes in motion.",
+            "emotion": "Nostalgia & Anticipation",
+            "suggested_bpm": 78,
+            "bpm": 78,
+            "key_signature": "C Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 1 The Awakening Horizon (The story begins with an evocative premise that sets the emotional stakes in motion.)\",\"mood\":\"Nostalgia & Anticipation\",\"genre\":\"Cinematic\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791782647312_0_485.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791782647312_0_485.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-1",
+                "sceneId": "scene_1",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791782647312_0_485.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791782647312_0_485.wav",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-1",
+                "sceneId": "scene_1",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_02.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_02.mp3",
+                "prompt": "Cinematic background score for 'Act 1 The Awakening Horizon' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: The story begins with an evocative premise that sets the emotional stakes in motion.. Emotional mood: Nostalgia & Anticipation. Instrumentation features Solo Felt Piano, Ambient Cello Drone, Soft Acoustic Guitar. Tempo: 78 BPM, Key: C Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791782639917-2",
+            "sceneId": "scene_2",
+            "track_number": 2,
+            "title": "Act 2 The Journey Unfolds",
+            "scene_description": "Characters navigate unexpected turns, deepening their purpose and relationships.",
+            "emotion": "Growing Momentum",
+            "suggested_bpm": 92,
+            "bpm": 92,
+            "key_signature": "G Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 2 The Journey Unfolds (Characters navigate unexpected turns, deepening their purpose and relationships.)\",\"mood\":\"Growing Momentum\",\"genre\":\"Cinematic\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791782649341_0_244.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791782649341_0_244.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-2",
+                "sceneId": "scene_2",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791782649341_0_244.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791782649341_0_244.wav",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-2",
+                "sceneId": "scene_2",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_03.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_03.mp3",
+                "prompt": "Cinematic background score for 'Act 2 The Journey Unfolds' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: Characters navigate unexpected turns, deepening their purpose and relationships.. Emotional mood: Growing Momentum. Instrumentation features Bansuri Flute, Fingerpicked Acoustic Guitar, Warm Bass, Light Percussion. Tempo: 92 BPM, Key: G Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791782639917-3",
+            "sceneId": "scene_3",
+            "track_number": 3,
+            "title": "Act 3 The Pivotal Climax",
+            "scene_description": "The decisive turning point where obstacles are confronted with unwavering determination.",
+            "emotion": "Surging Climax",
+            "suggested_bpm": 115,
+            "bpm": 115,
+            "key_signature": "A Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 3 The Pivotal Climax (The decisive turning point where obstacles are confronted with unwavering determination.)\",\"mood\":\"Surging Climax\",\"genre\":\"Cinematic\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791782649886_0_779.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791782649886_0_779.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-3",
+                "sceneId": "scene_3",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791782649886_0_779.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791782649886_0_779.wav",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-3",
+                "sceneId": "scene_3",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_04.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_04.mp3",
+                "prompt": "Cinematic background score for 'Act 3 The Pivotal Climax' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: The decisive turning point where obstacles are confronted with unwavering determination.. Emotional mood: Surging Climax. Instrumentation features Full Symphonic Brass, War Drums & Timpani, Heavy Electric Guitar, Aggressive Cellos. Tempo: 115 BPM, Key: A Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791782639917-4",
+            "sceneId": "scene_4",
+            "track_number": 4,
+            "title": "Act 4 Twilight Reflection",
+            "scene_description": "Processing the consequences of the trial with newfound wisdom and inner peace.",
+            "emotion": "Peaceful Transcendence",
+            "suggested_bpm": 80,
+            "bpm": 80,
+            "key_signature": "E Minor",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 4 Twilight Reflection (Processing the consequences of the trial with newfound wisdom and inner peace.)\",\"mood\":\"Peaceful Transcendence\",\"genre\":\"Cinematic\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791782650347_0_734.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791782650347_0_734.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-4",
+                "sceneId": "scene_4",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791782650347_0_734.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791782650347_0_734.wav",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-4",
+                "sceneId": "scene_4",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_05.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_05.mp3",
+                "prompt": "Cinematic background score for 'Act 4 Twilight Reflection' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: Processing the consequences of the trial with newfound wisdom and inner peace.. Emotional mood: Peaceful Transcendence. Instrumentation features Solo Weeping Violin, Melancholic Grand Piano, Atmospheric Sub Bass. Tempo: 80 BPM, Key: E Minor. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          },
+          {
+            "id": "track-album-1791782639917-5",
+            "sceneId": "scene_5",
+            "track_number": 5,
+            "title": "Act 5 Celebration of Destiny",
+            "scene_description": "A grand finale celebrating harmony, triumph, and lasting transformation.",
+            "emotion": "Euphoria & Grandeur",
+            "suggested_bpm": 128,
+            "bpm": 128,
+            "key_signature": "D Major",
+            "lyrics_text": "[Intro / Hook]\nWhispering echoes across the midnight air,\nFinding {\"topic\":\"Act 5 Celebration of Destiny (A grand finale celebrating harmony, triumph, and lasting transformation.)\",\"mood\":\"Euphoria & Grandeur\",\"genre\":\"Cinematic\",\"language\":\"English\"} waiting everywhere.\nA gentle acoustic melody softly takes flight,\nGuiding our footsteps through the velvet night.\n\n[Verse 1]\nFootsteps upon the pavement softly fall,\nListening closely to the timeless call.\nThe quiet stars illuminate the open road,\nLifting away the burdens and the heavy load.\nEvery passing breath becomes a sacred phrase,\nRecalling the beauty of the golden days.\n\n[Chorus]\nShining brighter than the morning sun,\nOur journey of music has only just begun!\nThrough the roaring thunder and the open sea,\nYour harmony is forever living inside of me!\nAn everlasting anthem that the heart can sing,\nCelebrating all the wonder that the dawn can bring!\n\n[Verse 2]\nThe acoustic guitar plays a melancholic chord,\nCarrying truths that words could never afford.\nPiano keys whispering a secret prayer,\nDissolving the darkness and the cold despair.\nWe walk together where the horizon bends,\nA sacred story that never truly ends.\n\n[Bridge]\nWhen the shadows fall and the world grows still...\nThe melody echoes across the quiet hill...\nRising to the heavens in a pure emotional wave!\n\n[Outro]\nFading softly into the golden light...\nA timeless song for the quiet night...\nPeace, harmony, and eternal grace.",
+            "audioUrl": "http://localhost:3000/public/generated/ace_1791782650822_0_894.wav",
+            "bgm_url": "http://localhost:3000/public/generated/ace_1791782650822_0_894.wav",
+            "duration": 10,
+            "source": "ace_step",
+            "status": "completed",
+            "isFallback": false,
+            "bgm_variations": [
+              {
+                "id": "ace-5",
+                "sceneId": "scene_5",
+                "name": "1. ACE-Step Master Score (Dual-Brain GPU)",
+                "source": "ace_step",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/public/generated/ace_1791782650822_0_894.wav",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/public/generated/ace_1791782650822_0_894.wav",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master."
+              },
+              {
+                "id": "mgen-5",
+                "sceneId": "scene_5",
+                "name": "2. MusicGen Neural Score (Live AI)",
+                "source": "musicgen",
+                "status": "completed",
+                "audioUrl": "http://localhost:3000/fallback/fallback_06.mp3",
+                "duration": 10,
+                "isFallback": false,
+                "url": "http://localhost:3000/fallback/fallback_06.mp3",
+                "prompt": "Cinematic background score for 'Act 5 Celebration of Destiny' in a Cinematic soundtrack (Original Story Soundtrack). Story context: An ambitious young woman leaves her rural village in Andhra Pradesh to pursue computational astrophysics. Facing fina.... Scene detail: A grand finale celebrating harmony, triumph, and lasting transformation.. Emotional mood: Euphoria & Grandeur. Instrumentation features Full Symphony Choir, Grand Piano, Rising String Ensemble, Triumphant Orchestral Chimes. Tempo: 128 BPM, Key: D Major. High fidelity stereo audio, warm studio acoustics, deep stereo resonance, intimate melodic focus, professional film soundtrack master., Neural live score"
+              }
+            ]
+          }
+        ],
+        "created_at": "2026-10-12T05:23:59.917Z"
+      }
     ]
   ],
   "jobs": [
@@ -5000,6 +5996,70 @@
           "bgm": "completed"
         },
         "created_at": "2026-09-09T21:37:54.648Z"
+      }
+    ],
+    [
+      "job-1791777329765",
+      {
+        "id": "job-1791777329765",
+        "album_id": "album-1791777329765",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "Album compiled and ready for playback!",
+        "workers": {
+          "cover": "completed",
+          "lyrics": "completed",
+          "bgm": "completed"
+        },
+        "created_at": "2026-10-12T03:55:29.765Z"
+      }
+    ],
+    [
+      "job-1791777449043",
+      {
+        "id": "job-1791777449043",
+        "album_id": "album-1791777449043",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "Album compiled and ready for playback!",
+        "workers": {
+          "cover": "completed",
+          "lyrics": "completed",
+          "bgm": "completed"
+        },
+        "created_at": "2026-10-12T03:57:29.044Z"
+      }
+    ],
+    [
+      "job-1791780342871",
+      {
+        "id": "job-1791780342871",
+        "album_id": "album-1791780342871",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "Album compiled and ready for playback!",
+        "workers": {
+          "cover": "completed",
+          "lyrics": "completed",
+          "bgm": "completed"
+        },
+        "created_at": "2026-10-12T04:45:42.871Z"
+      }
+    ],
+    [
+      "job-1791782639917",
+      {
+        "id": "job-1791782639917",
+        "album_id": "album-1791782639917",
+        "status": "completed",
+        "progress": 100,
+        "current_step": "Album compiled and ready for playback!",
+        "workers": {
+          "cover": "completed",
+          "lyrics": "completed",
+          "bgm": "completed"
+        },
+        "created_at": "2026-10-12T05:23:59.917Z"
       }
     ]
   ]

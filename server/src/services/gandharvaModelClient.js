@@ -37,19 +37,19 @@ class GandharvaModelClient {
     const temperature = options.temperature || 0.75;
     const maxTokens = options.max_tokens || 1024;
 
+    if (mode === 'PROMPT_DIRECTOR') {
+      return PromptEnhancer.enhance(promptText);
+    }
+
     // -------------------------------------------------------------
     // TIER 1: Live Hugging Face Space ZeroGPU Endpoint
     // -------------------------------------------------------------
     if (HF_SPACE_URL) {
       try {
-        let apiEndpoint = `${HF_SPACE_URL}/api/generate_lyrics`;
+        let apiEndpoint = `${HF_SPACE_URL}/gradio_api/call/generate_lyrics`;
         let reqData = [promptText, options.language || "Telugu", options.mood || "Motivation & Energy", options.genre || "Mass Anthem"];
 
-        if (mode === 'PROMPT_DIRECTOR') {
-          apiEndpoint = `${HF_SPACE_URL}/api/enhance_prompt`;
-          const analysis = PromptEnhancer.analyzePrompt(promptText);
-          reqData = [promptText, options.genre || analysis.genre, options.mood || analysis.moodName];
-        } else if (mode === 'NIE_BLUEPRINT') {
+        if (mode === 'NIE_BLUEPRINT') {
           apiEndpoint = `${HF_SPACE_URL}/api/generate_blueprint`;
           reqData = [promptText, options.genre || "Cinematic Drama", options.track_count || 4];
         } else if (mode === 'MUSIC_DIRECTOR') {

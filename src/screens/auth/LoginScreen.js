@@ -60,7 +60,6 @@ const LoginScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [sentCode, setSentCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
@@ -225,12 +224,7 @@ const LoginScreen = ({ navigation }) => {
       setLoading(false);
 
       if (res.success) {
-        setSentCode(res.code || '');
-        if (res.code) {
-          setOtp(res.code);
-        } else {
-          setOtp('');
-        }
+        setOtp('');
         setOtpSent(true);
         setCountdown(60);
         setShowOtpToast(true);
@@ -305,13 +299,6 @@ const LoginScreen = ({ navigation }) => {
     routeUser(cleanEmail === 'prasanthm4734h@gmail.com' ? 'admin' : 'artist');
   };
 
-  // 3. Auto Fill OTP Helper
-  const handleAutoFill = () => {
-    if (!sentCode) return;
-    setOtp(sentCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleGoogleSignIn = async () => {
     try {
@@ -331,7 +318,7 @@ const LoginScreen = ({ navigation }) => {
         <View style={styles.toastPopup} pointerEvents="none">
           <Mail color="#00E5FF" size={18} />
           <Text style={styles.toastPopupText}>
-            {sentCode ? `Verification Code: ${sentCode}` : 'Verification Code Sent!'}
+            Verification Code Dispatched to Your Email!
           </Text>
         </View>
       )}
@@ -488,31 +475,6 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                     <View style={[styles.underline, otpFocused && styles.underlineActive]} />
 
-                    {/* Auto-fill Code Badge if Code is Available */}
-                    {sentCode ? (
-                      <TouchableOpacity 
-                        onPress={() => setOtp(sentCode)}
-                        activeOpacity={0.7}
-                        style={{
-                          marginTop: 10,
-                          paddingVertical: 5,
-                          paddingHorizontal: 12,
-                          backgroundColor: 'rgba(0, 229, 255, 0.12)',
-                          borderRadius: 20,
-                          borderWidth: 1,
-                          borderColor: 'rgba(0, 229, 255, 0.35)',
-                          alignSelf: 'center',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: 6
-                        }}
-                      >
-                        <CheckCircle2 color="#00E5FF" size={13} />
-                        <Text style={{ color: '#00E5FF', fontSize: 12, fontWeight: '700' }}>
-                          Code: {sentCode} (Tap to Fill)
-                        </Text>
-                      </TouchableOpacity>
-                    ) : null}
 
                     {/* Change Details / Resend Link */}
                     <View style={styles.otpHelperRow}>

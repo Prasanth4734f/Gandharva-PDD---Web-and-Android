@@ -1,6 +1,11 @@
 const nodemailer = require('nodemailer');
 const { supabase } = require('./supabase');
 
+const dns = require('dns');
+try {
+  dns.setDefaultResultOrder('ipv4first');
+} catch (_) {}
+
 // Active OTP Code storage: Map<email, { code, expiresAt, name }>
 const otpStore = new Map();
 
@@ -10,16 +15,19 @@ let transporter = null;
 function getTransporter() {
   if (transporter) return transporter;
 
-  const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER || 'prasanthm4734g@gmail.com';
+  const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER || process.env.GMAIL_USER || 'prasanthm4734g@gmail.com';
   const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD || 'pdzghmxvgbpwhexf';
+  const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+  const smtpPort = parseInt(process.env.SMTP_PORT || '465', 10);
+  const secure = smtpPort === 465;
 
   transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // STARTTLS
-    connectionTimeout: 4000,
-    greetingTimeout: 4000,
-    socketTimeout: 4000,
+    host: smtpHost,
+    port: smtpPort,
+    secure,
+    connectionTimeout: 8000,
+    greetingTimeout: 8000,
+    socketTimeout: 8000,
     auth: {
       user: smtpUser.trim(),
       pass: smtpPass.trim()
@@ -53,7 +61,7 @@ async function sendOtpEmail(email, name = '') {
     name: name || cleanEmail.split('@')[0]
   });
 
-  console.log(`[Email Service] Fast OTP generated: ${code} for ${cleanEmail}`);
+  console.log(`[Email Service] Fast OTP generated and dispatched for ${cleanEmail}`);
 
   const digits = (code || '000000').split('');
 
@@ -232,16 +240,29 @@ async function sendOtpEmail(email, name = '') {
     await mailer.sendMail(mailOptions);
     console.log(`[Email Service] Fast OTP email delivered to ${cleanEmail}`);
   } catch (mailErr) {
-    console.log(`[Email Service Dispatch Warning] ${mailErr.message}`);
+    console.warn(`[Email Service Dispatch Failed] ${mailErr.message}`);
+    // Check if Supabase can dispatch as secondary provider
+    let supaDispatched = false;
+    try {
+      const supaRes = await supabase.auth.signInWithOtp({
+        email: cleanEmail,
+        options: { shouldCreateUser: true }
+      });
+      if (!supaRes.error) {
+        supaDispatched = true;
+      }
+    } catch (_) {}
+
+    if (!supaDispatched) {
+      // Both real providers failed - return actionable error as required by Priority 1, Task 9
+      const errorMsg = mailErr.message.includes('BadCredentials') || mailErr.message.includes('Username and Password not accepted')
+        ? 'Email delivery failed: Gmail SMTP authentication rejected (BadCredentials). Please update SMTP_PASS in your environment with a valid 16-character Google App Password.'
+        : `Email delivery failed: ${mailErr.message || 'SMTP server connection timeout'}. Please check your email configuration.`;
+      throw new Error(errorMsg);
+    }
   }
 
-  // 2. Asynchronous Supabase OTP Dispatch (Non-blocking background)
-  supabase.auth.signInWithOtp({
-    email: cleanEmail,
-    options: { shouldCreateUser: true }
-  }).catch(() => {});
-
-  return { success: true, code, email: cleanEmail };
+  return { success: true, email: cleanEmail };
 }
 
 /**
@@ -268,7 +289,7 @@ async function verifyOtpCode(email, enteredCode, name = '') {
     }
   } catch (e) {}
 
-  if (isValidLocal || isSupabaseValid || cleanCode === '123456' || cleanCode === '000000') {
+  if (isValidLocal || isSupabaseValid) {
     otpStore.delete(cleanEmail);
     const role = (cleanEmail === 'prasanthm4734h@gmail.com' || cleanEmail.includes('admin')) ? 'admin' : 'artist';
     return {

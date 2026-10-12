@@ -148,6 +148,20 @@ const THEMATIC_MOODS = [
     defaultInstruments: ["nylon acoustic guitar", "grand piano", "soaring violin", "flute woodwinds", "warm acoustic bass"]
   },
   {
+    id: "dark_villain_elevation_menace",
+    match: /\b(villain|antagonist|evil|dark lord|sinister|menacing|intimidating|heavy villain|villain elevation|nemesis|dark power|demon king|anti[- ]hero|ruthless|malevolent|monolithic)\b/i,
+    emotionLabel: "Dark Menacing Dominance, Intimidation & Villain Elevation",
+    genre: "Monolithic Dark Orchestral & Heavy Industrial Score",
+    bpm: "110-120 BPM",
+    key: "D Minor / C Phrygian",
+    intro: "opens with an ominous low brass drone, sinister clockwork ostinato, and deep sub-bass tremors establishing an intimidating, menacing presence",
+    build: "escalates with aggressive industrial percussion, distorted synth bass pulses, and dark dissonant orchestral swells",
+    climax: "explodes into a terrifying, colossal wall-of-sound climax with thunderous war drums, roaring low brass, and crushing sub-bass dominance",
+    outro: "ends with a lingering, menacing dark drone and heavy metallic reverb tail",
+    textures: "heavy analog distortion, monolithic low-frequency impact, menacing spatial depth",
+    defaultInstruments: ["low brass section", "distorted 808 sub-bass", "industrial war drums", "dissonant strings", "dark analog synth"]
+  },
+  {
     id: "fiery_rage_and_vengeance",
     match: /\b(angry|rage|furious|wrath|vengeance|revenge|hate|hatred|fury|aggressive|violence|destroy|destruction|brutal|dark power|monolithic|fiery|warrior wrath|retribution)\b/i,
     emotionLabel: "Fiery Fury, Vengeance & Unstoppable Wrath",

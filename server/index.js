@@ -9,7 +9,12 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const express = require('express');
 const cors = require('cors');
-const ngrok = require('ngrok');
+let ngrok;
+try {
+  ngrok = require('ngrok');
+} catch (_) {
+  // ngrok is optional for local dev tunneling
+}
 const logger = require('./src/utils/logger');
 const musicRoutes = require('./src/routes/musicRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
@@ -118,7 +123,7 @@ async function startServer() {
     console.log(`🚀 LOCAL SERVER ACTIVE ON PORT ${PORT}`);
     
     // Attempt Ngrok tunnel in background without blocking server startup
-    if (process.env.ENABLE_LOCAL_NGROK === 'true' && process.env.NGROK_AUTH_TOKEN) {
+    if (process.env.ENABLE_LOCAL_NGROK === 'true' && process.env.NGROK_AUTH_TOKEN && ngrok) {
       ngrok.connect({
         proto: 'http',
         addr: PORT,

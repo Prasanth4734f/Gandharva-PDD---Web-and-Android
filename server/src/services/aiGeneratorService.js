@@ -106,6 +106,7 @@ const generateCinematicMusic = async (userPrompt, duration = 10, variationIndex 
   const localPath = path.join(localDir, filename);
   const randomSeed = Math.floor(Math.random() * 2147483647);
   const enhancedPrompt = `${userPrompt}, variation ${variationIndex + 1}, studio master audio`;
+  let lastGpuError = null;
 
   // Step 1: Try Remote GPU
   try {
@@ -124,7 +125,7 @@ const generateCinematicMusic = async (userPrompt, duration = 10, variationIndex 
           const eventId = callResp.data.event_id;
           const streamResp = await axios.get(`${AI_ENGINE_URL}/gradio_api/call/generate_music/${eventId}`, {
             headers: { 'ngrok-skip-browser-warning': 'true' },
-            timeout: 60000
+            timeout: 120000
           });
 
           const lines = (streamResp.data || '').split('\n');
@@ -161,7 +162,8 @@ const generateCinematicMusic = async (userPrompt, duration = 10, variationIndex 
           }
         }
       } catch (gErr) {
-        logger.warn(`[Gradio 5 ZeroGPU Notice] ${gErr.message}`);
+        lastGpuError = `Gradio error: ${gErr.message} (status ${gErr.response?.status || 'N/A'})`;
+        logger.warn(`[Gradio 5 ZeroGPU Notice] ${gErr.message} - status: ${gErr.response?.status} data: ${JSON.stringify(gErr.response?.data || '')}`);
       }
 
       // Try Direct REST API
@@ -189,33 +191,21 @@ const generateCinematicMusic = async (userPrompt, duration = 10, variationIndex 
             seed: randomSeed,
             source: 'Gandharva Kaggle GPU'
           };
+        } else {
+          lastGpuError = 'Direct REST endpoint returned empty or invalid audio data';
         }
       } catch (rErr) {
+        lastGpuError = rErr.message;
         logger.warn(`[Direct REST Notice] ${rErr.message}`);
       }
     }
   } catch (gpuErr) {
+    lastGpuError = gpuErr.message;
     logger.warn(`[AI Engine Remote Note] ${gpuErr.message}`);
   }
 
-  // Step 2: High-Fidelity Prompt-Seeded Procedural DSP Synthesizer
-  logger.info(`[Gandharva DSP Engine] Synthesizing custom studio audio for: "${userPrompt}" (Variation ${variationIndex + 1})`);
-  const dspBuffer = createSyntheticWavBuffer({
-    actIndex: variationIndex,
-    variationIndex: variationIndex,
-    durationSec: targetDuration,
-    genre: userPrompt,
-    story: userPrompt
-  });
-
-  fs.writeFileSync(localPath, dspBuffer);
-  return {
-    success: true,
-    filename,
-    promptUsed: enhancedPrompt,
-    seed: randomSeed,
-    source: 'Gandharva Studio DSP Synthesizer'
-  };
+  // Reject synthetic placeholder audio to uphold genuine AI generation requirements (Test F)
+  throw new Error(`AI Generation failed on neural engine: ${lastGpuError || 'Remote GPU unavailable or queue timeout'}`);
 };
 
 /**

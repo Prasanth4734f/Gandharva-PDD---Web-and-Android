@@ -254,15 +254,12 @@ export const authenticateUser = async (email, password) => {
   return { success: false, error: 'User not found. Please register as a new user.' };
 };
 
-// Local in-memory OTP verification code cache
-const activeOtpCodes = new Map();
-
-// 1. Send Authentic Email Verification Code (OTP) to User's Gmail
+// 1. Send Authentic Email Verification Code (OTP) to User's Email
 export const sendEmailVerificationCode = async (email, name = '') => {
   const cleanEmail = email.trim().toLowerCase();
   const baseUrl = getServerBaseUrl();
 
-  // 1. Dispatch through Node.js Gmail SMTP Backend
+  // 1. Dispatch through Backend Email Service
   try {
     const response = await fetch(`${baseUrl}/api/auth/send-otp`, {
       method: 'POST',
@@ -270,49 +267,34 @@ export const sendEmailVerificationCode = async (email, name = '') => {
       body: JSON.stringify({ email: cleanEmail, name })
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        console.log(`[Email Dispatch] Real OTP email dispatched to ${cleanEmail}`);
-        if (data.code) {
-          activeOtpCodes.set(cleanEmail, { code: data.code, expiresAt: Date.now() + 10 * 60 * 1000, name });
-          try {
-            await customStorage.setItem(`otp_${cleanEmail}`, JSON.stringify({ code: data.code, expiresAt: Date.now() + 10 * 60 * 1000 }));
-          } catch (e) {}
-        }
-        return { success: true, email: cleanEmail, code: data.code };
-      }
+    const data = await response.json();
+    if (response.ok && data.success) {
+      console.log(`[Email Dispatch] Real OTP email dispatched to ${cleanEmail}`);
+      return { success: true, email: cleanEmail };
+    } else {
+      console.warn('[Email Dispatch Backend Error]:', data.error);
+      return { success: false, error: data.error || 'Failed to dispatch verification code.' };
     }
   } catch (backendErr) {
-    console.warn('[Email Dispatch Error]:', backendErr.message);
-  }
+    console.warn('[Email Dispatch Connection Error]:', backendErr.message);
 
-  // 2. Secondary Fallback: Supabase direct OTP
-  try {
-    const { data, error } = await supabase.auth.signInWithOtp({
-      email: cleanEmail,
-      options: { shouldCreateUser: true }
-    });
-    if (!error) {
-      return { success: true, email: cleanEmail };
+    // 2. Secondary Direct Supabase OTP Dispatch
+    try {
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email: cleanEmail,
+        options: { shouldCreateUser: true }
+      });
+      if (!error) {
+        return { success: true, email: cleanEmail };
+      }
+      return { success: false, error: error.message || backendErr.message };
+    } catch (supaErr) {
+      return { success: false, error: backendErr.message || 'Unable to connect to authentication server.' };
     }
-  } catch (e) {
-    console.warn('[Supabase Direct OTP Note]:', e.message);
   }
-
-  // 3. Resilient Fallback OTP Code (Prevents user from ever being stuck/locked out)
-  const fallbackCode = Math.floor(100000 + Math.random() * 900000).toString();
-  const expiresAt = Date.now() + 10 * 60 * 1000;
-  activeOtpCodes.set(cleanEmail, { code: fallbackCode, expiresAt, name });
-  try {
-    await customStorage.setItem(`otp_${cleanEmail}`, JSON.stringify({ code: fallbackCode, expiresAt }));
-  } catch (e) {}
-
-  console.log(`[Client Fallback Code]: Generated ${fallbackCode} for ${cleanEmail}`);
-  return { success: true, email: cleanEmail, code: fallbackCode, isFallback: true };
 };
 
-// 2. Verify Authentic Email OTP Code Received in Gmail
+// 2. Verify Authentic Email OTP Code Received in Email
 export const verifyEmailVerificationCode = async (email, enteredCode, fullName = '') => {
   const cleanEmail = email.trim().toLowerCase();
   const cleanCode = (enteredCode || '').trim();
@@ -326,19 +308,19 @@ export const verifyEmailVerificationCode = async (email, enteredCode, fullName =
       body: JSON.stringify({ email: cleanEmail, code: cleanCode, name: fullName })
     });
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        const userName = fullName.trim() || cleanEmail.split('@')[0];
-        const result = await registerUser(cleanEmail, 'OTP_Verified_Session_2026', userName);
-        return { success: true, user: result.user, role: data.role || result.user.role, session: result.session };
-      }
+    const data = await response.json();
+    if (response.ok && data.success) {
+      const userName = fullName.trim() || cleanEmail.split('@')[0];
+      const result = await registerUser(cleanEmail, 'OTP_Verified_Session_2026', userName);
+      return { success: true, user: result.user, role: data.role || result.user.role, session: result.session };
+    } else if (data && data.error) {
+      return { success: false, error: data.error };
     }
   } catch (beErr) {
     console.warn(`[Backend Verify Note]: ${beErr.message}`);
   }
 
-  // 2. Try Supabase OTP verification
+  // 2. Secondary: Supabase OTP verification
   try {
     const { data, error } = await supabase.auth.verifyOtp({
       email: cleanEmail,
@@ -349,41 +331,12 @@ export const verifyEmailVerificationCode = async (email, enteredCode, fullName =
       const userName = fullName.trim() || cleanEmail.split('@')[0];
       const result = await registerUser(cleanEmail, 'OTP_Verified_Session_2026', userName);
       return { success: true, user: result.user, role: result.user.role, session: result.session };
+    } else if (error) {
+      return { success: false, error: error.message };
     }
   } catch (e) {}
 
-  // 3. Fallback verification against local active codes, storage, or universal test codes
-  const stored = activeOtpCodes.get(cleanEmail);
-  let localCode = stored?.code;
-  let isExpired = stored ? Date.now() > stored.expiresAt : false;
-
-  if (!localCode) {
-    try {
-      const raw = await customStorage.getItem(`otp_${cleanEmail}`);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        localCode = parsed.code;
-        isExpired = Date.now() > parsed.expiresAt;
-      }
-    } catch (e) {}
-  }
-
-  const isValidLocal = localCode && localCode === cleanCode && !isExpired;
-  const isUniversalCode = cleanCode === '123456' || cleanCode === '000000' || cleanCode === '888888';
-
-  if (isValidLocal || isUniversalCode) {
-    activeOtpCodes.delete(cleanEmail);
-    try { await customStorage.removeItem(`otp_${cleanEmail}`); } catch (e) {}
-
-    const userName = fullName.trim() || cleanEmail.split('@')[0];
-    const result = await registerUser(cleanEmail, 'OTP_Verified_Session_2026', userName);
-    const targetRole = (cleanEmail === 'prasanthm4734h@gmail.com' || cleanEmail.startsWith('admin@') || cleanEmail.includes('admin'))
-      ? 'admin'
-      : 'artist';
-    return { success: true, user: result.user, role: targetRole, session: result.session };
-  }
-
-  return { success: false, error: 'Incorrect verification code. Please check your Gmail or use code 123456.' };
+  return { success: false, error: 'Invalid or expired 6-digit verification code. Please check your inbox and try again.' };
 };
 
 // 3. Realtime Google OAuth Sign In (redirects to Google Accounts chooser with consent prompt)

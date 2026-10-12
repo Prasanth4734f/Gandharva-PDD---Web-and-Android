@@ -243,7 +243,7 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
 
   // --- Step 2: Direct AI GPU Generation (Gradio 5 & REST) ---
   try {
-    const generateGpuTrack = async (promptText, trackIndex = 0, timeoutMs = 90000) => {
+    const generateGpuTrack = async (promptText, trackIndex = 0, timeoutMs = 120000) => {
       if (onProgress) {
         onProgress(`Synthesizing Neural AI Track ${trackIndex + 1} of ${targetCount}...`, trackIndex + 1, targetCount);
       }
@@ -363,15 +363,26 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
       return null;
     };
 
+    // Execute variations sequentially with generous 120s timeout to respect ZeroGPU allocation locks
     const variations = [];
     for (let i = 0; i < targetCount; i++) {
-      const trackResult = await generateGpuTrack(promptModifiers[i] || prompt, i);
+      if (onProgress) {
+        onProgress(`Synthesizing Neural AI Track ${i + 1} of ${targetCount}...`, i + 1, targetCount);
+      }
+      let trackResult = await generateGpuTrack(promptModifiers[i] || prompt, i, 120000);
+      if (!trackResult) {
+        console.warn(`[ZeroGPU Direct] Variation ${i + 1} failed initially. Executing targeted retry...`);
+        try {
+          trackResult = await generateGpuTrack(promptModifiers[i] || prompt, i, 120000);
+        } catch (_) {}
+      }
       if (trackResult) {
         variations.push(trackResult);
       }
     }
 
-    if (variations.length > 0) {
+    // Require all requested variations to succeed before completing
+    if (variations.length === targetCount) {
       return {
         project_id: `ai-gpu-${Date.now()}`,
         source: 'Gandharva ZeroGPU AI Cloud',
@@ -382,7 +393,7 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
     console.warn('[Direct GPU Generation Attempt Failed]', gpuErr.message);
   }
 
-  // --- Step 3: Express Backend Proxy Fallback ---
+  // --- Step 3: Express Backend Proxy Pipeline ---
   try {
     if (onProgress) onProgress('Routing via Gandharva Production Cloud...', 1, targetCount);
     const backendResult = await apiClient('/generate-music', {
@@ -392,92 +403,18 @@ export const generateMusic = async (prompt, duration = 10, numVariations = 1, on
         duration: targetDuration,
         num_variations: targetCount
       }),
-      timeout: 30000
+      timeout: 90000
     });
 
-    if (backendResult && backendResult.variations && backendResult.variations.length > 0) {
+    if (backendResult && backendResult.variations && backendResult.variations.length === targetCount) {
       return backendResult;
     }
   } catch (backendErr) {
     console.warn('[Backend Proxy Generation Failed]', backendErr.message);
   }
 
-  // --- Step 4: Seeded DSP Neural Synthesizer (Unique Procedural Audio) ---
-  try {
-    if (onProgress) onProgress('Rendering studio audio master...', 1, targetCount);
-    const { createSyntheticWavBuffer } = require('./syntheticAudioEngine');
-    const pLower = (prompt || '').toLowerCase();
-    
-    // Create prompt-specific hash seed
-    let hash = 0;
-    for (let i = 0; i < pLower.length; i++) {
-      hash = ((hash << 5) - hash) + pLower.charCodeAt(i);
-      hash |= 0;
-    }
-    const seedOffset = Math.abs(hash) % 5;
-
-    let actIdx = seedOffset;
-    let bpm = 96;
-
-    if (/(fight|action|war|fast|chase|mass|hero|hype|2040|anthem)/i.test(pLower)) {
-      actIdx = 2;
-      bpm = 128;
-    } else if (/(sad|alone|cry|heartbreak|grief|sorrow|tear)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 64;
-    } else if (/(lofi|chill|relax|peace|sleep)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 74;
-    } else if (/(dance|edm|party|club)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 128;
-    } else if (/(rage|angry|vengeance|revenge|metal)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 136;
-    } else if (/(phonk|drift|workout|gym)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 142;
-    } else if (/(folk|village|teenmaar|dhol)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 134;
-    } else if (/(spiritual|temple|sacred|god|divine|prayer)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 68;
-    } else if (/(happy|love|romance|sweet|intimate)/i.test(pLower)) {
-      actIdx = 0;
-      bpm = 82;
-    }
-
-    const fallbackVariations = [];
-    for (let i = 0; i < targetCount; i++) {
-      const wavBuffer = createSyntheticWavBuffer({
-        genre: pLower,
-        story: pLower,
-        actIndex: (actIdx + i) % 5,
-        variationIndex: i,
-        bpm: bpm + (i * 4) + (seedOffset % 3),
-        durationSec: targetDuration
-      });
-
-      const audioUri = await bufferToAudioUri(wavBuffer, `synth_gen_${Date.now()}_${i}.wav`);
-      fallbackVariations.push({
-        id: `var-synth-${Date.now()}-${i}`,
-        variation_name: varNames[i] || `Variation ${i + 1}`,
-        audio_url: audioUri,
-        duration: targetDuration
-      });
-    }
-
-    return {
-      project_id: `synth-music-${Date.now()}`,
-      source: 'Gandharva Neural Synthesizer (Studio Master WAV)',
-      variations: fallbackVariations
-    };
-  } catch (synthErr) {
-    console.error('[Synthetic Audio Generation Error]', synthErr);
-  }
-
-  throw new Error('Music generation service unavailable. Please check network connection.');
+  // Priority 2 Task 11 & Test F: Never return local dummy/synthetic audio to disguise AI failures
+  throw new Error('AI Music Generation failed. Remote neural engine was unable to synthesize all requested tracks. Please retry.');
 };
 
 /**
@@ -504,18 +441,25 @@ export const enhanceMusicPrompt = async (prompt) => {
       timeout: 10000,
     });
   } catch (err) {
+    const isVillain = /(villain|antagonist|evil|dark lord|sinister|menacing|intimidating|heavy villain|villain elevation|nemesis|demon king|ruthless|malevolent)/i.test(p);
     const isSensual = /(sensual|seductive|hot romance|passion|lovers|chemistry|candlelight|desire|penthouse)/i.test(p);
     const isLove = /(love|romantic|sweet|romance|heart|wedding|couple|kiss)/i.test(p);
     const isHero = /(hero|action|mass|entry|warrior|fight|power|speed|triumph|hype|hardcore|battle)/i.test(p);
     const isSad = /(sad|pain|cry|breakup|alone|tear|grief|sorrow|mourn|lonely)/i.test(p);
     const isLofi = /(lofi|chill|relax|peace|night|ambient|calm)/i.test(p);
     const isFolk = /(folk|village|traditional|flute|dholak)/i.test(p);
+    const isDevotional = /(spiritual|devotional|temple|sacred|divine|prayer|bhakti|god|pooja|swami)/i.test(p);
+    const isDance = /(dance|edm|party|club|techno|electronic|house|rave)/i.test(p);
 
     let genre = 'Cinematic Master Production';
     let bpm = '98 BPM, key of D Minor';
     let instruments = 'grand piano, acoustic strings, warm sub-bass, and subtle percussion';
 
-    if (isSensual) {
+    if (isVillain) {
+      genre = 'Monolithic Dark Orchestral & Heavy Industrial Score';
+      bpm = '114 BPM, key of D Minor / C Phrygian';
+      instruments = 'low brass section, distorted 808 sub-bass, industrial war drums, dissonant strings, and dark analog synth';
+    } else if (isSensual) {
       genre = 'Sensual & Seductive R&B Romantic Soundtrack';
       bpm = '76 BPM, key of F-sharp Minor';
       instruments = 'smooth Rhodes electric piano, silky muted guitar, deep 808 sub-bass, and sultry saxophone';
@@ -539,6 +483,14 @@ export const enhanceMusicPrompt = async (prompt) => {
       genre = 'Authentic Folk Fusion & Acoustic Rhythm';
       bpm = '112 BPM, key of G Major';
       instruments = 'bamboo bansuri flute, live Dholak, acoustic guitar, and folk woodwinds';
+    } else if (isDevotional) {
+      genre = 'Sacred Devotional Temple Symphony';
+      bpm = '72 BPM, key of C Major';
+      instruments = 'divine tanpura drone, temple bells, bansuri flute, and serene acoustic sitar';
+    } else if (isDance) {
+      genre = 'Futuristic High-Energy EDM Dance Track';
+      bpm = '128 BPM, key of F Minor';
+      instruments = 'punchy kick drum, driving bass synth, soaring lead arpeggios, and sidechained risers';
     }
 
     return {

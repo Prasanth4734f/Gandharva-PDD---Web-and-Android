@@ -50,7 +50,6 @@ const SignupScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [sentCode, setSentCode] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
@@ -114,12 +113,7 @@ const SignupScreen = ({ navigation }) => {
       setLoading(false);
 
       if (res.success) {
-        setSentCode(res.code || '');
-        if (res.code) {
-          setOtp(res.code);
-        } else {
-          setOtp('');
-        }
+        setOtp('');
         setOtpSent(true);
         setCountdown(60);
       } else {
@@ -156,12 +150,6 @@ const SignupScreen = ({ navigation }) => {
     }
   };
 
-  const handleAutoFill = () => {
-    if (!sentCode) return;
-    setOtp(sentCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleGoogleSignUp = async () => {
     try {
